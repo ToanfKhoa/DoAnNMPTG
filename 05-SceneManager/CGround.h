@@ -1,17 +1,13 @@
 #pragma once
-#include "GameObject.h"
+#include "Platform.h"
 
-#define ID_ANI_GROUND 12000
-#define GROUND_WIDTH 16
-#define GROUND_BBOX_WIDTH 16
-#define GROUND_BBOX_HEIGHT 16
-
-class CGround : public CGameObject
+class CGround : public CPlatform
 {
 	public:
-	CGround(float x, float y) : CGameObject(x, y) {}
-	void Render();
-	void Update(DWORD dt) {}
-	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	CGround(float x, float y,
+		float cell_width, float cell_height, int length,
+		int sprite_id_begin, int sprite_id_middle, int sprite_id_end) : CPlatform(x, y, cell_width, cell_height, length, sprite_id_begin, sprite_id_middle, sprite_id_end) {}
+	int IsDirectionColliable(float nx, float ny) override;
 };
 
+typedef CGround* LPGROUND;
