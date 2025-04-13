@@ -8,6 +8,7 @@ CParaGoomba::CParaGoomba(float x, float y) : CGoomba(x, y)
 	die_start = -1;
 	isGoomba = false;
 	SetState(PARAGOOMBA_STATE_WALKING);
+	vx = -PARAGOOMBA_WALKING_SPEED;
 	fly_start = GetTickCount64();
 }
 
@@ -82,7 +83,6 @@ void CParaGoomba::SetState(int state)
 			ay = 0;
 			break;
 		case PARAGOOMBA_STATE_WALKING:
-			vx = -GOOMBA_WALKING_SPEED;
 			break;
 		}
 	}
