@@ -5,11 +5,9 @@ brick.txt
 coin.txt
 goomba.txt
 cloud.txt
-<<<<<<< Updated upstream
 paragoomba.txt
-=======
 ground.txt
->>>>>>> Stashed changes
+
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
