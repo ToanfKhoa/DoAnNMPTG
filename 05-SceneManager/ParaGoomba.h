@@ -28,7 +28,6 @@ protected:
 	void Render();
 	boolean isGoomba;
 	ULONGLONG fly_start;
-	ULONGLONG fly_time;
 
 public:
 	CParaGoomba(float x, float y);
