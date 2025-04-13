@@ -37,8 +37,7 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx += ax * dt;
 
 		//Fly if it's ParaGoomba
-		if(isGoomba == false)
-			Flying();
+		Flying();
 
 		if (state == GOOMBA_STATE_DIE)
 		{
@@ -96,19 +95,19 @@ void CParaGoomba::SetState(int state)
 //Check if the time is up and set flying state, this is called in update
 void CParaGoomba::Flying()
 {
-	if(GetState() == PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_PERIOD)
+	if(state == PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_PERIOD)
 	{
 		SetState(PARAGOOMBA_STATE_FLYING_UP);
 		fly_start = GetTickCount64();
 	}
 
-	else if(GetState() == PARAGOOMBA_STATE_FLYING_UP && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_TIME / 2)
+	else if(state == PARAGOOMBA_STATE_FLYING_UP && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_TIME / 2)
 	{
 		SetState(PARAGOOMBA_STATE_FLYING_DOWN);
 		fly_start = GetTickCount64();
 	}
 
-	else if (GetState() != PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_TIME)
+	else if (state != PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_TIME)
 	{
 		SetState(PARAGOOMBA_STATE_WALKING);
 		fly_start = GetTickCount64();
