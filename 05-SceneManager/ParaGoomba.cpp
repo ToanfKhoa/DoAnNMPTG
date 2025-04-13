@@ -96,8 +96,6 @@ void CParaGoomba::SetState(int state)
 //Check if the time is up and set flying state, this is called in update
 void CParaGoomba::Flying()
 {
-	DebugOut(L"ParaGoomba vy %.2f\n", vy);
-	DebugOut(L"State = %d\n", GetState());
 	if(GetState() == PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_PERIOD)
 	{
 		SetState(PARAGOOMBA_STATE_FLYING_UP);

@@ -9,6 +9,7 @@
 #include "Portal.h"
 
 #include "Collision.h"
+#include "ParaGoomba.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -47,7 +48,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vx = 0;
 	}
 
-	if (dynamic_cast<CGoomba*>(e->obj))
+	//Be aware: The derived class needs to be detected before the base class
+	if (dynamic_cast<CParaGoomba*>(e->obj))
+		OnCollisionWithParaGoomba(e);
+	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
@@ -73,6 +77,47 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		if (untouchable == 0)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+}
+
+void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
+{
+	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
+	DebugOut(L"Paragoomba collision \ns");
+	// jump on top >> kill ParaGoomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (paragoomba->GetIsGoomba() == false)
+		{
+			paragoomba->SetIsGoomba(true);
+		}
+		else
+		{
+			if (paragoomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				paragoomba->SetState(GOOMBA_STATE_DIE);
+			}
+		}
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
+	}
+	else // hit by ParaGoomba
+	{
+		if (untouchable == 0)
+		{
+			if (paragoomba->GetState() != GOOMBA_STATE_DIE)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{

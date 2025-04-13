@@ -34,4 +34,6 @@ public:
 	CParaGoomba(float x, float y);
 	void SetState(int state);
 	void Flying();
+	boolean GetIsGoomba() { return isGoomba; }
+	void SetIsGoomba(boolean isGoomba) { this->isGoomba = isGoomba; }
 };
