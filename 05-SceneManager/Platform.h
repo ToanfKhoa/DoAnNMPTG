@@ -34,4 +34,5 @@ public:
 	int IsDirectionColliable(float nx, float ny);
 };
 
+
 typedef CPlatform* LPPLATFORM;
