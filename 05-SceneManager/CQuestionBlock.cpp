@@ -5,12 +5,10 @@ void CQuestionBlock::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	if (state == QUESTIONBLOCK_STATE_IDLE)
 	{
-		DebugOut(L"anim_idle\n");
 		animations->Get(ID_ANI_QUESTIONBLOCK)->Render(x, y);
 	}
 	else
 	{
-		DebugOut(L"anim_used\n");
 		animations->Get(ID_ANI_QUESTIONBLOCK_USED)->Render(x, y);
 	}
 
@@ -78,14 +76,19 @@ void CQuestionBlock::Bouncing()
 {
 	if (state == QUESTIONBLOCK_STATE_BOUNCING_UP && GetTickCount64() - bounce_start >= QUESTIONBLOCK_BOUNCE_TIME / 2)
 	{
-		DebugOut(L"up\n");
-		bounce_start = GetTickCount64();
-		SetState(QUESTIONBLOCK_STATE_BOUNCING_DOWN);
+		if (y <= y_start - QUESTIONBLOCK_BOUNCE_HEIGTH)
+		{
+			y = y_start - QUESTIONBLOCK_BOUNCE_HEIGTH;
+			SetState(QUESTIONBLOCK_STATE_BOUNCING_DOWN);
+		}
 	}
 
 	else if (GetState() == QUESTIONBLOCK_STATE_BOUNCING_DOWN && GetTickCount64() - bounce_start >= QUESTIONBLOCK_BOUNCE_TIME / 2)
 	{
-		DebugOut(L"down\n");
-		SetState(QUESTIONBLOCK_STATE_USED);
+		if (y >= y_start)
+		{
+			y = y_start;
+			SetState(QUESTIONBLOCK_STATE_USED);
+		}
 	}
 }

@@ -8,8 +8,9 @@
 #define QUESTIONBLOCK_BBOX_WIDTH 16
 #define QUESTIONBLOCK_BBOX_HEIGHT 16
 
-#define QUESTIONBLOCK_BOUNCING_SPEED 16
-#define QUESTIONBLOCK_BOUNCE_TIME 300
+#define QUESTIONBLOCK_BOUNCING_SPEED 0.1
+#define QUESTIONBLOCK_BOUNCE_TIME 200
+#define QUESTIONBLOCK_BOUNCE_HEIGTH 5
 
 
 #define QUESTIONBLOCK_STATE_IDLE 0
@@ -21,6 +22,7 @@ class CQuestionBlock :public CGameObject
 {
 protected:
 	ULONGLONG bounce_start;
+	float y_start;
 
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -31,7 +33,7 @@ protected:
 	void Bouncing();
 
 public:
-	CQuestionBlock(float x, float y) : CGameObject(x, y) { state = QUESTIONBLOCK_STATE_IDLE; }
+	CQuestionBlock(float x, float y) : CGameObject(x, y) { state = QUESTIONBLOCK_STATE_IDLE; y_start = y; }
 	void SetState(int state);
 };
 
