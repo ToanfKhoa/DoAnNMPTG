@@ -84,6 +84,12 @@
     <ClCompile Include="CVenus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CQuestionBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParaGoomba.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -162,6 +168,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CVenus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuestionBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParaGoomba.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

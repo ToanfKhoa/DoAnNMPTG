@@ -10,6 +10,7 @@
 
 #include "Collision.h"
 #include "ParaGoomba.h"
+#include "CQuestionBlock.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -55,6 +56,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
+	else if (dynamic_cast<CQuestionBlock*>(e->obj))
+		OnCollisionWithQuestionBlock(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
 }
@@ -138,6 +141,18 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
 	coin++;
+}
+
+void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
+{
+	CQuestionBlock* question = dynamic_cast<CQuestionBlock*>(e->obj);
+	if (e->ny > 0)
+	{
+		if (question->GetState() == QUESTIONBLOCK_STATE_IDLE)
+		{
+			question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
+		}
+	}
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
