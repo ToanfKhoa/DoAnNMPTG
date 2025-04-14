@@ -1,4 +1,5 @@
 #include "CVenus.h"
+#include "debug.h"
 
 CVenus::CVenus(float x, float y) :CGameObject(x, y)
 {
@@ -23,6 +24,7 @@ void CVenus::OnNoCollision(DWORD dt)
 void CVenus::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
+
 }
 
 void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -91,6 +93,7 @@ void CVenus::SetState(int state)
 		vy = VENUS_SPEED;
 		break;
 	case VENUS_STATE_FIRE:
+		vy = 0;
 		break;
 	}
 }

@@ -8,6 +8,7 @@ CParaGoomba::CParaGoomba(float x, float y) : CGoomba(x, y)
 	die_start = -1;
 	isGoomba = false;
 	SetState(PARAGOOMBA_STATE_WALKING);
+	vx = -PARAGOOMBA_WALKING_SPEED;
 	fly_start = GetTickCount64();
 }
 
@@ -37,8 +38,7 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx += ax * dt;
 
 		//Fly if it's ParaGoomba
-		if(isGoomba == false)
-			Flying();
+		Flying();
 
 		if (state == GOOMBA_STATE_DIE)
 		{
@@ -83,7 +83,6 @@ void CParaGoomba::SetState(int state)
 			ay = 0;
 			break;
 		case PARAGOOMBA_STATE_WALKING:
-			vx = -GOOMBA_WALKING_SPEED;
 			break;
 		}
 	}
@@ -96,19 +95,19 @@ void CParaGoomba::SetState(int state)
 //Check if the time is up and set flying state, this is called in update
 void CParaGoomba::Flying()
 {
-	if(GetState() == PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_PERIOD)
+	if(state == PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_PERIOD)
 	{
 		SetState(PARAGOOMBA_STATE_FLYING_UP);
 		fly_start = GetTickCount64();
 	}
 
-	else if(GetState() == PARAGOOMBA_STATE_FLYING_UP && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_TIME / 2)
+	else if(state == PARAGOOMBA_STATE_FLYING_UP && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_TIME / 2)
 	{
 		SetState(PARAGOOMBA_STATE_FLYING_DOWN);
 		fly_start = GetTickCount64();
 	}
 
-	else if (GetState() != PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_TIME)
+	else if (state != PARAGOOMBA_STATE_WALKING && GetTickCount64() - fly_start >= PARAGOOMBA_FLY_TIME)
 	{
 		SetState(PARAGOOMBA_STATE_WALKING);
 		fly_start = GetTickCount64();
