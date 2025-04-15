@@ -4,7 +4,7 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define BULLET_SPEED 0.05f
+#define BULLET_SPEED 0.07f
 #define ID_ANI_BULLETVENUS 5300
 
 #define	BULLETVENUS_WIDTH 10

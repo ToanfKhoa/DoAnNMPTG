@@ -142,5 +142,10 @@ void CVenus::UpAndDown(DWORD dt)
 void CVenus::Fire()
 {
 	this->bullet->SetPosition(x, y);
-	this->bullet->Fire(1.0f, 1.0f);
+	float mario_x, mario_y;
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	float player_x, player_y;
+	playScene->GetPlayer()->GetPosition(player_x, player_y);
+	this->bullet->Fire(player_x - this->x, player_y - this->y);
 }
