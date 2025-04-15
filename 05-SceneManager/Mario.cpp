@@ -12,6 +12,7 @@
 #include "ParaGoomba.h"
 #include "CQuestionBlock.h"
 #include "CVenus.h"
+#include "CBulletVenus.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -62,6 +63,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CVenus*>(e->obj))
+		OnCollisionWithVenus(e);
+	else if (dynamic_cast<CBulletVenus*>(e->obj))
 		OnCollisionWithVenus(e);
 }
 
@@ -185,6 +188,23 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 				}
 			}
 		}
+}
+
+void CMario::OnCollisionWithBulletVenus(LPCOLLISIONEVENT e)
+{
+	if (untouchable == 0)
+	{
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
 }
 
 //
