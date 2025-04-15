@@ -65,7 +65,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CVenus*>(e->obj))
 		OnCollisionWithVenus(e);
 	else if (dynamic_cast<CBulletVenus*>(e->obj))
-		OnCollisionWithVenus(e);
+		OnCollisionWithBulletVenus(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)

@@ -5,11 +5,11 @@
 #include "Animations.h"
 
 #define BULLET_SPEED 0.1f
-#define ID_ANI_BULLETVENUS 11000
+#define ID_ANI_BULLETVENUS 5300
 
 #define	BULLETVENUS_WIDTH 10
 #define BULLETVENUS_BBOX_WIDTH 10
-#define BULLETVENUS_BBOX_HEIGHT 16
+#define BULLETVENUS_BBOX_HEIGHT 10
 
 class CBulletVenus : public CGameObject {
 public:

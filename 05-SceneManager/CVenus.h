@@ -22,11 +22,15 @@
 #define VENUS_APPEAR_TIME 1000
 #define VENUS_MOVE_TIME 1000
 
+class CBulletVenus;            
+typedef CBulletVenus* LPBULLETVENUS;
+
 class CVenus : public CGameObject
 {
 protected:
 	int direction_x;
 	int direction_y;
+	LPBULLETVENUS bullet;
 
 	DWORD timer;
 
@@ -44,5 +48,6 @@ public:
 	CVenus(float x, float y);
 	virtual void SetState(int state);
 	void UpAndDown(DWORD dt);
+	void Fire(float direction_x, float direction_y);
 };
 

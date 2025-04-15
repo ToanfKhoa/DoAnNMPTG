@@ -9,6 +9,7 @@ paragoomba.txt
 ground.txt
 questionblock.txt
 venus.txt
+bulletvenus.txt
 
 #
 [OBJECTS]
@@ -78,5 +79,5 @@ venus.txt
 6	320	0
 
 #Venus
-8	100	170
+9	100	170
 

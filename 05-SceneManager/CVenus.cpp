@@ -1,10 +1,24 @@
 #include "CVenus.h"
 #include "debug.h"
+#include "CBulletVenus.h"
+#include "PlayScene.h"
+#include "Game.h"
 
 CVenus::CVenus(float x, float y) :CGameObject(x, y)
 {
 	SetState(VENUS_STATE_HIDE);
 	timer = 0;
+	this->bullet = new CBulletVenus(x, y);
+	
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	if (playScene != NULL)
+	{
+		playScene->AddObject(bullet);
+	}
+	else
+	{
+		DebugOut(L"[ERROR] CVenus::CVenus: Scene is NULL\n");
+	}
 }
 
 void CVenus::GetBoundingBox(float& left, float& top, float& right, float& bottom)
