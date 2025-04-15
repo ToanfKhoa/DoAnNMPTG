@@ -107,6 +107,7 @@ void CVenus::SetState(int state)
 		vy = VENUS_SPEED;
 		break;
 	case VENUS_STATE_FIRE:
+		Fire();
 		vy = 0;
 		break;
 	}
@@ -116,14 +117,30 @@ void CVenus::UpAndDown(DWORD dt)
 {
 	timer += dt;
 
-	if (timer < VENUS_HIDE_TIME)
-		SetState(VENUS_STATE_HIDE);
-	else if (timer < VENUS_HIDE_TIME + VENUS_MOVE_TIME)
+	if(state == VENUS_STATE_HIDE && timer >= VENUS_HIDE_TIME)
+	{
 		SetState(VENUS_STATE_UP);
-	else if (timer < VENUS_HIDE_TIME + VENUS_MOVE_TIME + VENUS_APPEAR_TIME)
-		SetState(VENUS_STATE_FIRE);
-	else if (timer < VENUS_HIDE_TIME + 2 * VENUS_MOVE_TIME + VENUS_APPEAR_TIME)
-		SetState(VENUS_STATE_DOWN);
-	else
 		timer = 0;
+	}
+	else if (state == VENUS_STATE_UP && timer >= VENUS_MOVE_TIME)
+	{
+		SetState(VENUS_STATE_FIRE);
+		timer = 0;
+	}
+	else if (state == VENUS_STATE_FIRE && timer >= VENUS_APPEAR_TIME)
+	{
+		SetState(VENUS_STATE_DOWN);
+		timer = 0;
+	}
+	else if (state == VENUS_STATE_DOWN && timer >= VENUS_MOVE_TIME)
+	{
+		SetState(VENUS_STATE_HIDE);
+		timer = 0;
+	}
+}
+
+void CVenus::Fire()
+{
+	this->bullet->SetPosition(x, y);
+	this->bullet->Fire(1.0f, 1.0f);
 }

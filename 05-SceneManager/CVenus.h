@@ -48,6 +48,6 @@ public:
 	CVenus(float x, float y);
 	virtual void SetState(int state);
 	void UpAndDown(DWORD dt);
-	void Fire(float direction_x, float direction_y);
+	void Fire();
 };
 

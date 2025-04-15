@@ -6,7 +6,7 @@ void CBulletVenus::Render()
 	CAnimations::GetInstance()->Get(ID_ANI_BULLETVENUS)->Render(x, y);
 }
 
-void CBulletVenus::OnNoCollision(DWORD dt)
+void CBulletVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	x += vx * dt;
 	y += vy * dt;
