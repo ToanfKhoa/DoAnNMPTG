@@ -154,6 +154,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CQuestionBlock.cpp" />
+    <ClCompile Include="CSuperMushroom.cpp" />
     <ClCompile Include="CVenus.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CQuestionBlock.h" />
+    <ClInclude Include="CSuperMushroom.h" />
     <ClInclude Include="CVenus.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
