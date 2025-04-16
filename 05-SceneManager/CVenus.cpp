@@ -1,10 +1,24 @@
 #include "CVenus.h"
 #include "debug.h"
+#include "CBulletVenus.h"
+#include "PlayScene.h"
+#include "Game.h"
 
 CVenus::CVenus(float x, float y) :CGameObject(x, y)
 {
 	SetState(VENUS_STATE_HIDE);
 	timer = 0;
+	this->bullet = new CBulletVenus(x, y);
+	
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	if (playScene != NULL)
+	{
+		playScene->AddObject(bullet);
+	}
+	else
+	{
+		DebugOut(L"[ERROR] CVenus::CVenus: Scene is NULL\n");
+	}
 }
 
 void CVenus::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -93,6 +107,7 @@ void CVenus::SetState(int state)
 		vy = VENUS_SPEED;
 		break;
 	case VENUS_STATE_FIRE:
+		Fire();
 		vy = 0;
 		break;
 	}
@@ -102,14 +117,35 @@ void CVenus::UpAndDown(DWORD dt)
 {
 	timer += dt;
 
-	if (timer < VENUS_HIDE_TIME)
-		SetState(VENUS_STATE_HIDE);
-	else if (timer < VENUS_HIDE_TIME + VENUS_MOVE_TIME)
+	if(state == VENUS_STATE_HIDE && timer >= VENUS_HIDE_TIME)
+	{
 		SetState(VENUS_STATE_UP);
-	else if (timer < VENUS_HIDE_TIME + VENUS_MOVE_TIME + VENUS_APPEAR_TIME)
-		SetState(VENUS_STATE_FIRE);
-	else if (timer < VENUS_HIDE_TIME + 2 * VENUS_MOVE_TIME + VENUS_APPEAR_TIME)
-		SetState(VENUS_STATE_DOWN);
-	else
 		timer = 0;
+	}
+	else if (state == VENUS_STATE_UP && timer >= VENUS_MOVE_TIME)
+	{
+		SetState(VENUS_STATE_FIRE);
+		timer = 0;
+	}
+	else if (state == VENUS_STATE_FIRE && timer >= VENUS_APPEAR_TIME)
+	{
+		SetState(VENUS_STATE_DOWN);
+		timer = 0;
+	}
+	else if (state == VENUS_STATE_DOWN && timer >= VENUS_MOVE_TIME)
+	{
+		SetState(VENUS_STATE_HIDE);
+		timer = 0;
+	}
+}
+
+void CVenus::Fire()
+{
+	this->bullet->SetPosition(x, y);
+	float mario_x, mario_y;
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	float player_x, player_y;
+	playScene->GetPlayer()->GetPosition(player_x, player_y);
+	this->bullet->Fire(player_x - this->x, player_y - this->y);
 }
