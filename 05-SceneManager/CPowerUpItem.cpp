@@ -1,10 +1,11 @@
 #include "CPowerUpItem.h"
+#include "debug.h"
 
 CPowerUpItem::CPowerUpItem(float x, float y) :CGameObject(x, y)
 {
-	this->isSuperLeaf = false;
+	this->isSuperLeaf = true;
 	this->ay =	POWERUPITEM_GRAVITY;
-	SetState(POWERUPITEM_STATE_IDLE);
+	SetState(POWERUPITEM_STATE_MOVING_LEFT);
 }
 
 void CPowerUpItem::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -16,13 +17,14 @@ void CPowerUpItem::GetBoundingBox(float& left, float& top, float& right, float& 
 }
 void CPowerUpItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"state: %d\n",state);
+	DebugOut(L"y: %.2f\n",y);
+	DebugOut(L"x: %.2f\n",x);
+	DebugOut(L"ay: %.2f\n",ay);
+	DebugOut(L"vy: %.2f\n",vy);
 	vy += ay * dt;
 
-	if ((state == POWERUPITEM_STATE_EATEN))
-	{
-		isDeleted = true;
-		return;
-	}
+	if ((state == POWERUPITEM_STATE_EATEN)) return;
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -64,9 +66,13 @@ void CPowerUpItem::SetState(int state)
 		ay = 0;
 		break;
 	case POWERUPITEM_STATE_MOVING_LEFT:
+		vx = -POWERUPITEM_SPEED;
+		vy = -POWERUPITEM_SPEED;
+		ay = POWERUPITEM_GRAVITY;
+		break;
 	case POWERUPITEM_STATE_MOVING_RIGHT:
 		vx = POWERUPITEM_SPEED;
-		vy = POWERUPITEM_GRAVITY;
+		vy = POWERUPITEM_SPEED;
 		ay = POWERUPITEM_GRAVITY;
 		break;
 	case POWERUPITEM_STATE_EATEN:
@@ -90,7 +96,7 @@ void CPowerUpItem::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (dynamic_cast<CPowerUpItem*>(e->obj)) return;
 
 	// Leaf doesn't reverse on collision
-	if (isSuperLeaf = false)
+	if (isSuperLeaf == false)
 	{
 		if (e->ny != 0)
 		{

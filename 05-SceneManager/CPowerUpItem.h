@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define	POWERUPITEM_GRAVITY 0.002f
+#define	POWERUPITEM_GRAVITY 0.05f
 #define POWERUPITEM_SPEED 0.05f
 
 
@@ -9,10 +9,10 @@
 #define POWERUPITEM_BBOX_HEIGHT 16
 
 #define POWERUPITEM_STATE_IDLE 0
-#define POWERUPITEM_STATE_EMERGING     100
-#define POWERUPITEM_STATE_MOVING_LEFT       200
-#define POWERUPITEM_STATE_MOVING_RIGHT       300
-#define POWERUPITEM_STATE_EATEN        400
+#define POWERUPITEM_STATE_EMERGING 100
+#define POWERUPITEM_STATE_MOVING_LEFT 200
+#define POWERUPITEM_STATE_MOVING_RIGHT 300
+#define POWERUPITEM_STATE_EATEN 400
 
 #define ID_ANI_SUPERMUSHROOM 13000
 
@@ -29,8 +29,9 @@ protected:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 
-	int IsCollidable() { return (state != POWERUPITEM_STATE_IDLE && state!= POWERUPITEM_STATE_EATEN); };
+	int IsCollidable() { return 1; };
 	int IsBlocking() { return 0; }
+
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);

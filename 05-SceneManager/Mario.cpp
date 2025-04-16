@@ -13,6 +13,7 @@
 #include "CQuestionBlock.h"
 #include "CVenus.h"
 #include "CBulletVenus.h"
+#include "CPowerUpItem.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -66,6 +67,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithVenus(e);
 	else if (dynamic_cast<CBulletVenus*>(e->obj))
 		OnCollisionWithBulletVenus(e);
+	else if (dynamic_cast<CPowerUpItem*>(e->obj))
+		OnCollisionWithPowerUpItem(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -205,6 +208,22 @@ void CMario::OnCollisionWithBulletVenus(LPCOLLISIONEVENT e)
 			SetState(MARIO_STATE_DIE);
 		}
 	}
+}
+void CMario::OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e)
+{
+	CPowerUpItem* item = dynamic_cast<CPowerUpItem*>(e->obj);
+	DebugOut(L"PowerUpItem collision \ns");
+	if (item->GetState() != POWERUPITEM_STATE_IDLE && item->GetState() != POWERUPITEM_STATE_EATEN)
+	{
+		if (level == MARIO_LEVEL_SMALL)
+			level = MARIO_LEVEL_BIG;
+		else if (level == MARIO_LEVEL_BIG)
+			level = MARIO_LEVEL_RACOON;
+		DebugOut(L"BigMario\n");
+
+		item->SetState(POWERUPITEM_STATE_EATEN);
+	}
+
 }
 
 //

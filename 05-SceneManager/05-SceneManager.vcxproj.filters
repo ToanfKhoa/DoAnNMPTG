@@ -91,6 +91,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CBulletVenus.cpp">
+    </ClCompile>
     <ClCompile Include="CSuperMushroom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -181,7 +182,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CBulletVenus.h">
-    <ClInclude Include="CSuperMushroom.h">
+    </ClInclude>
+    <ClInclude Include="CPowerUpItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

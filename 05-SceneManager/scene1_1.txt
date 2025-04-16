@@ -10,12 +10,13 @@ ground.txt
 questionblock.txt
 venus.txt
 bulletvenus.txt
+powerupitem.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block, 9 = Venus
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block, 9 = Venus, 10 = PowerUpItem
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
@@ -80,4 +81,7 @@ bulletvenus.txt
 
 #Venus
 9	100	170
+
+#PowerUpItem
+10	110	170
 
