@@ -8,7 +8,7 @@ CPowerUpItem::CPowerUpItem(float x, float y) :CGameObject(x, y)
 	this->x_start = x;
 	this->y_start = y;
 
-	SetState(POWERUPITEM_STATE_EMERGING);
+	SetState(POWERUPITEM_STATE_IDLE);
 }
 
 void CPowerUpItem::GetBoundingBox(float& left, float& top, float& right, float& bottom)

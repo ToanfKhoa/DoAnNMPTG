@@ -16,7 +16,7 @@ powerupitem.txt
 [OBJECTS]
 # type	x	y	extra_settings per object type
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block, 9 = Venus, 10 = PowerUpItem
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
@@ -59,7 +59,7 @@ powerupitem.txt
 2	300	10
 
 #Question Block
-8	300	150	
+8	300	150	1
 
 #Platform
 7	0	194	16	16	39	61000	62000	63000

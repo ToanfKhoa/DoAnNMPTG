@@ -159,7 +159,7 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 	{
 		if (question->GetState() == QUESTIONBLOCK_STATE_IDLE)
 		{
-			question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
+			question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP, level);
 		}
 	}
 }

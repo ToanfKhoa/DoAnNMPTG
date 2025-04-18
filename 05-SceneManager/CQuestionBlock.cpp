@@ -1,5 +1,27 @@
 #include "CQuestionBlock.h"
+#include "CPowerUpItem.h"
+#include "PlayScene.h"
 #include "debug.h"
+
+CQuestionBlock::CQuestionBlock(float x, float y, int itemType) : CGameObject(x, y)
+{
+	this->y_start = y;
+	this->state = QUESTIONBLOCK_STATE_IDLE;
+
+	this->itemType = itemType;
+	if ( itemType == QUESTIONBLOCK_ITEM_TYPE_POWERUP )
+	{
+		this->spawnedItem = new CPowerUpItem(x, y);
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(spawnedItem);
+		}
+	}
+	
+}
+
 void CQuestionBlock::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -48,7 +70,7 @@ void CQuestionBlock::OnNoCollision(DWORD dt)
 //	else return 0;
 //}
 
-void CQuestionBlock::SetState(int state)
+void CQuestionBlock::SetState(int state, int marioState)
 {
 	CGameObject::SetState(state);
 	switch (state)
@@ -62,6 +84,24 @@ void CQuestionBlock::SetState(int state)
 		vy = 0;
 		break;
 	case QUESTIONBLOCK_STATE_BOUNCING_UP:
+
+		if (itemType == QUESTIONBLOCK_ITEM_TYPE_POWERUP)
+		{
+			CPowerUpItem* powerUpItem = dynamic_cast<CPowerUpItem*>(spawnedItem);
+			if (powerUpItem != nullptr)
+			{
+				if (marioState == MARIO_LEVEL_SMALL)
+				{
+					powerUpItem->SetIsSuperLeaf(false);
+				} else
+				if (marioState == MARIO_LEVEL_BIG)
+				{
+					powerUpItem->SetIsSuperLeaf(true);
+				}
+			}
+		}
+		
+		ActivateItem();
 		vy = -QUESTIONBLOCK_BOUNCING_SPEED;
 		bounce_start = GetTickCount64();
 		break;
@@ -79,7 +119,7 @@ void CQuestionBlock::Bouncing()
 		if (y <= y_start - QUESTIONBLOCK_BOUNCE_HEIGTH)
 		{
 			y = y_start - QUESTIONBLOCK_BOUNCE_HEIGTH;
-			SetState(QUESTIONBLOCK_STATE_BOUNCING_DOWN);
+			SetState(QUESTIONBLOCK_STATE_BOUNCING_DOWN, -1); //khong can truyen trang thai mario
 		}
 	}
 
@@ -88,7 +128,12 @@ void CQuestionBlock::Bouncing()
 		if (y >= y_start)
 		{
 			y = y_start;
-			SetState(QUESTIONBLOCK_STATE_USED);
+			SetState(QUESTIONBLOCK_STATE_USED, -1);
 		}
 	}
+}
+
+void CQuestionBlock::ActivateItem()
+{
+	spawnedItem->SetState(POWERUPITEM_STATE_EMERGING);
 }

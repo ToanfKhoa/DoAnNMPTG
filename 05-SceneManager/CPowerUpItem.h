@@ -41,9 +41,11 @@ protected:
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	void Moving();
+	
 
 public:
 	CPowerUpItem(float x, float y);
 	void SetState(int state);
+	void SetIsSuperLeaf(bool value) { this->isSuperLeaf = value; }
 };
 
