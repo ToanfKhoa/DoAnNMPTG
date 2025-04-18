@@ -126,7 +126,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParaGoomba(x, y); break;
-	case OBJECT_TYPE_QUESTIONBLOCK: obj = new CQuestionBlock(x, y); break;
+	case OBJECT_TYPE_QUESTIONBLOCK:
+	{
+		int item_type = (float)atof(tokens[3].c_str());
+		obj = new CQuestionBlock(x, y, item_type); break;
+	}
 	case OBJECT_TYPE_VENUS: obj = new CVenus(x, y); break;
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
 

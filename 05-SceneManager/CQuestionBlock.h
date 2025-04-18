@@ -8,6 +8,9 @@
 #define QUESTIONBLOCK_BBOX_WIDTH 16
 #define QUESTIONBLOCK_BBOX_HEIGHT 16
 
+#define QUESTIONBLOCK_ITEM_TYPE_COIN 0
+#define QUESTIONBLOCK_ITEM_TYPE_POWERUP 1
+
 #define QUESTIONBLOCK_BOUNCING_SPEED 0.1
 #define QUESTIONBLOCK_BOUNCE_TIME 200
 #define QUESTIONBLOCK_BOUNCE_HEIGTH 5
@@ -23,6 +26,8 @@ class CQuestionBlock :public CGameObject
 protected:
 	ULONGLONG bounce_start;
 	float y_start;
+	int itemType;	//0 coin, 1 powerup
+	CGameObject* spawnedItem;
 
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -31,9 +36,10 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	void Bouncing();
+	void ActivatePowerUpItem();
 
 public:
-	CQuestionBlock(float x, float y) : CGameObject(x, y) { state = QUESTIONBLOCK_STATE_IDLE; y_start = y; }
+	CQuestionBlock(float x, float y, int itemType);
 	void SetState(int state);
 };
 
