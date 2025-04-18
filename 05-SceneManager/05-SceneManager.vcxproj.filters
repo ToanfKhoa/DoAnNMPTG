@@ -92,7 +92,10 @@
     </ClCompile>
     <ClCompile Include="CBulletVenus.cpp">
     </ClCompile>
-    <ClCompile Include="CSuperMushroom.cpp">
+    <ClCompile Include="CPowerUpItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPipe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -184,6 +187,9 @@
     <ClInclude Include="CBulletVenus.h">
     </ClInclude>
     <ClInclude Include="CPowerUpItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPipe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
