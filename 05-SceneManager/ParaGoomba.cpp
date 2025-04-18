@@ -113,3 +113,11 @@ void CParaGoomba::Flying()
 		fly_start = GetTickCount64();
 	}
 }
+
+void CParaGoomba::TurnIntoGoomba()
+{
+	isGoomba = true;
+	this->ax = 0;
+	this->ay = GOOMBA_GRAVITY;
+	SetState(GOOMBA_STATE_WALKING);
+}

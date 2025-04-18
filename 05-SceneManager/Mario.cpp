@@ -114,7 +114,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	{
 		if (paragoomba->GetIsGoomba() == false)
 		{
-			paragoomba->SetIsGoomba(true);
+			paragoomba->TurnIntoGoomba();
 		}
 		else
 		{
