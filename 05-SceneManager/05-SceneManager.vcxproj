@@ -153,6 +153,7 @@
     <ClCompile Include="CGround.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CPipe.cpp" />
     <ClCompile Include="CQuestionBlock.cpp" />
     <ClCompile Include="CPowerUpItem.cpp" />
     <ClCompile Include="CVenus.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="CGround.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CPipe.h" />
     <ClInclude Include="CQuestionBlock.h" />
     <ClInclude Include="CPowerUpItem.h" />
     <ClInclude Include="CVenus.h" />

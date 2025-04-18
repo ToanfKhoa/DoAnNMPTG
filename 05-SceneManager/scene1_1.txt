@@ -11,15 +11,17 @@ questionblock.txt
 venus.txt
 bulletvenus.txt
 powerupitem.txt
+pipe.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
+#	x	y	width	height	size	sprite_begin sprite_middle sprite_end
 
 # MARIO
 0	20	10
@@ -84,4 +86,8 @@ powerupitem.txt
 
 #PowerUpItem
 10	110	170
+
+
+#Pipe
+11	100	178	30	16	3	71000	72000
 
