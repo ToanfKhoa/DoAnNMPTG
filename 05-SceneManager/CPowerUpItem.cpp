@@ -3,9 +3,12 @@
 
 CPowerUpItem::CPowerUpItem(float x, float y) :CGameObject(x, y)
 {
-	this->isSuperLeaf = true;
+	this->isSuperLeaf = false;
 	this->ay =	POWERUPITEM_GRAVITY;
-	SetState(POWERUPITEM_STATE_MOVING_LEFT);
+	this->x_start = x;
+	this->y_start = y;
+
+	SetState(POWERUPITEM_STATE_EMERGING);
 }
 
 void CPowerUpItem::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -18,14 +21,16 @@ void CPowerUpItem::GetBoundingBox(float& left, float& top, float& right, float& 
 void CPowerUpItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	DebugOut(L"state: %d\n",state);
-	DebugOut(L"y: %.2f\n",y);
-	DebugOut(L"x: %.2f\n",x);
-	DebugOut(L"ay: %.2f\n",ay);
-	DebugOut(L"vy: %.2f\n",vy);
+	DebugOut(L"y: %.8f\n",y);
+	DebugOut(L"x: %.8f\n",x);
+	DebugOut(L"ay: %.8f\n",ay);
+	DebugOut(L"vy: %.8f\n",vy);
 	vy += ay * dt;
 
-	if ((state == POWERUPITEM_STATE_EATEN)) return;
-
+	if ( state == POWERUPITEM_STATE_EATEN ) return;
+	
+	if ( state != POWERUPITEM_STATE_IDLE ) Moving();
+	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -61,18 +66,18 @@ void CPowerUpItem::SetState(int state)
 		ay = 0;
 		break;
 	case POWERUPITEM_STATE_EMERGING:
-	    vx = 0;
-		vy = -POWERUPITEM_GRAVITY;
-		ay = 0;
+	    vx = 0;	
+		vy = -POWERUPITEM_SPEED * 2;
+		ay = -POWERUPITEM_GRAVITY * 5;
 		break;
 	case POWERUPITEM_STATE_MOVING_LEFT:
-		vx = -POWERUPITEM_SPEED;
-		vy = -POWERUPITEM_SPEED;
+		vx = -POWERUPITEM_SPEED*1.5;
+		vy = POWERUPITEM_SPEED/3;
 		ay = POWERUPITEM_GRAVITY;
 		break;
 	case POWERUPITEM_STATE_MOVING_RIGHT:
-		vx = POWERUPITEM_SPEED;
-		vy = POWERUPITEM_SPEED;
+		vx = POWERUPITEM_SPEED*1.5;
+		vy = POWERUPITEM_SPEED/3;
 		ay = POWERUPITEM_GRAVITY;
 		break;
 	case POWERUPITEM_STATE_EATEN:
@@ -87,7 +92,9 @@ void CPowerUpItem::SetState(int state)
 void CPowerUpItem::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
+	DebugOut(L"y truoc: %.2f\n", y);
 	y += vy * dt;
+	DebugOut(L"y sau: %.2f\n", y);
 };
 
 void CPowerUpItem::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -105,6 +112,33 @@ void CPowerUpItem::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (e->nx != 0)
 		{
 			vx = -vx;
+		}
+	}
+	
+}
+
+void CPowerUpItem::Moving()
+{
+	if (isSuperLeaf == true)
+	{
+		if (state == POWERUPITEM_STATE_EMERGING && y <= y_start - POWERUPITEM_SUPERLEAF_EMERGE_HEIGHT)
+		{
+			SetState(POWERUPITEM_STATE_MOVING_RIGHT);
+		}
+		else if (state == POWERUPITEM_STATE_MOVING_RIGHT && x >= x_start + POWERUPITEM_SWING_WIDTH)
+		{
+			SetState(POWERUPITEM_STATE_MOVING_LEFT);
+		}
+		else if (state == POWERUPITEM_STATE_MOVING_LEFT && x <= x_start)
+		{
+			SetState(POWERUPITEM_STATE_MOVING_RIGHT);
+		}
+	}
+	else
+	{
+		if (state == POWERUPITEM_STATE_EMERGING && y <= y_start - POWERUPITEM_SUPERMUSHROOM_EMERGE_HEIGHT)
+		{
+			SetState(POWERUPITEM_STATE_MOVING_RIGHT); //tam thoi nam di chuyen sang phai
 		}
 	}
 	

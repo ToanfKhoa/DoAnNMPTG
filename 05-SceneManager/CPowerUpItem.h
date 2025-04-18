@@ -1,9 +1,11 @@
 #pragma once
 #include "GameObject.h"
 
-#define	POWERUPITEM_GRAVITY 0.05f
+#define	POWERUPITEM_GRAVITY 0.00005f
 #define POWERUPITEM_SPEED 0.05f
-
+#define POWERUPITEM_SWING_WIDTH 32
+#define POWERUPITEM_SUPERLEAF_EMERGE_HEIGHT 40
+#define POWERUPITEM_SUPERMUSHROOM_EMERGE_HEIGHT 24
 
 #define POWERUPITEM_BBOX_WIDTH 16
 #define POWERUPITEM_BBOX_HEIGHT 16
@@ -24,17 +26,21 @@ class CPowerUpItem :public CGameObject
 protected:
 	float ay;
 	bool isSuperLeaf;
+	float x_start;
+	float y_start;
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 
-	int IsCollidable() { return 1; };
+	int IsCollidable() { return !isSuperLeaf; }; 
 	int IsBlocking() { return 0; }
 
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
+
+	void Moving();
 
 public:
 	CPowerUpItem(float x, float y);
