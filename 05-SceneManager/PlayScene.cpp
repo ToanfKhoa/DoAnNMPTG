@@ -169,7 +169,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_PIPE:
 	{
-		DebugOut(L"[INFO] Pipe pipe hello!\n");
 		float cell_width = (float)atof(tokens[3].c_str());
 		float cell_height = (float)atof(tokens[4].c_str());
 		int length = atoi(tokens[5].c_str());
@@ -181,7 +180,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			cell_width, cell_height, length,
 			sprite_middle, sprite_end
 		);
-		DebugOut(L"Not meeee\n");
+
 		break;
 	}
 

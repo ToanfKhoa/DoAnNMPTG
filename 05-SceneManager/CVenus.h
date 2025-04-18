@@ -5,6 +5,8 @@
 
 #define VENUS_BBOX_WIDTH 20
 #define VENUS_BBOX_HEIGHT 40
+#define VENUS_FIRE_DISTANCE_MAX 150
+#define VENUS_FIRE_DISTANCE_MIN 16
 
 #define VENUS_STATE_HIDE 100
 #define VENUS_STATE_UP 200
@@ -31,6 +33,7 @@ protected:
 	int direction_x;
 	int direction_y;
 	LPBULLETVENUS bullet;
+	bool isPlayerInRange;
 
 	DWORD timer;
 
@@ -40,14 +43,13 @@ protected:
 
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
-	virtual void OnNoCollision(DWORD dt);
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
 	CVenus(float x, float y);
 	virtual void SetState(int state);
 	void UpAndDown(DWORD dt);
 	void Fire();
+	void CheckPlayerNearby();
 };
 

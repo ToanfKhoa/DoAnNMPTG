@@ -1,12 +1,15 @@
 #include "CVenus.h"
 #include "debug.h"
 #include "CBulletVenus.h"
+#include "CPipe.h"
 #include "PlayScene.h"
 #include "Game.h"
+
 
 CVenus::CVenus(float x, float y) :CGameObject(x, y)
 {
 	SetState(VENUS_STATE_HIDE);
+	isPlayerInRange = false;
 	timer = 0;
 	this->bullet = new CBulletVenus(x, y);
 	
@@ -29,20 +32,11 @@ void CVenus::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	bottom = top + VENUS_BBOX_HEIGHT;
 }
 
-void CVenus::OnNoCollision(DWORD dt)
+void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	x += vx * dt;
 	y += vy * dt;
-};
 
-void CVenus::OnCollisionWith(LPCOLLISIONEVENT e)
-{
-	if (!e->obj->IsBlocking()) return;
-
-}
-
-void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
 	//die
 	if (this->GetState() == VENUS_STATE_DIE)
 	{
@@ -50,8 +44,9 @@ void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
+	CheckPlayerNearby();
 	UpAndDown(dt);
-
+	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -117,7 +112,7 @@ void CVenus::UpAndDown(DWORD dt)
 {
 	timer += dt;
 
-	if(state == VENUS_STATE_HIDE && timer >= VENUS_HIDE_TIME)
+	if(isPlayerInRange == true && state == VENUS_STATE_HIDE && timer >= VENUS_HIDE_TIME)
 	{
 		SetState(VENUS_STATE_UP);
 		timer = 0;
@@ -148,4 +143,20 @@ void CVenus::Fire()
 	float player_x, player_y;
 	playScene->GetPlayer()->GetPosition(player_x, player_y);
 	this->bullet->Fire(player_x - this->x, player_y - this->y);
+}
+
+void CVenus::CheckPlayerNearby()
+{
+	float player_x, player_y;
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	playScene->GetPlayer()->GetPosition(player_x, player_y);
+
+	if ((abs(player_x - this->x) <= VENUS_FIRE_DISTANCE_MIN + MARIO_BIG_BBOX_WIDTH/2) || ((abs(player_x) - this->x) >= VENUS_FIRE_DISTANCE_MAX))
+	{
+		isPlayerInRange = false;
+	}
+	else
+	{
+		isPlayerInRange = true;
+	}
 }

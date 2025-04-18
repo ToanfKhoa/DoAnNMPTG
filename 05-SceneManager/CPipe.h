@@ -21,9 +21,8 @@ public:
 	}
 
 	void Render();
-	void Update(DWORD dt) {}
-	void GetBoundingBox(float& l, float& t, float& r, float& b); 
-	void RenderBoundingBox();
+	void Update(DWORD dt) {};
+	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
 	float GetCellWidth() { return this->cellWidth; }
 	int IsDirectionColliable(float nx, float ny);
