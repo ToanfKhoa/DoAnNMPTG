@@ -5,7 +5,7 @@
 #define POWERUPITEM_SPEED 0.05f
 #define POWERUPITEM_SWING_WIDTH 32
 #define POWERUPITEM_SUPERLEAF_EMERGE_HEIGHT 40
-#define POWERUPITEM_SUPERMUSHROOM_EMERGE_HEIGHT 24
+#define POWERUPITEM_SUPERMUSHROOM_EMERGE_HEIGHT 16
 
 #define POWERUPITEM_BBOX_WIDTH 16
 #define POWERUPITEM_BBOX_HEIGHT 16
@@ -40,7 +40,7 @@ protected:
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 
-	void Moving();
+	void CheckAndChangeState();
 	
 
 public:

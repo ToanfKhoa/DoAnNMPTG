@@ -36,10 +36,10 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	void Bouncing();
-	void ActivateItem();
+	void ActivatePowerUpItem();
 
 public:
 	CQuestionBlock(float x, float y, int itemType);
-	void SetState(int state, int marioState);
+	void SetState(int state);
 };
 

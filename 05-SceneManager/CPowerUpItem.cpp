@@ -1,4 +1,5 @@
 #include "CPowerUpItem.h"
+#include "PlayScene.h"
 #include "debug.h"
 
 CPowerUpItem::CPowerUpItem(float x, float y) :CGameObject(x, y)
@@ -25,11 +26,13 @@ void CPowerUpItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	DebugOut(L"x: %.8f\n",x);
 	DebugOut(L"ay: %.8f\n",ay);
 	DebugOut(L"vy: %.8f\n",vy);
+
 	vy += ay * dt;
 
 	if ( state == POWERUPITEM_STATE_EATEN ) return;
 	
-	if ( state != POWERUPITEM_STATE_IDLE ) Moving();
+	if (state != POWERUPITEM_STATE_IDLE) CheckAndChangeState();
+
 	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -73,12 +76,22 @@ void CPowerUpItem::SetState(int state)
 	case POWERUPITEM_STATE_MOVING_LEFT:
 		vx = -POWERUPITEM_SPEED*1.5;
 		vy = POWERUPITEM_SPEED/3;
-		ay = POWERUPITEM_GRAVITY;
+
+		if(isSuperLeaf == true)
+			ay = POWERUPITEM_GRAVITY; // cho superleaf di chuyen cham hon
+		else
+			ay = POWERUPITEM_GRAVITY*100;
+
 		break;
 	case POWERUPITEM_STATE_MOVING_RIGHT:
 		vx = POWERUPITEM_SPEED*1.5;
 		vy = POWERUPITEM_SPEED/3;
-		ay = POWERUPITEM_GRAVITY;
+
+		if (isSuperLeaf == true)
+			ay = POWERUPITEM_GRAVITY; // cho superleaf di chuyen cham hon
+		else
+			ay = POWERUPITEM_GRAVITY * 100;
+
 		break;
 	case POWERUPITEM_STATE_EATEN:
 		vx = 0;
@@ -117,7 +130,7 @@ void CPowerUpItem::OnCollisionWith(LPCOLLISIONEVENT e)
 	
 }
 
-void CPowerUpItem::Moving()
+void CPowerUpItem::CheckAndChangeState()
 {
 	if (isSuperLeaf == true)
 	{
