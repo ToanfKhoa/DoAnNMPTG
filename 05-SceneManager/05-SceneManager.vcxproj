@@ -159,6 +159,7 @@
     <ClCompile Include="CPipe.cpp" />
     <ClCompile Include="CQuestionBlock.cpp" />
     <ClCompile Include="CPowerUpItem.cpp" />
+    <ClCompile Include="CSmallBush.cpp" />
     <ClCompile Include="CVenus.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="CPipe.h" />
     <ClInclude Include="CQuestionBlock.h" />
     <ClInclude Include="CPowerUpItem.h" />
+    <ClInclude Include="CSmallBush.h" />
     <ClInclude Include="CVenus.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />

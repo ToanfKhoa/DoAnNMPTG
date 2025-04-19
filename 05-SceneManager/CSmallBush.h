@@ -5,7 +5,7 @@ class CSmallBush : public CGameObject
 protected:
 	int spriteId;
 public:
-	CSmallBush(float x, float y, int spriteId) :CGameObject(x, y)
+	CSmallBush(float x, float y, int spriteId) : CGameObject(x, y)
 	{
 		this->spriteId = spriteId;
 	}
