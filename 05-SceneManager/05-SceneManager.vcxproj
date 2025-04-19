@@ -152,6 +152,7 @@
     <ClCompile Include="CBulletVenus.cpp" />
     <ClCompile Include="CCoinItem.cpp" />
     <ClCompile Include="CGround.cpp" />
+    <ClCompile Include="CKoopa.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CPipe.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="CBulletVenus.h" />
     <ClInclude Include="CCoinItem.h" />
     <ClInclude Include="CGround.h" />
+    <ClInclude Include="CKoopa.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CPipe.h" />

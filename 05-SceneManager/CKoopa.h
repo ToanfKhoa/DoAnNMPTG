@@ -21,14 +21,22 @@
 #define ID_ANI_KOOPA_WALKING_RIGHT 15001
 #define ID_ANI_KOOPA_SHELL_IDLE 15002
 #define ID_ANI_KOOPA_SHELL_MOVING 15003
+#define ID_ANI_KOOPA_SHELL_REVIVE 15004
 
 class CKoopa :public CGameObject
 {
 protected:
+	float ay;
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 
+	int IsCollidable() { return 1; }
+
+	int IsBlocking() { return 0; }
+	void OnNoCollision(DWORD dt);
+
+	void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y);
 	void SetState(int state);
