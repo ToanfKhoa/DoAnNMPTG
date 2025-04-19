@@ -37,7 +37,7 @@ protected:
 
 	void Bouncing();
 	void ActivatePowerUpItem();
-
+	void ActivateCoinItem();
 public:
 	CQuestionBlock(float x, float y, int itemType);
 	void SetState(int state);
