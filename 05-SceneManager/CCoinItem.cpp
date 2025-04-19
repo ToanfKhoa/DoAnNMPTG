@@ -3,6 +3,7 @@
 void CCoinItem::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
+	if (state == COINITEM_STATE_IDLE) return;
 	animations->Get(ID_ANI_COINITEM)->Render(x, y);
 }
 

@@ -103,10 +103,12 @@ void CQuestionBlock::SetState(int state)
 	case QUESTIONBLOCK_STATE_BOUNCING_DOWN:
 
 		//kich hoat item phu hop
+		spawnedItem->SetPosition(x, y);
 		if (itemType == QUESTIONBLOCK_ITEM_TYPE_POWERUP)
 		{
 			ActivatePowerUpItem();
-		} else if (itemType == QUESTIONBLOCK_ITEM_TYPE_COIN)
+		}
+		else if (itemType == QUESTIONBLOCK_ITEM_TYPE_COIN)
 		{
 			ActivateCoinItem();
 		}
