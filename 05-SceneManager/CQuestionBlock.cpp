@@ -1,5 +1,6 @@
 #include "CQuestionBlock.h"
 #include "CPowerUpItem.h"
+#include "CCoinItem.h"
 #include "PlayScene.h"
 #include "debug.h"
 
@@ -18,6 +19,18 @@ CQuestionBlock::CQuestionBlock(float x, float y, int itemType) : CGameObject(x, 
 		{
 			playScene->AddObject(spawnedItem);
 		}
+	} else if( itemType == QUESTIONBLOCK_ITEM_TYPE_COIN )
+	{
+		this->spawnedItem = new CCoinItem(x, y);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(spawnedItem);
+		}
+	}
+	else
+	{
+		DebugOut(L"[ERROR] CQuestionBlock::CQuestionBlock: Invalid item type\n");
 	}
 	
 }
@@ -93,6 +106,9 @@ void CQuestionBlock::SetState(int state)
 		if (itemType == QUESTIONBLOCK_ITEM_TYPE_POWERUP)
 		{
 			ActivatePowerUpItem();
+		} else if (itemType == QUESTIONBLOCK_ITEM_TYPE_COIN)
+		{
+			ActivateCoinItem();
 		}
 
 		vy = QUESTIONBLOCK_BOUNCING_SPEED;
@@ -152,5 +168,10 @@ void CQuestionBlock::ActivatePowerUpItem()
 	}
 
 	spawnedItem->SetState(POWERUPITEM_STATE_EMERGING);
+}
+
+void CQuestionBlock::ActivateCoinItem()
+{
+	spawnedItem->SetState(COINITEM_STATE_BOUNCING_UP);
 }
 

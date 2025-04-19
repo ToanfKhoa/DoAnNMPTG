@@ -11,9 +11,9 @@
 #define COINITEM_STATE_BOUNCING_UP 1
 #define COINITEM_STATE_BOUNCING_DOWN 2
 
-#define COINITEM_BOUNCE_SPEED 0.18f
+#define COINITEM_BOUNCE_SPEED 0.2f
 #define COINITEM_BOUNCE_HEIGHT 64
-#define COINITEM_BOUNCE_DELETE_HEIGHT 16
+#define COINITEM_BOUNCE_DELETE_HEIGHT 24
 
 
 class CCoinItem :public CGameObject
@@ -23,7 +23,7 @@ public:
 	CCoinItem(float x, float y) : CGameObject(x, y) 
 	{
 		y_start = y;
-		state = COINITEM_STATE_BOUNCING_UP;
+		state = COINITEM_STATE_IDLE;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
