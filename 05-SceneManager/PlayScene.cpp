@@ -16,6 +16,7 @@
 #include "CPowerUpItem.h"
 #include "CPipe.h"
 #include "CColorBlock.h"
+#include "CCoinItem.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -134,6 +135,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_VENUS: obj = new CVenus(x, y); break;
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
+	case OBJECT_TYPE_COINITEM: obj = new CCoinItem(x, y); break;
 
 	case OBJECT_TYPE_PLATFORM:
 	{

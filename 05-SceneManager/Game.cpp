@@ -508,6 +508,24 @@ void CGame::Load(LPCWSTR gameFile)
 	SwitchScene();
 }
 
+void CGame::ReLoad()
+{
+	if (scenes[current_scene] != NULL)
+	{
+		scenes[current_scene]->Unload();
+
+		CSprites::GetInstance()->Clear();
+		CAnimations::GetInstance()->Clear();
+
+		this->SetKeyHandler(scenes[current_scene]->GetKeyEventHandler());
+		scenes[current_scene]->Load();
+	}
+	else
+	{
+		DebugOut(L"[ERROR] Current scene is NULL\n");
+	}
+}
+
 void CGame::SwitchScene()
 {
 	if (next_scene < 0 || next_scene == current_scene) return; 
