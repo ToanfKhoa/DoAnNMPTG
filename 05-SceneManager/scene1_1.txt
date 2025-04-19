@@ -12,6 +12,7 @@ venus.txt
 bulletvenus.txt
 powerupitem.txt
 pipe.txt
+coinitem.txt
 
 #
 [OBJECTS]
@@ -56,6 +57,9 @@ pipe.txt
 4	140	120
 4	160	120
 4	180	120
+
+#COINITEM
+12	300	130
 
 #Goomba
 2	300	10
