@@ -1,0 +1,15 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+
+#sprite order: topleft, topright, borderleft, borderright, greentopleft, greentopright, noborder
+
+101000	138	1	152	16
+101001	154	1	168	16
+101002	137	18	152	33
+101003	154	18	169	33
+101004	154	35	169	50
+101005	137	35	152	50
+101006	137	52	152	67
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
