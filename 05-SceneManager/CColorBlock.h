@@ -10,7 +10,7 @@ protected:
 		spriteIdBotLeft, spriteIdBotRight,
 		spriteIdLeft, spriteIdRight,
 		spriteIdTop, spriteIdBot;
-	int color;	//Color of the block, 0: white, 1: green, 2: salmon, 3: blue
+
 public:
 	CColorBlock(float x, float y,
 		float cell_width, float cell_height,
@@ -34,7 +34,6 @@ public:
 		this->spriteIdRight = sprite_id_right;
 		this->spriteIdTop = sprite_id_top;
 		this->spriteIdBot = sprite_id_bot;
-		this->color = color;
 	}
 
 	void Render();
