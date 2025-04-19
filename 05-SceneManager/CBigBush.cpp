@@ -24,5 +24,6 @@ void CBigBush::Render()
 			yy -= this->cellHeight;
 		}
 		xx += this->cellWidth;
+		yy = y;
 	}
 }
