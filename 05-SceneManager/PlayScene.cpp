@@ -17,6 +17,8 @@
 #include "CPipe.h"
 #include "CColorBlock.h"
 #include "CCoinItem.h"
+#include "CBigBush.h"
+#include "CSmallBush.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -217,6 +219,33 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			sprite_id_left, sprite_id_right,
 			sprite_id_top, sprite_id_bot
 		);
+
+		break;
+	}
+
+	case OBJECT_TYPE_BIGBUSH: 
+	{
+		float cell_width = (float)atof(tokens[3].c_str());
+		float cell_height = (float)atof(tokens[4].c_str());
+		int length = atoi(tokens[5].c_str());
+		int sprite_id_left = atoi(tokens[6].c_str());
+		int sprite_id_right = atoi(tokens[7].c_str());
+		int sprite_id_topleft = atoi(tokens[8].c_str());
+		int sprite_id_topright = atoi(tokens[9].c_str());
+
+		obj = new CBigBush(
+			x, y,
+			cell_width, cell_height, length,
+			sprite_id_left, sprite_id_right,
+			sprite_id_topleft, sprite_id_topright
+		);
+		break;
+	}
+
+	case OBJECT_TYPE_SMALLBUSH:
+	{
+		int spriteId = atoi(tokens[3].c_str());
+		obj = new CSmallBush(x, y, spriteId);
 
 		break;
 	}

@@ -149,6 +149,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="CBigBush.cpp" />
     <ClCompile Include="CBulletVenus.cpp" />
     <ClCompile Include="CColorBlock.cpp" />
     <ClCompile Include="CCoinItem.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="CPipe.cpp" />
     <ClCompile Include="CQuestionBlock.cpp" />
     <ClCompile Include="CPowerUpItem.cpp" />
+    <ClCompile Include="CSmallBush.cpp" />
     <ClCompile Include="CVenus.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="CBigBush.h" />
     <ClInclude Include="CBulletVenus.h" />
     <ClInclude Include="CColorBlock.h" />
     <ClInclude Include="CCoinItem.h" />
@@ -190,6 +193,7 @@
     <ClInclude Include="CPipe.h" />
     <ClInclude Include="CQuestionBlock.h" />
     <ClInclude Include="CPowerUpItem.h" />
+    <ClInclude Include="CSmallBush.h" />
     <ClInclude Include="CVenus.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
