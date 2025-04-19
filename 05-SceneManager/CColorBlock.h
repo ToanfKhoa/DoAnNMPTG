@@ -19,7 +19,7 @@ public:
 		int sprite_id_topleft, int sprite_id_topright,
 		int sprite_id_botleft, int sprite_id_botright,
 		int sprite_id_left, int sprite_id_right,
-		int sprite_id_top, int sprite_id_bot, int color) :CGameObject(x, y)
+		int sprite_id_top, int sprite_id_bot) :CGameObject(x, y)
 	{
 		this->length_x = length_x;
 		this->length_y = length_y;
