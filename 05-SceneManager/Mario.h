@@ -123,6 +123,7 @@ class CMario : public CGameObject
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithBulletVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

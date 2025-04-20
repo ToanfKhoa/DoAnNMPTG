@@ -100,7 +100,6 @@ void CKoopa::SetState(int state)
 			break;
 		case KOOPA_STATE_SHELL_IDLE:
 			vx = 0;
-			ay = 0;
 			break;
 	}
 }

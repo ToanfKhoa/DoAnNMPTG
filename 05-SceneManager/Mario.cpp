@@ -14,6 +14,7 @@
 #include "CVenus.h"
 #include "CBulletVenus.h"
 #include "CPowerUpItem.h"
+#include "CKoopa.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -69,6 +70,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBulletVenus(e);
 	else if (dynamic_cast<CPowerUpItem*>(e->obj))
 		OnCollisionWithPowerUpItem(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -224,6 +227,40 @@ void CMario::OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e)
 		item->SetState(POWERUPITEM_STATE_EATEN);
 	}
 
+}
+
+void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	DebugOut(L"Koopa collision \ns");
+	// jump on top >> kill ParaGoomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT)
+		{
+			koopa->SetState(KOOPA_STATE_SHELL_IDLE);
+		}
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
+	}
+	else 
+	{
+		if (untouchable == 0)
+		{
+			if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					SetLevel(MARIO_LEVEL_SMALL);
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
 }
 
 //
