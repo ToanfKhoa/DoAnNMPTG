@@ -27,6 +27,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isDeleted = true;
 		return;
 	}
+	CheckAndChangeState();
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -35,21 +36,21 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CKoopa::Render()
 {
 	int aniId = ID_ANI_KOOPA_WALKING_LEFT;
-	if (state == KOOPA_STATE_WALKING_RIGHT)
+	if (state == KOOPA_STATE_SHELL_IDLE && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
 	{
-		aniId = ID_ANI_KOOPA_WALKING_RIGHT;
+		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE;
 	}
 	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE;
 	}
+	if (state == KOOPA_STATE_WALKING_RIGHT)
+	{
+		aniId = ID_ANI_KOOPA_WALKING_RIGHT;
+	}
 	else if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
-	}
-	else if (state == KOOPA_STATE_SHELL_REVIVE)
-	{
-		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -80,6 +81,17 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 }
 
+void CKoopa::CheckAndChangeState()
+{
+	if(state==KOOPA_STATE_SHELL_IDLE)
+	{
+		if (GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME)
+		{
+			SetState(KOOPA_STATE_WALKING_LEFT);
+		}
+	}
+}
+
 CKoopa::CKoopa(float x, float y)
 {
 	this->x = x;
@@ -100,6 +112,7 @@ void CKoopa::SetState(int state)
 			vx = KOOPA_WALKING_SPEED;
 			break;
 		case KOOPA_STATE_SHELL_IDLE:
+			shellStartTime = GetTickCount64();
 			vx = 0;
 			break;
 		case KOOPA_STATE_SHELL_MOVING_RIGHT:

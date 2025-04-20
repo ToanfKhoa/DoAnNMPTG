@@ -3,6 +3,8 @@
 
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_WALKING_SPEED 0.05f
+#define KOOPA_REVIVE_TIME 8000
+#define KOOPA_REVIVE_BLINK_TIME 2000
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 26
@@ -28,6 +30,7 @@ class CKoopa :public CGameObject
 {
 protected:
 	float ay;
+	ULONGLONG shellStartTime;
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -38,6 +41,7 @@ protected:
 	void OnNoCollision(DWORD dt);
 
 	void OnCollisionWith(LPCOLLISIONEVENT e);
+	void CheckAndChangeState();
 public:
 	CKoopa(float x, float y);
 	void SetState(int state);
