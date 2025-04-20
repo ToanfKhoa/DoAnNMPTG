@@ -216,9 +216,9 @@ void CMario::OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e)
 	if (item->GetState() != POWERUPITEM_STATE_IDLE && item->GetState() != POWERUPITEM_STATE_EATEN)
 	{
 		if (level == MARIO_LEVEL_SMALL)
-			level = MARIO_LEVEL_BIG;
+			SetLevel(MARIO_LEVEL_BIG);
 		else if (level == MARIO_LEVEL_BIG)
-			level = MARIO_LEVEL_RACOON;
+			SetLevel(MARIO_LEVEL_RACOON);
 		DebugOut(L"BigMario\n");
 
 		item->SetState(POWERUPITEM_STATE_EATEN);
