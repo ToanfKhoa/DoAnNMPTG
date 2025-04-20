@@ -2,7 +2,7 @@
 #include "Debug.h"
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == KOOPA_STATE_WALKING_LEFT && state == KOOPA_STATE_WALKING_RIGHT)
+	if (state == KOOPA_STATE_WALKING_LEFT || state == KOOPA_STATE_WALKING_RIGHT)
 	{
 		left = x - KOOPA_BBOX_WIDTH / 2;
 		top = y - KOOPA_BBOX_HEIGHT / 2;
@@ -75,8 +75,6 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		if(vx <= 0) SetState(KOOPA_STATE_WALKING_RIGHT);
 		else SetState(KOOPA_STATE_WALKING_LEFT);
-
-		vx = -vx;
 	}
 }
 
