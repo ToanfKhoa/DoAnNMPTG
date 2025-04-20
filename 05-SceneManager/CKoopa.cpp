@@ -43,7 +43,7 @@ void CKoopa::Render()
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE;
 	}
-	else if (state == KOOPA_STATE_SHELL_MOVING)
+	else if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
 	}
@@ -73,8 +73,10 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0)
 	{
-		if(vx <= 0) SetState(KOOPA_STATE_WALKING_RIGHT);
-		else SetState(KOOPA_STATE_WALKING_LEFT);
+		if(state == KOOPA_STATE_WALKING_LEFT) SetState(KOOPA_STATE_WALKING_RIGHT);
+		else if(state == KOOPA_STATE_WALKING_RIGHT) SetState(KOOPA_STATE_WALKING_LEFT);
+		else if (state == KOOPA_STATE_SHELL_MOVING_LEFT) SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
+		else if (state == KOOPA_STATE_SHELL_MOVING_RIGHT) SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
 	}
 }
 
@@ -96,10 +98,15 @@ void CKoopa::SetState(int state)
 			break;
 		case KOOPA_STATE_WALKING_RIGHT:
 			vx = KOOPA_WALKING_SPEED;
-			DebugOut(L"[INFO] Koopa turn right: %f, %f\n", vx, vy);
 			break;
 		case KOOPA_STATE_SHELL_IDLE:
 			vx = 0;
+			break;
+		case KOOPA_STATE_SHELL_MOVING_RIGHT:
+			vx = KOOPA_WALKING_SPEED*2;
+			break;
+		case KOOPA_STATE_SHELL_MOVING_LEFT:
+			vx = -KOOPA_WALKING_SPEED*2;
 			break;
 	}
 }

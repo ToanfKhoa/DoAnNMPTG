@@ -239,14 +239,57 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT)
 		{
 			koopa->SetState(KOOPA_STATE_SHELL_IDLE);
+
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
-		vy = -MARIO_JUMP_DEFLECT_SPEED;
+		else if (koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
+		{
+
+			float xKoopa, yKoopa;
+			koopa->GetPosition(xKoopa, yKoopa);
+
+			if (xKoopa >= x) koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
+			else
+			koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
+
+		}
+		else if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
+		{
+			koopa->SetState(KOOPA_STATE_SHELL_IDLE);
+
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+
 	}
-	else 
+	else
 	{
 		if (untouchable == 0)
 		{
 			if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					SetLevel(MARIO_LEVEL_SMALL);
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+			if(koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
+			{
+
+				float xKoopa, yKoopa;
+				koopa->GetPosition(xKoopa, yKoopa);
+
+				if (xKoopa >= x) koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
+				else
+					koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
+
+			}
+			else if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
