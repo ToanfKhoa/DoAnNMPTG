@@ -1,5 +1,5 @@
 #include "CKoopa.h"
-
+#include "Debug.h"
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (state == KOOPA_STATE_WALKING_LEFT && state == KOOPA_STATE_WALKING_RIGHT)
@@ -20,8 +20,8 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"[INFO] Koopa: %f, %f\n", vx, vy);
 	vy += ay * dt;
-
 	if (state == KOOPA_STATE_DIE)
 	{
 		isDeleted = true;
@@ -41,23 +41,15 @@ void CKoopa::Render()
 	}
 	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
 	{
-		aniId = ID_ANI_KOOPA_SHELL_IDLE;
+		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE;
 	}
 	else if (state == KOOPA_STATE_SHELL_MOVING)
 	{
-		aniId = ID_ANI_KOOPA_SHELL_MOVING;
+		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
 	}
 	else if (state == KOOPA_STATE_SHELL_REVIVE)
 	{
-		aniId = ID_ANI_KOOPA_SHELL_REVIVE;
-	}
-	else if (state == KOOPA_STATE_BEING_HELD)
-	{
-		aniId = ID_ANI_KOOPA_SHELL_IDLE;
-	}
-	else if (state == KOOPA_STATE_DIE)
-	{
-		aniId = ID_ANI_KOOPA_SHELL_IDLE;
+		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -81,6 +73,9 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0)
 	{
+		if(vx <= 0) SetState(KOOPA_STATE_WALKING_RIGHT);
+		else SetState(KOOPA_STATE_WALKING_LEFT);
+
 		vx = -vx;
 	}
 }
@@ -89,7 +84,6 @@ CKoopa::CKoopa(float x, float y)
 {
 	this->x = x;
 	this->y = y;
-	vx = KOOPA_WALKING_SPEED;
 	ay = KOOPA_GRAVITY;
 	SetState(KOOPA_STATE_WALKING_LEFT);
 }
@@ -97,4 +91,18 @@ CKoopa::CKoopa(float x, float y)
 void CKoopa::SetState(int state)
 {
 	CGameObject::SetState(state);
+	switch (state)
+	{
+		case KOOPA_STATE_WALKING_LEFT:
+			vx = -KOOPA_WALKING_SPEED;
+			break;
+		case KOOPA_STATE_WALKING_RIGHT:
+			vx = KOOPA_WALKING_SPEED;
+			DebugOut(L"[INFO] Koopa turn right: %f, %f\n", vx, vy);
+			break;
+		case KOOPA_STATE_SHELL_IDLE:
+			vx = 0;
+			ay = 0;
+			break;
+	}
 }
