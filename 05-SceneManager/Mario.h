@@ -101,8 +101,6 @@
 #define ID_ANI_MARIO_RACOON_BRACE_RIGHT 2300
 #define ID_ANI_MARIO_RACOON_BRACE_LEFT 2301
 
-#define ID_ANI_MARIO_RACOON_DIE 2400
-
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -112,12 +110,13 @@
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
-#define MARIO_LEVEL_RACOON	2
+#define MARIO_LEVEL_RACOON	3
 
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 24
 #define MARIO_BIG_SITTING_BBOX_WIDTH  14
 #define MARIO_BIG_SITTING_BBOX_HEIGHT 16
+
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
@@ -151,6 +150,7 @@ class CMario : public CGameObject
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
+	int GetAniIdRacoon();
 
 public:
 	CMario(float x, float y) : CGameObject(x, y)
