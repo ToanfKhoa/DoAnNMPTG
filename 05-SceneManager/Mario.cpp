@@ -17,6 +17,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	DebugOut(L"state:%d\n", state);
 	vy += ay * dt;
 	vx += ax * dt;
 
@@ -27,6 +28,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
+	}
+
+	if (isKicking == true)
+		kickTimer += dt;
+	// reset kick timer if kick time has pass
+	if (kickTimer >= MARIO_KICK_TIME)
+	{
+		isKicking = false;
+		kickTimer = 0;
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -218,7 +228,9 @@ int CMario::GetAniIdSmall()
 			}
 			else if (vx > 0)
 			{
-				if (ax < 0)
+				if (isKicking)
+					aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
+				else if (ax < 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X)
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
@@ -227,7 +239,9 @@ int CMario::GetAniIdSmall()
 			}
 			else // vx < 0
 			{
-				if (ax > 0)
+				if (isKicking)
+					aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
+				else if (ax > 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X)
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_LEFT;
@@ -267,6 +281,7 @@ int CMario::GetAniIdBig()
 	else
 		if (isSitting)
 		{
+			DebugOut(L"sit");
 			if (nx > 0)
 				aniId = ID_ANI_MARIO_BIG_SIT_RIGHT;
 			else
@@ -448,7 +463,8 @@ void CMario::SetState(int state)
 			y -= MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
-
+	case MARIO_STATE_KICK:
+		isKicking = true;
 	case MARIO_STATE_IDLE:
 		ax = 0.0f;
 		vx = 0.0f;
@@ -517,6 +533,7 @@ void CMario::GetDamaged()
 	{
 		DebugOut(L">>> Mario DIE >>> \n");
 		SetState(MARIO_STATE_DIE);
+		return;
 	}
 	else if (level == MARIO_LEVEL_RACOON)
 		level = MARIO_LEVEL_BIG;

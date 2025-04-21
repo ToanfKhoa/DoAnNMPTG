@@ -109,8 +109,8 @@
 #define ID_ANI_MARIO_RACOON_BRACE_RIGHT 2300
 #define ID_ANI_MARIO_RACOON_BRACE_LEFT 2301
 
-#define ID_ANI_MARIO_SMALL_KICK_RIGHT	2310
-#define ID_ANI_MARIO_SMALL_KICK_LEFT	2311
+#define ID_ANI_MARIO_RACOON_KICK_RIGHT	2310
+#define ID_ANI_MARIO_RACOON_KICK_LEFT	2311
 
 #pragma endregion
 
@@ -141,7 +141,7 @@
 
 
 #define MARIO_UNTOUCHABLE_TIME 2500
-#define MARIO_KICK_TIME 100
+#define MARIO_KICK_TIME 1000
 
 class CMario : public CGameObject
 {
@@ -157,6 +157,7 @@ class CMario : public CGameObject
 	int coin; 
 
 	DWORD kickTimer;
+	BOOLEAN isKicking;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
@@ -186,6 +187,7 @@ public:
 		coin = 0;
 
 		kickTimer == 0;
+		isKicking == false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
