@@ -159,6 +159,9 @@ class CMario : public CGameObject
 	DWORD kickTimer;
 	BOOLEAN isKicking;
 
+	LPGAMEOBJECT holdingOjbect;
+	BOOLEAN ableToHold;
+
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -189,6 +192,9 @@ public:
 
 		kickTimer == 0;
 		isKicking == false;
+
+		holdingOjbect = NULL;
+		ableToHold = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -211,4 +217,7 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	void GetDamaged();
+
+	void SetAbleToHold(BOOLEAN b) { this->ableToHold = b; };
+	void Throw();
 };

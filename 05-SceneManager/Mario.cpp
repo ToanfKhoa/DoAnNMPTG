@@ -40,6 +40,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		kickTimer = 0;
 	}
 
+	if (holdingOjbect != NULL)
+	{
+		holdingOjbect->SetPosition(x, y);
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -207,14 +211,13 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
-
 			float xKoopa, yKoopa;
 			koopa->GetPosition(xKoopa, yKoopa);
 
-			if (xKoopa >= x) koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
+			if (xKoopa >= x) 
+				koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 			else
-			koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
-
+				koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
 		{
@@ -224,46 +227,28 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 
 	}
-	else
+	else //Hit not on top
 	{
-		if (untouchable == 0)
+		//A is pressing, hold the shell
+		if (ableToHold && koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
-			if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT)
+			this->holdingOjbect = e->obj;
+		}
+		else if (untouchable == 0) 
+		{
+			if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT
+				|| koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					SetLevel(MARIO_LEVEL_SMALL);
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				GetDamaged();
 			}
-			if(koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
+			else if(koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 			{
-
 				float xKoopa, yKoopa;
 				koopa->GetPosition(xKoopa, yKoopa);
 
 				if (xKoopa >= x) koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 				else
 					koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
-
-			}
-			else if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
-			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					SetLevel(MARIO_LEVEL_SMALL);
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
 			}
 		}
 	}
@@ -501,6 +486,7 @@ void CMario::SetState(int state)
 		nx = 1;
 		break;
 	case MARIO_STATE_RUNNING_LEFT:
+		DebugOut(L"run");
 		if (isSitting) break;
 		maxVx = -MARIO_RUNNING_SPEED;
 		ax = -MARIO_ACCEL_RUN_X;
@@ -629,6 +615,11 @@ void CMario::GetDamaged()
 		level = MARIO_LEVEL_SMALL;
 	
 	StartUntouchable();
+}
+
+void CMario::Throw()
+{
+	this->holdingOjbect = NULL;
 }
 
 void CMario::SetLevel(int l)

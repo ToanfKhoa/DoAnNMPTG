@@ -38,6 +38,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_R: // reset
 		CGame::GetInstance()->ReLoad();
 		break;
+	case DIK_A:
+		mario->SetAbleToHold(true);
 	}
 }
 
@@ -54,6 +56,9 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
+	case DIK_A:
+		mario->Throw();
+		mario->SetAbleToHold(false);
 	}
 }
 
