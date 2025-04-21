@@ -39,6 +39,13 @@ void CKoopa::Render()
 	if (state == KOOPA_STATE_SHELL_IDLE && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE;
+
+		//shake effect
+		//(GetTickCount64() / 50) increments by 1 unit every 50ms
+		float offset = ((GetTickCount64() / 50) % 2 == 0) ? -0.5 : 0.5;
+		CAnimations::GetInstance()->Get(aniId)->Render(x + offset, y);
+		RenderBoundingBox();
+		return;
 	}
 	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
 	{
@@ -92,6 +99,11 @@ void CKoopa::CheckAndChangeState()
 	}
 }
 
+void CKoopa::AlignYOnTransform()
+{
+	y -= (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_SHELL_HEIGHT) / 2;
+}
+
 CKoopa::CKoopa(float x, float y)
 {
 	this->x = x;
@@ -100,17 +112,22 @@ CKoopa::CKoopa(float x, float y)
 	SetState(KOOPA_STATE_WALKING_LEFT);
 }
 
-void CKoopa::SetState(int state)
+void CKoopa::SetState(int nextState)
 {
-	CGameObject::SetState(state);
-	switch (state)
+	switch (nextState)
 	{
 		case KOOPA_STATE_WALKING_LEFT:
 			vx = -KOOPA_WALKING_SPEED;
+
+			if(this->state != KOOPA_STATE_WALKING_LEFT && this->state != KOOPA_STATE_WALKING_RIGHT) AlignYOnTransform();
 			break;
+
 		case KOOPA_STATE_WALKING_RIGHT:
 			vx = KOOPA_WALKING_SPEED;
+
+			if (this->state != KOOPA_STATE_WALKING_LEFT && this->state != KOOPA_STATE_WALKING_RIGHT) AlignYOnTransform();
 			break;
+
 		case KOOPA_STATE_SHELL_IDLE:
 			shellStartTime = GetTickCount64();
 			vx = 0;
@@ -122,4 +139,5 @@ void CKoopa::SetState(int state)
 			vx = -KOOPA_WALKING_SPEED*2;
 			break;
 	}
+	CGameObject::SetState(nextState); //need to update state later to check current state
 }

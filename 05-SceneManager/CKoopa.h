@@ -42,8 +42,9 @@ protected:
 
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	void CheckAndChangeState();
+	void AlignYOnTransform();
 public:
 	CKoopa(float x, float y);
-	void SetState(int state);
+	void SetState(int nextState);
 };
 
