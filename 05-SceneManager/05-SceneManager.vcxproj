@@ -154,11 +154,13 @@
     <ClCompile Include="CColorBlock.cpp" />
     <ClCompile Include="CCoinItem.cpp" />
     <ClCompile Include="CGround.cpp" />
+    <ClCompile Include="CKoopa.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CPipe.cpp" />
     <ClCompile Include="CQuestionBlock.cpp" />
     <ClCompile Include="CPowerUpItem.cpp" />
+    <ClCompile Include="CSensorBox.cpp" />
     <ClCompile Include="CSmallBush.cpp" />
     <ClCompile Include="CVenus.cpp" />
     <ClCompile Include="debug.cpp" />
@@ -188,11 +190,13 @@
     <ClInclude Include="CColorBlock.h" />
     <ClInclude Include="CCoinItem.h" />
     <ClInclude Include="CGround.h" />
+    <ClInclude Include="CKoopa.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CPipe.h" />
     <ClInclude Include="CQuestionBlock.h" />
     <ClInclude Include="CPowerUpItem.h" />
+    <ClInclude Include="CSensorBox.h" />
     <ClInclude Include="CSmallBush.h" />
     <ClInclude Include="CVenus.h" />
     <ClInclude Include="debug.h" />

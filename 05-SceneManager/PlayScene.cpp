@@ -17,6 +17,7 @@
 #include "CPipe.h"
 #include "CColorBlock.h"
 #include "CCoinItem.h"
+#include "CKoopa.h"
 #include "CBigBush.h"
 #include "CSmallBush.h"
 
@@ -138,6 +139,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_VENUS: obj = new CVenus(x, y); break;
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
 	case OBJECT_TYPE_COINITEM: obj = new CCoinItem(x, y); break;
+	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
 
 	case OBJECT_TYPE_PLATFORM:
 	{
