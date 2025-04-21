@@ -513,7 +513,7 @@ void CMario::SetState(int state)
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	if (level==MARIO_LEVEL_BIG)
+	if (level == MARIO_LEVEL_BIG)
 	{
 		if (isSitting)
 		{
@@ -528,6 +528,23 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			top = y - MARIO_BIG_BBOX_HEIGHT/2;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
+		}
+	}
+	else if (level == MARIO_LEVEL_RACOON)
+	{
+		if (isSitting)
+		{
+			left = x - MARIO_RACOON_SITTING_BBOX_WIDTH / 2;
+			top = y - MARIO_RACOON_SITTING_BBOX_HEIGHT / 2;
+			right = left + MARIO_RACOON_SITTING_BBOX_WIDTH;
+			bottom = top + MARIO_RACOON_SITTING_BBOX_HEIGHT;
+		}
+		else
+		{
+			left = x - MARIO_RACOON_BBOX_WIDTH / 2;
+			top = y - MARIO_RACOON_BBOX_HEIGHT / 2;
+			right = left + MARIO_RACOON_BBOX_WIDTH;
+			bottom = top + MARIO_RACOON_BBOX_HEIGHT;
 		}
 	}
 	else
