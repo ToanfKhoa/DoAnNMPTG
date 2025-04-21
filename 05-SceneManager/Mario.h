@@ -58,7 +58,7 @@
 #define ID_ANI_MARIO_BIG_BRACE_RIGHT 1000
 #define ID_ANI_MARIO_BIG_BRACE_LEFT 1001
 
-#define ID_ANI_MARIO_BIG_DIE 999
+#define ID_ANI_MARIO_DIE 999
 
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT 1100
@@ -190,4 +190,6 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	void GetDamaged();
 };

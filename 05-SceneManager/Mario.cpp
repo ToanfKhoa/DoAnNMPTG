@@ -86,21 +86,9 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by Goomba
 	{
-		if (untouchable == 0)
+		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
-			if (goomba->GetState() != GOOMBA_STATE_DIE)
-			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
-			}
+			GetDamaged();
 		}
 	}
 }
@@ -127,21 +115,9 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by ParaGoomba
 	{
-		if (untouchable == 0)
+		if (paragoomba->GetState() != GOOMBA_STATE_DIE)
 		{
-			if (paragoomba->GetState() != GOOMBA_STATE_DIE)
-			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
-			}
+			GetDamaged();
 		}
 	}
 }
@@ -175,40 +151,19 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 	
 	// die if hit Venus
-	if (untouchable == 0)
+	if (venus->GetState() != VENUS_STATE_DIE)
+	{
 		{
-			if (venus->GetState() != VENUS_STATE_DIE)
-			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
-			}
+			GetDamaged();
 		}
+	}
 }
 
 void CMario::OnCollisionWithBulletVenus(LPCOLLISIONEVENT e)
 {
-	if (untouchable == 0)
-	{
-		if (level > MARIO_LEVEL_SMALL)
-		{
-			level = MARIO_LEVEL_SMALL;
-			StartUntouchable();
-		}
-		else
-		{
-			DebugOut(L">>> Mario DIE >>> \n");
-			SetState(MARIO_STATE_DIE);
-		}
-	}
+	GetDamaged();
 }
+
 void CMario::OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e)
 {
 	CPowerUpItem* item = dynamic_cast<CPowerUpItem*>(e->obj);
@@ -219,11 +174,9 @@ void CMario::OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e)
 			SetLevel(MARIO_LEVEL_BIG);
 		else if (level == MARIO_LEVEL_BIG)
 			SetLevel(MARIO_LEVEL_RACOON);
-		DebugOut(L"BigMario\n");
 
 		item->SetState(POWERUPITEM_STATE_EATEN);
 	}
-
 }
 
 //
@@ -416,7 +369,7 @@ void CMario::Render()
 	int aniId = -1;
 
 	if (state == MARIO_STATE_DIE)
-		aniId = ID_ANI_MARIO_BIG_DIE;
+		aniId = ID_ANI_MARIO_DIE;
 	else if (level == MARIO_LEVEL_BIG)
 		aniId = GetAniIdBig();
 	else if (level == MARIO_LEVEL_RACOON)
@@ -554,6 +507,23 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}
+}
+
+void CMario::GetDamaged()
+{
+	if(untouchable) return;
+
+	if (level == MARIO_LEVEL_SMALL)
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
+	}
+	else if (level == MARIO_LEVEL_RACOON)
+		level = MARIO_LEVEL_BIG;
+	else if (level == MARIO_LEVEL_BIG)
+		level = MARIO_LEVEL_SMALL;
+	
+	StartUntouchable();
 }
 
 void CMario::SetLevel(int l)
