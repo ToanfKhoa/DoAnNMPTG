@@ -116,6 +116,7 @@ smallbush.txt
 
 #Venus
 9	100	170
+9	350	130
 
 #PowerUpItem
 10	110	170

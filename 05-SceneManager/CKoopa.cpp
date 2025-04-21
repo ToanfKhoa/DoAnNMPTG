@@ -86,11 +86,12 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithGoomba(e);
 		else if (dynamic_cast<CQuestionBlock*>(e->obj))
 			OnCollisionWithQuestionBlock(e);
+		else if (dynamic_cast<CVenus*>(e->obj))
+			OnCollisionWithVenus(e);
 	}
 
 	/*
-	else if (dynamic_cast<CVenus*>(e->obj))
-		OnCollisionWithVenus(e);
+	
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);*/
 
@@ -185,6 +186,13 @@ void CKoopa::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 		}
 	}
 	
+}
+
+void CKoopa::OnCollisionWithVenus(LPCOLLISIONEVENT e)
+{
+	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
+
+	venus->SetState(VENUS_STATE_DIE);
 }
 
 CKoopa::CKoopa(float x, float y)
