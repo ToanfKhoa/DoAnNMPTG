@@ -88,12 +88,9 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithQuestionBlock(e);
 		else if (dynamic_cast<CVenus*>(e->obj))
 			OnCollisionWithVenus(e);
+		else if (dynamic_cast<CKoopa*>(e->obj))
+			OnCollisionWithKoopa(e);
 	}
-
-	/*
-	
-	else if (dynamic_cast<CKoopa*>(e->obj))
-		OnCollisionWithKoopa(e);*/
 
 	if (!e->obj->IsBlocking()) return;
 
@@ -175,14 +172,11 @@ void CKoopa::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 {
 	CQuestionBlock* question = dynamic_cast<CQuestionBlock*>(e->obj);
 
-	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	if (e->nx != 0)
 	{
-		if (e->nx != 0)
+		if (question->GetState() == QUESTIONBLOCK_STATE_IDLE)
 		{
-			if (question->GetState() == QUESTIONBLOCK_STATE_IDLE)
-			{
-				question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
-			}
+			question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
 		}
 	}
 	
@@ -193,6 +187,18 @@ void CKoopa::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
 	venus->SetState(VENUS_STATE_DIE);
+}
+
+void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	
+	if(koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	{
+		SetState(KOOPA_STATE_DIE);
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
+	
 }
 
 CKoopa::CKoopa(float x, float y)
@@ -233,6 +239,9 @@ void CKoopa::SetState(int nextState)
 			break;
 		case KOOPA_STATE_SHELL_MOVING_LEFT:
 			vx = -KOOPA_WALKING_SPEED*2;
+			break;
+		case KOOPA_STATE_DIE:
+			isDeleted = true;
 			break;
 	}
 	CGameObject::SetState(nextState); //need to update state later to check current state

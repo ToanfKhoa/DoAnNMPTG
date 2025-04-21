@@ -44,7 +44,7 @@ smallbush.txt
 15	450	178	102000
 
 # MARIO
-0	20	10
+0	300	10
 
 #Brick
 1	-8	178
@@ -78,10 +78,11 @@ smallbush.txt
 4	180	120
 
 #Goomba
-2	240	10
+2	350	100
 
 #Koopa
 16	350	100
+16	380	100
 
 #Question Block
 8	300	150	1
