@@ -22,7 +22,6 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"[INFO] Koopa: %f, %f\n", vx, vy);
 	vy += ay * dt;
 	if (state == KOOPA_STATE_DIE)
 	{
@@ -110,20 +109,27 @@ void CKoopa::AlignYOnTransform()
 
 void CKoopa::UpdateSensorBoxPosition()
 {
+	bool changedDirection = false;
 	if(!sensorBox->getIsOnPlatform())
 	{
-		if (state == KOOPA_STATE_WALKING_LEFT) SetState(KOOPA_STATE_WALKING_RIGHT);
-		else if (state == KOOPA_STATE_WALKING_RIGHT) SetState(KOOPA_STATE_WALKING_LEFT);
+		changedDirection = true;
+
+		if (state == KOOPA_STATE_WALKING_LEFT)
+		{
+			SetState(KOOPA_STATE_WALKING_RIGHT);
+		}
+		else if (state == KOOPA_STATE_WALKING_RIGHT)
+		{
+			SetState(KOOPA_STATE_WALKING_LEFT);
+		}
 	}
 
-	if(this->state==KOOPA_STATE_WALKING_LEFT)
-	{
-		sensorBox->SetPosition(x, y);
-	}
-	else
-	{
-		sensorBox->SetPosition(x + KOOPA_BBOX_WIDTH/2, y);
-	}
+	float newX = (state == KOOPA_STATE_WALKING_LEFT) ? x - KOOPA_BBOX_WIDTH / 2 : x+ KOOPA_BBOX_WIDTH / 2;
+	float newY;
+	if (changedDirection) newY = y;
+	else newY = sensorBox->GetY();
+
+	sensorBox->SetPosition(newX, newY);
 }
 
 CKoopa::CKoopa(float x, float y)
