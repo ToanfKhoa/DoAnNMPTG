@@ -21,12 +21,6 @@ void CPowerUpItem::GetBoundingBox(float& left, float& top, float& right, float& 
 }
 void CPowerUpItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"state: %d\n",state);
-	DebugOut(L"y: %.8f\n",y);
-	DebugOut(L"x: %.8f\n",x);
-	DebugOut(L"ay: %.8f\n",ay);
-	DebugOut(L"vy: %.8f\n",vy);
-
 	vy += ay * dt;
 
 	if ( state == POWERUPITEM_STATE_EATEN ) return;
@@ -105,9 +99,7 @@ void CPowerUpItem::SetState(int state)
 void CPowerUpItem::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
-	DebugOut(L"y truoc: %.2f\n", y);
 	y += vy * dt;
-	DebugOut(L"y sau: %.2f\n", y);
 };
 
 void CPowerUpItem::OnCollisionWith(LPCOLLISIONEVENT e)
