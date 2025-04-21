@@ -47,6 +47,12 @@ protected:
 	void CheckAndChangeState();
 	void AlignYOnTransform();
 	void UpdateSensorBoxPosition();
+
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y);
 	void SetState(int nextState);

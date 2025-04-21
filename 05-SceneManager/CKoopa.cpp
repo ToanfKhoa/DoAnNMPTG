@@ -1,6 +1,9 @@
 #include "CKoopa.h"
 #include "Debug.h"
 #include "PlayScene.h"
+#include "ParaGoomba.h"
+#include "CQuestionBlock.h"
+#include "CVenus.h"
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -75,10 +78,25 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CKoopa*>(e->obj)) return;
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	{
+		if (dynamic_cast<CParaGoomba*>(e->obj))
+			OnCollisionWithParaGoomba(e);
+		else if (dynamic_cast<CGoomba*>(e->obj))
+			OnCollisionWithGoomba(e);
+		else if (dynamic_cast<CQuestionBlock*>(e->obj))
+			OnCollisionWithQuestionBlock(e);
+	}
 
-	if (e->ny != 0)
+	/*
+	else if (dynamic_cast<CVenus*>(e->obj))
+		OnCollisionWithVenus(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);*/
+
+	if (!e->obj->IsBlocking()) return;
+
+	if (e->ny != 0) // On top of a platform or bouncing in shell form and hitting a block above
 	{
 		vy = 0;
 	}
@@ -89,6 +107,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (state == KOOPA_STATE_SHELL_MOVING_LEFT) SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 		else if (state == KOOPA_STATE_SHELL_MOVING_RIGHT) SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
 	}
+
+
 }
 
 void CKoopa::CheckAndChangeState()
@@ -130,6 +150,41 @@ void CKoopa::UpdateSensorBoxPosition()
 	else newY = sensorBox->GetY();
 
 	sensorBox->SetPosition(newX, newY);
+}
+
+void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	goomba->SetState(GOOMBA_STATE_DIE);
+}
+
+void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
+{
+	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
+	
+	DebugOut(L"[INFO] Koopa hit ParaGoomba\n");
+	if (paragoomba->GetIsGoomba() == false)
+	{
+		paragoomba->TurnIntoGoomba();
+	}
+	paragoomba->SetState(GOOMBA_STATE_DIE);
+}
+
+void CKoopa::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
+{
+	CQuestionBlock* question = dynamic_cast<CQuestionBlock*>(e->obj);
+
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	{
+		if (e->nx != 0)
+		{
+			if (question->GetState() == QUESTIONBLOCK_STATE_IDLE)
+			{
+				question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
+			}
+		}
+	}
+	
 }
 
 CKoopa::CKoopa(float x, float y)
