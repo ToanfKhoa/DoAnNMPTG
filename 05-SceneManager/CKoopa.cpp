@@ -1,5 +1,7 @@
 #include "CKoopa.h"
 #include "Debug.h"
+#include "PlayScene.h"
+
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (state == KOOPA_STATE_WALKING_LEFT || state == KOOPA_STATE_WALKING_RIGHT)
@@ -28,6 +30,8 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 	CheckAndChangeState();
+
+	UpdateSensorBoxPosition();
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -104,11 +108,34 @@ void CKoopa::AlignYOnTransform()
 	y -= (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_SHELL_HEIGHT) / 2;
 }
 
+void CKoopa::UpdateSensorBoxPosition()
+{
+	if(!sensorBox->getIsOnPlatform())
+	{
+		if (state == KOOPA_STATE_WALKING_LEFT) SetState(KOOPA_STATE_WALKING_RIGHT);
+		else if (state == KOOPA_STATE_WALKING_RIGHT) SetState(KOOPA_STATE_WALKING_LEFT);
+	}
+
+	if(this->state==KOOPA_STATE_WALKING_LEFT)
+	{
+		sensorBox->SetPosition(x, y);
+	}
+	else
+	{
+		sensorBox->SetPosition(x + KOOPA_BBOX_WIDTH/2, y);
+	}
+}
+
 CKoopa::CKoopa(float x, float y)
 {
 	this->x = x;
 	this->y = y;
 	ay = KOOPA_GRAVITY;
+	sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH/2, KOOPA_BBOX_HEIGHT);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	playScene->AddObject(sensorBox);
+
 	SetState(KOOPA_STATE_WALKING_LEFT);
 }
 

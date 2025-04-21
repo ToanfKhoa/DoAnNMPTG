@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "CSensorBox.h"
 
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_WALKING_SPEED 0.05f
@@ -31,6 +32,8 @@ class CKoopa :public CGameObject
 protected:
 	float ay;
 	ULONGLONG shellStartTime;
+	CSensorBox * sensorBox;
+
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -43,6 +46,7 @@ protected:
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	void CheckAndChangeState();
 	void AlignYOnTransform();
+	void UpdateSensorBoxPosition();
 public:
 	CKoopa(float x, float y);
 	void SetState(int nextState);
