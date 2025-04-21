@@ -33,6 +33,8 @@
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
 
+#define MARIO_STATE_KICK			700
+
 
 #pragma region ANIMATION_ID
 
@@ -58,6 +60,9 @@
 #define ID_ANI_MARIO_BIG_BRACE_RIGHT 1000
 #define ID_ANI_MARIO_BIG_BRACE_LEFT 1001
 
+#define ID_ANI_MARIO_BIG_KICK_RIGHT	1010
+#define ID_ANI_MARIO_BIG_KICK_LEFT	1011
+
 #define ID_ANI_MARIO_DIE 999
 
 // SMALL MARIO
@@ -78,6 +83,9 @@
 
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 1600
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 1601
+
+#define ID_ANI_MARIO_SMALL_KICK_RIGHT	1610
+#define ID_ANI_MARIO_SMALL_KICK_LEFT	1611
 
 //RACOON MARIO
 #define ID_ANI_MARIO_RACOON_IDLE_RIGHT 1700
@@ -100,6 +108,9 @@
 
 #define ID_ANI_MARIO_RACOON_BRACE_RIGHT 2300
 #define ID_ANI_MARIO_RACOON_BRACE_LEFT 2301
+
+#define ID_ANI_MARIO_SMALL_KICK_RIGHT	2310
+#define ID_ANI_MARIO_SMALL_KICK_LEFT	2311
 
 #pragma endregion
 
@@ -130,6 +141,7 @@
 
 
 #define MARIO_UNTOUCHABLE_TIME 2500
+#define MARIO_KICK_TIME 100
 
 class CMario : public CGameObject
 {
@@ -143,6 +155,8 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	int coin; 
+
+	DWORD kickTimer;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
@@ -170,6 +184,8 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+
+		kickTimer == 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
