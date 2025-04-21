@@ -15,8 +15,11 @@
 #include "CVenus.h"
 #include "CPowerUpItem.h"
 #include "CPipe.h"
+#include "CColorBlock.h"
 #include "CCoinItem.h"
 #include "CKoopa.h"
+#include "CBigBush.h"
+#include "CSmallBush.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -188,6 +191,63 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			cell_width, cell_height, length,
 			sprite_middle, sprite_end
 		);
+
+		break;
+	}
+
+	case OBJECT_TYPE_COLORBLOCK:
+	{
+		float cell_width = (float)atof(tokens[3].c_str());
+		float cell_height = (float)atof(tokens[4].c_str());
+		int length_x = atoi(tokens[5].c_str());
+		int length_y = atoi(tokens[6].c_str());
+		int sprite_id_middle = atoi(tokens[7].c_str());
+		int sprite_id_topleft = atoi(tokens[8].c_str());
+		int sprite_id_topright = atoi(tokens[9].c_str());
+		int sprite_id_botleft = atoi(tokens[10].c_str());
+		int sprite_id_botright = atoi(tokens[11].c_str());
+		int sprite_id_left = atoi(tokens[12].c_str());
+		int sprite_id_right = atoi(tokens[13].c_str());
+		int sprite_id_top = atoi(tokens[14].c_str());
+		int sprite_id_bot = atoi(tokens[15].c_str());
+
+		obj = new CColorBlock(
+			x, y,
+			cell_width, cell_height,
+			length_x, length_y,
+			sprite_id_middle,
+			sprite_id_topleft, sprite_id_topright,
+			sprite_id_botleft, sprite_id_botright,
+			sprite_id_left, sprite_id_right,
+			sprite_id_top, sprite_id_bot
+		);
+
+		break;
+	}
+
+	case OBJECT_TYPE_BIGBUSH: 
+	{
+		float cell_width = (float)atof(tokens[3].c_str());
+		float cell_height = (float)atof(tokens[4].c_str());
+		int length = atoi(tokens[5].c_str());
+		int sprite_id_left = atoi(tokens[6].c_str());
+		int sprite_id_right = atoi(tokens[7].c_str());
+		int sprite_id_topleft = atoi(tokens[8].c_str());
+		int sprite_id_topright = atoi(tokens[9].c_str());
+
+		obj = new CBigBush(
+			x, y,
+			cell_width, cell_height, length,
+			sprite_id_left, sprite_id_right,
+			sprite_id_topleft, sprite_id_topright
+		);
+		break;
+	}
+
+	case OBJECT_TYPE_SMALLBUSH:
+	{
+		int spriteId = atoi(tokens[3].c_str());
+		obj = new CSmallBush(x, y, spriteId);
 
 		break;
 	}

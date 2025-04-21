@@ -12,8 +12,11 @@ venus.txt
 bulletvenus.txt
 powerupitem.txt
 pipe.txt
+colorblock.txt
 coinitem.txt
 koopa.txt
+bigbush.txt
+smallbush.txt
 
 #
 [OBJECTS]
@@ -24,6 +27,21 @@ koopa.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 #	x	y	width	height	size	sprite_begin sprite_middle sprite_end
+
+
+#Colorblock
+#id, x, y, cell_width, cell_height, length_x, length_y, middle, topleft, topright, botleft, botright, left, right, top, bot
+13	150	178	16	16	4	3	100000	100001	100002	100003	100004	100005	100006	100007	100008
+13	230	178	16	16	2	7	100010	100011	100012	100013	100014	100015	100016	100017	100018
+13	250	178	16	16	4	5	100020	100021	100022	100023	100024	100025	100026	100027	100028
+13	350	178	16	16	3	3	100030	100031	100032	100033	100034	100035	100036	100037	100038
+
+#BigBush
+#id, x, y, cell_width, cell_height, length, sprite_id_left, sprite_id_right, sprite_id_topleft, sprite_id_topright
+14	400	178	16	16	4	101002	101003	101000	101001
+
+#SmallBush
+15	450	178	102000
 
 # MARIO
 0	20	10
@@ -103,4 +121,5 @@ koopa.txt
 
 #Pipe
 11	100	178	30	16	3	71000	72000
+
 
