@@ -4,6 +4,7 @@
 #include "ParaGoomba.h"
 #include "CQuestionBlock.h"
 #include "CVenus.h"
+#include "Brick.h"
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -97,6 +98,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithVenus(e);
 		else if (dynamic_cast<CKoopa*>(e->obj))
 			OnCollisionWithKoopa(e);
+		else if (dynamic_cast<CBrick*>(e->obj))
+			OnCollisionWithBrick(e);
 	}
 
 	if (!e->obj->IsBlocking()) return;
@@ -229,6 +232,20 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 	{
 		koopa->SetState(KOOPA_STATE_DIE);
+	}
+}
+
+void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+
+	if (e->nx != 0)
+	{
+		if (brick->GetState() == BRICK_STATE_IDLE)
+		{
+			brick->SetIsBreakable(true);
+			brick->SetState(BRICK_STATE_BOUNCING_UP);
+		}
 	}
 }
 
