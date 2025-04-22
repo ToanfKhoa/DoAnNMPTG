@@ -20,6 +20,7 @@
 #include "CKoopa.h"
 #include "CBigBush.h"
 #include "CSmallBush.h"
+#include "CWoodBlock.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -249,6 +250,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int spriteId = atoi(tokens[3].c_str());
 		obj = new CSmallBush(x, y, spriteId);
 
+		break;
+	}
+
+	case OBJECT_TYPE_WOODBLOCK:
+	{
+		obj = new CWoodBlock(x, y);
 		break;
 	}
 
