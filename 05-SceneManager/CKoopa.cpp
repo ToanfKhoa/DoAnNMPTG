@@ -35,6 +35,12 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	UpdateSensorBoxPosition();
 
+	//Check if is held
+	if (state == KOOPA_STATE_BEING_HELD)
+		ay = 0;
+	else
+		ay = KOOPA_GRAVITY;
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -118,7 +124,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CKoopa::CheckAndChangeState()
 {
-	if(state==KOOPA_STATE_SHELL_IDLE)
+	if(state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
 	{
 		if (GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME)
 		{

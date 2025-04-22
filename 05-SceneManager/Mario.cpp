@@ -47,9 +47,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 			holdingObject->SetPosition(x - MARIO_BIG_BBOX_WIDTH, y);
 
-		////release if it turn back to koopa
-		//if (holdingObject->GetState() != KOOPA_STATE_BEING_HELD)
-		//	holdingObject = NULL;
+		//release if not being held anymore
+		if (holdingObject->GetState() != KOOPA_STATE_BEING_HELD)
+			holdingObject = NULL;
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -208,7 +208,6 @@ void CMario::OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-	DebugOut(L"Koopa collision \ns");
 	// jump on top >> kill ParaGoomba and deflect a bit 
 	if (e->ny < 0)
 	{
@@ -240,10 +239,13 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 	else //Hit not on top
 	{
-		//A is pressing, hold the shell
+		//A is pressing = able to hold, hold the shell
 		if (ableToHold && koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
 			this->holdingObject = e->obj;
+			CKoopa* koopaShell = dynamic_cast<CKoopa*>(holdingObject);
+			DebugOut(L"setheld\n");
+			koopaShell->SetState(KOOPA_STATE_BEING_HELD);
 		}
 		else if (untouchable == 0) 
 		{
@@ -502,7 +504,6 @@ void CMario::SetState(int state)
 		ax = MARIO_ACCEL_RUN_X;
 		break;
 	case MARIO_STATE_RUNNING_LEFT:
-		DebugOut(L"run");
 		if (isSitting) break;
 		maxVx = -MARIO_RUNNING_SPEED;
 		ax = -MARIO_ACCEL_RUN_X;
