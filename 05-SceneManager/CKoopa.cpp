@@ -45,6 +45,7 @@ void CKoopa::Render()
 	if (state == KOOPA_STATE_SHELL_IDLE && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE;
+		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_REVIVE;
 
 		//shake effect
 		//(GetTickCount64() / 50) increments by 1 unit every 50ms
@@ -53,9 +54,10 @@ void CKoopa::Render()
 		RenderBoundingBox();
 		return;
 	}
-	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
+	else if (state == KOOPA_STATE_SHELL_IDLE)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE;
+		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_IDLE;
 	}
 	if (state == KOOPA_STATE_WALKING_RIGHT)
 	{
@@ -64,10 +66,11 @@ void CKoopa::Render()
 	else if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
+		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_MOVING;
 	}
 	else if (state == KOOPA_STATE_DIE || state == KOOPA_STATE_BEING_HELD)
 	{
-		aniId = ID_ANI_KOOPA_DIE;
+		aniId = ID_ANI_KOOPA_SHELL_FLIPPED_IDLE;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -234,13 +237,13 @@ CKoopa::CKoopa(float x, float y)
 	this->x = x;
 	this->y = y;
 	ay = KOOPA_GRAVITY;
-	isFlipped = false;
+	isFlipped = true;
 	sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH/2, KOOPA_BBOX_HEIGHT);
 
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->AddObject(sensorBox);
 
-	SetState(KOOPA_STATE_WALKING_LEFT);
+	SetState(KOOPA_STATE_SHELL_IDLE);
 }
 
 void CKoopa::SetState(int nextState)
@@ -249,14 +252,14 @@ void CKoopa::SetState(int nextState)
 	{
 		case KOOPA_STATE_WALKING_LEFT:
 			vx = -KOOPA_WALKING_SPEED;
-			isFlipped = false;
+			isFlipped = false; //koopa wakes up and returns to normal
 
 			if(this->state != KOOPA_STATE_WALKING_LEFT && this->state != KOOPA_STATE_WALKING_RIGHT) AlignYOnTransform();
 			break;
 
 		case KOOPA_STATE_WALKING_RIGHT:
 			vx = KOOPA_WALKING_SPEED;
-			isFlipped = false;
+			isFlipped = false; //koopa wakes up and returns to normal
 
 			if (this->state != KOOPA_STATE_WALKING_LEFT && this->state != KOOPA_STATE_WALKING_RIGHT) AlignYOnTransform();
 			break;
@@ -271,10 +274,10 @@ void CKoopa::SetState(int nextState)
 		case KOOPA_STATE_SHELL_MOVING_LEFT:
 			vx = -KOOPA_WALKING_SPEED*2;
 			break;
-		case KOOPA_STATE_BEING_HELD:
+		case KOOPA_STATE_BEING_HELD: //state when mario holds koopa
 			vx = 0;
 			vy = 0;
-			isFlipped= true;
+			isFlipped= true;	//start flipping koopa, other states koopa will be flipped too
 			break;
 		case KOOPA_STATE_DIE:
 			//isDeleted = true;
