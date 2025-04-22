@@ -24,7 +24,6 @@
 class CQuestionBlock :public CGameObject
 {
 protected:
-	ULONGLONG bounce_start;
 	float y_start;
 	int itemType;	//0 coin, 1 powerup
 	CGameObject* spawnedItem;
