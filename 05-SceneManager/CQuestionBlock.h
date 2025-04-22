@@ -12,7 +12,6 @@
 #define QUESTIONBLOCK_ITEM_TYPE_POWERUP 1
 
 #define QUESTIONBLOCK_BOUNCING_SPEED 0.1
-#define QUESTIONBLOCK_BOUNCE_TIME 200
 #define QUESTIONBLOCK_BOUNCE_HEIGTH 5
 
 
@@ -24,7 +23,6 @@
 class CQuestionBlock :public CGameObject
 {
 protected:
-	ULONGLONG bounce_start;
 	float y_start;
 	int itemType;	//0 coin, 1 powerup
 	CGameObject* spawnedItem;

@@ -91,6 +91,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CBulletVenus.cpp">
+    <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CPowerUpItem.cpp">
       <Filter>Source Files</Filter>
@@ -105,6 +106,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSensorBox.cpp">
+    <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CColorBlock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -195,6 +198,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CBulletVenus.h">
+    <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CPowerUpItem.h">
       <Filter>Header Files</Filter>
@@ -209,6 +213,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CSensorBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="CColorBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>

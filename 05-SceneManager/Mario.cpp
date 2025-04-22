@@ -15,6 +15,7 @@
 #include "CBulletVenus.h"
 #include "CPowerUpItem.h"
 #include "CKoopa.h"
+#include "Brick.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -94,6 +95,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPowerUpItem(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithBrick(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -266,6 +269,22 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				else
 					koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
 			}
+		}
+	}
+}
+
+void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	if (e->ny > 0)
+	{
+		if (brick->GetState() == BRICK_STATE_IDLE )
+		{
+			if (level != MARIO_LEVEL_SMALL)
+			{
+				brick->SetIsBreakable(true);
+			}
+			brick->SetState(BRICK_STATE_BOUNCING_UP);
 		}
 	}
 }
