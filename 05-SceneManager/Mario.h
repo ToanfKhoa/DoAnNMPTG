@@ -141,7 +141,7 @@
 
 
 #define MARIO_UNTOUCHABLE_TIME 2500
-#define MARIO_KICK_TIME 400
+#define MARIO_KICK_TIME 300
 
 class CMario : public CGameObject
 {
@@ -158,6 +158,9 @@ class CMario : public CGameObject
 
 	DWORD kickTimer;
 	BOOLEAN isKicking;
+
+	LPGAMEOBJECT holdingObject;
+	BOOLEAN ableToHold;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
@@ -180,6 +183,7 @@ public:
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
+		nx = 1;
 
 		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
@@ -189,6 +193,9 @@ public:
 
 		kickTimer == 0;
 		isKicking == false;
+
+		holdingObject = NULL;
+		ableToHold = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -211,4 +218,9 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	void GetDamaged();
+
+	void SetAbleToHold(BOOLEAN b) { this->ableToHold = b; };
+	void Throw();
+
+	void Setnx(int nx) { this->nx = nx; };
 };
