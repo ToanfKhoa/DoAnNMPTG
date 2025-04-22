@@ -163,6 +163,7 @@
     <ClCompile Include="CSensorBox.cpp" />
     <ClCompile Include="CSmallBush.cpp" />
     <ClCompile Include="CVenus.cpp" />
+    <ClCompile Include="CWoodBlock.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="CSensorBox.h" />
     <ClInclude Include="CSmallBush.h" />
     <ClInclude Include="CVenus.h" />
+    <ClInclude Include="CWoodBlock.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
