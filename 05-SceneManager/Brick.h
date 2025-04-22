@@ -11,7 +11,7 @@
 #define BRICK_BBOX_HEIGHT 16
 
 #define BRICK_BOUNCING_SPEED 0.1f
-
+#define BRICK_BOUNCE_HEIGHT 5
 
 
 #define BRICK_STATE_IDLE 0
@@ -36,6 +36,6 @@ protected:
 	void Bouncing();
 
 public:
-	CBrick(float x, float y) : CGameObject(x, y) {}
+	CBrick(float x, float y);
 	void SetState(int state);
 };
