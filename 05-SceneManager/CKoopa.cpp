@@ -1,6 +1,9 @@
 #include "CKoopa.h"
 #include "Debug.h"
 #include "PlayScene.h"
+#include "ParaGoomba.h"
+#include "CQuestionBlock.h"
+#include "CVenus.h"
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -23,11 +26,11 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
-	if (state == KOOPA_STATE_DIE)
+	/*if (state == KOOPA_STATE_DIE)
 	{
 		isDeleted = true;
 		return;
-	}
+	}*/
 	CheckAndChangeState();
 
 	UpdateSensorBoxPosition();
@@ -42,6 +45,7 @@ void CKoopa::Render()
 	if (state == KOOPA_STATE_SHELL_IDLE && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE;
+		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_REVIVE;
 
 		//shake effect
 		//(GetTickCount64() / 50) increments by 1 unit every 50ms
@@ -50,9 +54,10 @@ void CKoopa::Render()
 		RenderBoundingBox();
 		return;
 	}
-	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
+	else if (state == KOOPA_STATE_SHELL_IDLE)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE;
+		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_IDLE;
 	}
 	if (state == KOOPA_STATE_WALKING_RIGHT)
 	{
@@ -61,6 +66,11 @@ void CKoopa::Render()
 	else if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
+		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_MOVING;
+	}
+	else if (state == KOOPA_STATE_DIE || state == KOOPA_STATE_BEING_HELD)
+	{
+		aniId = ID_ANI_KOOPA_SHELL_FLIPPED_IDLE;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -75,10 +85,23 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CKoopa*>(e->obj)) return;
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT || state == KOOPA_STATE_BEING_HELD)
+	{
+		if (dynamic_cast<CParaGoomba*>(e->obj))
+			OnCollisionWithParaGoomba(e);
+		else if (dynamic_cast<CGoomba*>(e->obj))
+			OnCollisionWithGoomba(e);
+		else if (dynamic_cast<CQuestionBlock*>(e->obj))
+			OnCollisionWithQuestionBlock(e);
+		else if (dynamic_cast<CVenus*>(e->obj))
+			OnCollisionWithVenus(e);
+		else if (dynamic_cast<CKoopa*>(e->obj))
+			OnCollisionWithKoopa(e);
+	}
 
-	if (e->ny != 0)
+	if (!e->obj->IsBlocking()) return;
+
+	if (e->ny != 0) // On top of a platform or bouncing in shell form and hitting a block above
 	{
 		vy = 0;
 	}
@@ -89,6 +112,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (state == KOOPA_STATE_SHELL_MOVING_LEFT) SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 		else if (state == KOOPA_STATE_SHELL_MOVING_RIGHT) SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
 	}
+
+
 }
 
 void CKoopa::CheckAndChangeState()
@@ -132,17 +157,93 @@ void CKoopa::UpdateSensorBoxPosition()
 	sensorBox->SetPosition(newX, newY);
 }
 
+void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
+	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+}
+
+void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
+{
+	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
+	
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
+	DebugOut(L"[INFO] Koopa hit ParaGoomba\n");
+	if (paragoomba->GetIsGoomba() == false)
+	{
+		paragoomba->TurnIntoGoomba();
+	}
+	paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+}
+
+void CKoopa::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
+{
+	CQuestionBlock* question = dynamic_cast<CQuestionBlock*>(e->obj);
+
+	if (e->nx != 0)
+	{
+		if (question->GetState() == QUESTIONBLOCK_STATE_IDLE)
+		{
+			question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
+		}
+	}
+	
+}
+
+void CKoopa::OnCollisionWithVenus(LPCOLLISIONEVENT e)
+{
+	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
+
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
+	venus->SetState(VENUS_STATE_DIE);
+}
+
+void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
+	if(koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	{
+		SetState(KOOPA_STATE_DIE);
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
+	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
+	{
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
+}
+
 CKoopa::CKoopa(float x, float y)
 {
 	this->x = x;
 	this->y = y;
 	ay = KOOPA_GRAVITY;
+	isFlipped = true;
 	sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH/2, KOOPA_BBOX_HEIGHT);
 
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->AddObject(sensorBox);
 
-	SetState(KOOPA_STATE_WALKING_LEFT);
+	SetState(KOOPA_STATE_SHELL_IDLE);
 }
 
 void CKoopa::SetState(int nextState)
@@ -151,12 +252,14 @@ void CKoopa::SetState(int nextState)
 	{
 		case KOOPA_STATE_WALKING_LEFT:
 			vx = -KOOPA_WALKING_SPEED;
+			isFlipped = false; //koopa wakes up and returns to normal
 
 			if(this->state != KOOPA_STATE_WALKING_LEFT && this->state != KOOPA_STATE_WALKING_RIGHT) AlignYOnTransform();
 			break;
 
 		case KOOPA_STATE_WALKING_RIGHT:
 			vx = KOOPA_WALKING_SPEED;
+			isFlipped = false; //koopa wakes up and returns to normal
 
 			if (this->state != KOOPA_STATE_WALKING_LEFT && this->state != KOOPA_STATE_WALKING_RIGHT) AlignYOnTransform();
 			break;
@@ -170,6 +273,15 @@ void CKoopa::SetState(int nextState)
 			break;
 		case KOOPA_STATE_SHELL_MOVING_LEFT:
 			vx = -KOOPA_WALKING_SPEED*2;
+			break;
+		case KOOPA_STATE_BEING_HELD: //state when mario holds koopa
+			vx = 0;
+			vy = 0;
+			isFlipped= true;	//start flipping koopa, other states koopa will be flipped too
+			break;
+		case KOOPA_STATE_DIE:
+			//isDeleted = true;
+			vy = -KOOPA_BOUNCE_SPEED;
 			break;
 	}
 	CGameObject::SetState(nextState); //need to update state later to check current state
