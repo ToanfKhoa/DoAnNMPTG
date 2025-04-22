@@ -79,7 +79,7 @@ smallbush.txt
 
 #Goomba
 2	350	100
-2	500	100
+
 #Koopa
 16	350	100
 16	380	100
@@ -117,7 +117,6 @@ smallbush.txt
 
 #Venus
 9	100	170
-9	350	130
 
 #PowerUpItem
 10	110	170

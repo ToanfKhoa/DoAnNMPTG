@@ -65,9 +65,8 @@ void CKoopa::Render()
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
 	}
-	else if (state == KOOPA_STATE_DIE)
+	else if (state == KOOPA_STATE_DIE || state == KOOPA_STATE_BEING_HELD)
 	{
-		DebugOut(L"RENDER KOOPA DIE\n" );
 		aniId = ID_ANI_KOOPA_DIE;
 	}
 
@@ -83,7 +82,7 @@ void CKoopa::OnNoCollision(DWORD dt)
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT || state == KOOPA_STATE_BEING_HELD)
 	{
 		if (dynamic_cast<CParaGoomba*>(e->obj))
 			OnCollisionWithParaGoomba(e);
@@ -158,6 +157,12 @@ void CKoopa::UpdateSensorBoxPosition()
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
 	goomba->SetState(GOOMBA_STATE_DIE);
 }
 
@@ -165,6 +170,11 @@ void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 {
 	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
 	
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
 	DebugOut(L"[INFO] Koopa hit ParaGoomba\n");
 	if (paragoomba->GetIsGoomba() == false)
 	{
@@ -191,6 +201,11 @@ void CKoopa::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 {
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
 	venus->SetState(VENUS_STATE_DIE);
 }
 
@@ -198,6 +213,11 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 	
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
 	if(koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
 		SetState(KOOPA_STATE_DIE);
@@ -247,6 +267,10 @@ void CKoopa::SetState(int nextState)
 			break;
 		case KOOPA_STATE_SHELL_MOVING_LEFT:
 			vx = -KOOPA_WALKING_SPEED*2;
+			break;
+		case KOOPA_STATE_BEING_HELD:
+			vx = 0;
+			vy = 0;
 			break;
 		case KOOPA_STATE_DIE:
 			//isDeleted = true;
