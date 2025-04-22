@@ -146,7 +146,6 @@
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
-	BOOLEAN isTurningRight;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -181,10 +180,10 @@ public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		isSitting = false;
-		isTurningRight = true;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
+		nx = 1;
 
 		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
@@ -223,5 +222,5 @@ public:
 	void SetAbleToHold(BOOLEAN b) { this->ableToHold = b; };
 	void Throw();
 
-	void SetIsTurningRight(BOOLEAN b) { this->isTurningRight = b; };
+	void Setnx(int nx) { this->nx = nx; };
 };
