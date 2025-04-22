@@ -65,6 +65,10 @@ void CKoopa::Render()
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
 	}
+	else if (state == KOOPA_STATE_DIE)
+	{
+		aniId = ID_ANI_KOOPA_DIE;
+	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -241,7 +245,8 @@ void CKoopa::SetState(int nextState)
 			vx = -KOOPA_WALKING_SPEED*2;
 			break;
 		case KOOPA_STATE_DIE:
-			isDeleted = true;
+			//isDeleted = true;
+			vy = -KOOPA_BOUNCE_SPEED;
 			break;
 	}
 	CGameObject::SetState(nextState); //need to update state later to check current state

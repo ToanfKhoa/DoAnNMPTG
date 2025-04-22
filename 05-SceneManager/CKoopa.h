@@ -6,6 +6,7 @@
 #define KOOPA_WALKING_SPEED 0.05f
 #define KOOPA_REVIVE_TIME 8000
 #define KOOPA_REVIVE_BLINK_TIME 2000
+#define KOOPA_BOUNCE_SPEED 0.4f
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 26
@@ -26,6 +27,7 @@
 #define ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE 15002
 #define ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING 15003
 #define ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE 15004
+#define ID_ANI_KOOPA_DIE 15005
 
 class CKoopa :public CGameObject
 {
@@ -38,7 +40,7 @@ protected:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 
-	int IsCollidable() { return 1; }
+	int IsCollidable() { return state!=KOOPA_STATE_DIE; }
 
 	int IsBlocking() { return 0; }
 	void OnNoCollision(DWORD dt);
