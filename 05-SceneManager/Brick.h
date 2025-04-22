@@ -4,7 +4,7 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define ID_ANI_BRICK 10000
+#define ID_ANI_BRICK_IDLE 10000
 #define ID_ANI_BRICK_USED 10001
 
 #define BRICK_WIDTH 16
@@ -25,6 +25,7 @@ class CBrick : public CGameObject {
 protected:
 	ULONGLONG bounce_start;
 	float y_start;
+	boolean isBreakable;
 	//int itemType;	
 	//CGameObject* spawnedItem;
 
@@ -35,8 +36,9 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	void Bouncing();
-
+	
 public:
 	CBrick(float x, float y);
 	void SetState(int state);
+	void SetIsBreakable(boolean value);
 };

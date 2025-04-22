@@ -4,8 +4,11 @@ void CBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 
-	if(state == BRICK_STATE_IDLE) animations->Get(ID_ANI_BRICK)->Render(x, y);
-	else animations->Get(ID_ANI_BRICK_USED)->Render(x, y);
+	if(state == BRICK_STATE_IDLE || isBreakable==false) animations->Get(ID_ANI_BRICK_IDLE)->Render(x, y); //brick is idle, mario small
+	else if(state != BRICK_STATE_IDLE && isBreakable==true) //mario big, but no item inside
+		animations->Get(ID_ANI_BRICK_IDLE)->Render(x, y);
+	else
+		animations->Get(ID_ANI_BRICK_USED)->Render(x, y); //mario is big, brick's item was used
 	//RenderBoundingBox();
 }
 
@@ -50,9 +53,16 @@ void CBrick::Bouncing()
 		if (y >= y_start)
 		{
 			y = y_start;
-			SetState(BRICK_STATE_USED);
+
+			if(isBreakable) SetState(BRICK_STATE_BROKEN);
+			else SetState(BRICK_STATE_IDLE);
 		}
 	}
+}
+
+void CBrick::SetIsBreakable(boolean value)
+{
+	isBreakable = value;
 }
 
 CBrick::CBrick(float x, float y) : CGameObject(x, y) 
@@ -60,6 +70,7 @@ CBrick::CBrick(float x, float y) : CGameObject(x, y)
 	this->x = x;
 	this->y = y;
 	y_start = y;
+	isBreakable = false;
 	SetState(BRICK_STATE_IDLE);
 }
 
@@ -79,6 +90,9 @@ void CBrick::SetState(int state)
 		break;
 	case BRICK_STATE_BOUNCING_DOWN:
 		vy = BRICK_BOUNCING_SPEED;
+		break;
+	case BRICK_STATE_BROKEN:
+		isDeleted = true;
 		break;
 	}
 }

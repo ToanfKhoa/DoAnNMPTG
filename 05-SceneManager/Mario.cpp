@@ -273,12 +273,16 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 {
-	CBrick* question = dynamic_cast<CBrick*>(e->obj);
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 	if (e->ny > 0)
 	{
-		if (question->GetState() == BRICK_STATE_IDLE)
+		if (brick->GetState() == BRICK_STATE_IDLE )
 		{
-			question->SetState(BRICK_STATE_BOUNCING_UP);
+			if (level != MARIO_LEVEL_SMALL)
+			{
+				brick->SetIsBreakable(true);
+			}
+			brick->SetState(BRICK_STATE_BOUNCING_UP);
 		}
 	}
 }
