@@ -26,11 +26,11 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
-	if (state == KOOPA_STATE_DIE)
+	/*if (state == KOOPA_STATE_DIE)
 	{
 		isDeleted = true;
 		return;
-	}
+	}*/
 	CheckAndChangeState();
 
 	UpdateSensorBoxPosition();
@@ -67,6 +67,7 @@ void CKoopa::Render()
 	}
 	else if (state == KOOPA_STATE_DIE)
 	{
+		DebugOut(L"RENDER KOOPA DIE\n" );
 		aniId = ID_ANI_KOOPA_DIE;
 	}
 
@@ -202,7 +203,10 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		SetState(KOOPA_STATE_DIE);
 		koopa->SetState(KOOPA_STATE_DIE);
 	}
-	
+	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
+	{
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
 }
 
 CKoopa::CKoopa(float x, float y)
