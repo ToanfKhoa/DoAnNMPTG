@@ -234,6 +234,7 @@ CKoopa::CKoopa(float x, float y)
 	this->x = x;
 	this->y = y;
 	ay = KOOPA_GRAVITY;
+	isFlipped = false;
 	sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH/2, KOOPA_BBOX_HEIGHT);
 
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
@@ -248,12 +249,14 @@ void CKoopa::SetState(int nextState)
 	{
 		case KOOPA_STATE_WALKING_LEFT:
 			vx = -KOOPA_WALKING_SPEED;
+			isFlipped = false;
 
 			if(this->state != KOOPA_STATE_WALKING_LEFT && this->state != KOOPA_STATE_WALKING_RIGHT) AlignYOnTransform();
 			break;
 
 		case KOOPA_STATE_WALKING_RIGHT:
 			vx = KOOPA_WALKING_SPEED;
+			isFlipped = false;
 
 			if (this->state != KOOPA_STATE_WALKING_LEFT && this->state != KOOPA_STATE_WALKING_RIGHT) AlignYOnTransform();
 			break;
@@ -271,6 +274,7 @@ void CKoopa::SetState(int nextState)
 		case KOOPA_STATE_BEING_HELD:
 			vx = 0;
 			vy = 0;
+			isFlipped= true;
 			break;
 		case KOOPA_STATE_DIE:
 			//isDeleted = true;

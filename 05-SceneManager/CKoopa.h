@@ -33,9 +33,10 @@ class CKoopa :public CGameObject
 {
 protected:
 	float ay;
+	boolean isFlipped;
 	ULONGLONG shellStartTime;
 	CSensorBox * sensorBox;
-
+	
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
