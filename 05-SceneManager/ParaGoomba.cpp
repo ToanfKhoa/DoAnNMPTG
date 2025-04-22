@@ -32,6 +32,7 @@ void CParaGoomba::GetBoundingBox(float& left, float& top, float& right, float& b
 
 void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"state %d\n", state);
 	if (isGoomba == false)
 	{
 		vy += ay * dt;
@@ -83,6 +84,7 @@ void CParaGoomba::SetState(int state)
 			ay = 0;
 			break;
 		case PARAGOOMBA_STATE_WALKING:
+			ay = PARAGOOMBA_GRAVITY;
 			break;
 		}
 	}

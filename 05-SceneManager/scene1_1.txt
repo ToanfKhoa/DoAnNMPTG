@@ -114,7 +114,7 @@ woodblock.txt
 
 
 #ParaGoomba
-6	320	0
+6	450	100
 
 #Venus
 9	100	170

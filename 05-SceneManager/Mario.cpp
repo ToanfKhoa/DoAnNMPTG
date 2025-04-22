@@ -128,15 +128,16 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 		if (paragoomba->GetIsGoomba() == false)
 		{
 			paragoomba->TurnIntoGoomba();
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 		else
 		{
 			if (paragoomba->GetState() != GOOMBA_STATE_DIE)
 			{
 				paragoomba->SetState(GOOMBA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 		}
-		vy = -MARIO_JUMP_DEFLECT_SPEED;
 	}
 	else // hit by ParaGoomba
 	{
