@@ -143,7 +143,13 @@ void CPowerUpItem::CheckAndChangeState()
 	{
 		if (state == POWERUPITEM_STATE_EMERGING && y <= y_start - POWERUPITEM_SUPERMUSHROOM_EMERGE_HEIGHT)
 		{
-			SetState(POWERUPITEM_STATE_MOVING_RIGHT); //tam thoi nam di chuyen sang phai
+			CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			float marioX, marioY;
+			(dynamic_cast<CMario*>(playScene->GetPlayer()))->GetPosition(marioX, marioY);
+
+			if(marioX<=this->x) SetState(POWERUPITEM_STATE_MOVING_RIGHT); //tam thoi nam di chuyen sang phai
+			else SetState(POWERUPITEM_STATE_MOVING_LEFT);
+
 		}
 	}
 	
