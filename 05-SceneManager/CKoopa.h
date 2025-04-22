@@ -6,6 +6,7 @@
 #define KOOPA_WALKING_SPEED 0.05f
 #define KOOPA_REVIVE_TIME 8000
 #define KOOPA_REVIVE_BLINK_TIME 2000
+#define KOOPA_BOUNCE_SPEED 0.4f
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 26
@@ -26,19 +27,23 @@
 #define ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE 15002
 #define ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING 15003
 #define ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE 15004
+#define ID_ANI_KOOPA_SHELL_FLIPPED_IDLE 15005
+#define ID_ANI_KOOPA_SHELL_FLIPPED_MOVING 15006
+#define ID_ANI_KOOPA_SHELL_FLIPPED_REVIVE 15007
 
 class CKoopa :public CGameObject
 {
 protected:
 	float ay;
+	boolean isFlipped;
 	ULONGLONG shellStartTime;
 	CSensorBox * sensorBox;
-
+	
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 
-	int IsCollidable() { return 1; }
+	int IsCollidable() { return state!=KOOPA_STATE_DIE; }
 
 	int IsBlocking() { return 0; }
 	void OnNoCollision(DWORD dt);
@@ -47,6 +52,12 @@ protected:
 	void CheckAndChangeState();
 	void AlignYOnTransform();
 	void UpdateSensorBoxPosition();
+
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y);
 	void SetState(int nextState);

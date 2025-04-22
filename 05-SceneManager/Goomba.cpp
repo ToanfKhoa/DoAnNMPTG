@@ -71,6 +71,10 @@ void CGoomba::Render()
 	{
 		aniId = ID_ANI_GOOMBA_DIE;
 	}
+	else if (state == GOOMBA_STATE_BOUNCE_DEATH)
+	{
+		aniId = ID_ANI_GOOMBA_DIE;
+	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
 	RenderBoundingBox();
@@ -89,6 +93,10 @@ void CGoomba::SetState(int state)
 			ay = 0; 
 			break;
 		case GOOMBA_STATE_WALKING: 
+			break;
+		case GOOMBA_STATE_BOUNCE_DEATH:
+			vy = -KOOPA_BOUNCE_SPEED;
+			ay = GOOMBA_GRAVITY;
 			break;
 	}
 }

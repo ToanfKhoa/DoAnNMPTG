@@ -18,7 +18,6 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"nx%d\n", nx);
 	vy += ay * dt;
 	vx += ax * dt;
 
@@ -193,7 +192,7 @@ void CMario::OnCollisionWithBulletVenus(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e)
 {
 	CPowerUpItem* item = dynamic_cast<CPowerUpItem*>(e->obj);
-	DebugOut(L"PowerUpItem collision \ns");
+	DebugOut(L"PowerUpItem collision \n");
 	if (item->GetState() != POWERUPITEM_STATE_IDLE && item->GetState() != POWERUPITEM_STATE_EATEN)
 	{
 		if (level == MARIO_LEVEL_SMALL)
