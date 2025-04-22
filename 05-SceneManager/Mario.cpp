@@ -18,7 +18,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"state:%d\n", state);
+	DebugOut(L"isturningright:%d\n", isTurningRight);
 	vy += ay * dt;
 	vx += ax * dt;
 
@@ -40,9 +40,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		kickTimer = 0;
 	}
 
-	if (holdingOjbect != NULL)
+	if (holdingObject != NULL)
 	{
-		holdingOjbect->SetPosition(x, y);
+		//shell position attached to mario, release if it turn back to koopa
+		/*if (holdingObject->GetState() != KOOPA_STATE_BEING_HELD)
+			holdingObject = NULL;
+		else*/ if (isTurningRight)
+			holdingObject->SetPosition(x + MARIO_BIG_BBOX_WIDTH, y);
+		else
+			holdingObject->SetPosition(x - MARIO_BIG_BBOX_WIDTH, y);
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -232,7 +238,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		//A is pressing, hold the shell
 		if (ableToHold && koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
-			this->holdingOjbect = e->obj;
+			this->holdingObject = e->obj;
 		}
 		else if (untouchable == 0) 
 		{
@@ -619,7 +625,18 @@ void CMario::GetDamaged()
 
 void CMario::Throw()
 {
-	this->holdingOjbect = NULL;
+	if (holdingObject != NULL)
+	{
+		CKoopa* koopaShell = dynamic_cast<CKoopa*>(holdingObject);
+
+		//Trigger Shell moving
+		if (isTurningRight)
+			koopaShell->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
+		else
+			koopaShell->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
+		//Release
+		this->holdingObject = NULL;
+	}
 }
 
 void CMario::SetLevel(int l)

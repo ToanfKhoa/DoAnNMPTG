@@ -146,6 +146,7 @@
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
+	BOOLEAN isTurningRight;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -159,7 +160,7 @@ class CMario : public CGameObject
 	DWORD kickTimer;
 	BOOLEAN isKicking;
 
-	LPGAMEOBJECT holdingOjbect;
+	LPGAMEOBJECT holdingObject;
 	BOOLEAN ableToHold;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -180,6 +181,7 @@ public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		isSitting = false;
+		isTurningRight = true;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
@@ -193,7 +195,7 @@ public:
 		kickTimer == 0;
 		isKicking == false;
 
-		holdingOjbect = NULL;
+		holdingObject = NULL;
 		ableToHold = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -220,4 +222,6 @@ public:
 
 	void SetAbleToHold(BOOLEAN b) { this->ableToHold = b; };
 	void Throw();
+
+	void SetIsTurningRight(BOOLEAN b) { this->isTurningRight = b; };
 };
