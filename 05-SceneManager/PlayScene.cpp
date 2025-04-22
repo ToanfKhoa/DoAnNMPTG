@@ -20,6 +20,7 @@
 #include "CKoopa.h"
 #include "CBigBush.h"
 #include "CSmallBush.h"
+#include "CWoodBlock.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -252,6 +253,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
+	case OBJECT_TYPE_WOODBLOCK:
+	{
+		obj = new CWoodBlock(x, y);
+		break;
+	}
+
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -350,9 +357,10 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++) 
 	{
-		coObjects.push_back(objects[i]);
+		if (!dynamic_cast<CMario*>(objects[i]))
+			coObjects.push_back(objects[i]);
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)

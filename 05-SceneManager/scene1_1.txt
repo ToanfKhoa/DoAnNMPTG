@@ -17,12 +17,13 @@ coinitem.txt
 koopa.txt
 bigbush.txt
 smallbush.txt
+woodblock.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 16 = Koopa
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 16 = Koopa, 17 = woodblock
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
@@ -115,7 +116,7 @@ smallbush.txt
 
 
 #ParaGoomba
-6	320	0
+6	450	100
 
 #Venus
 9	100	170
@@ -127,4 +128,10 @@ smallbush.txt
 #Pipe
 11	100	178	30	16	3	71000	72000
 
+#WoodBlock
+17	450	178
+17	466	178
+17	482	178
+17	466	162
+17	482	146
 

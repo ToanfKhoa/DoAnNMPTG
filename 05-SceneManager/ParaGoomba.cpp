@@ -83,6 +83,7 @@ void CParaGoomba::SetState(int state)
 			ay = 0;
 			break;
 		case PARAGOOMBA_STATE_WALKING:
+			ay = PARAGOOMBA_GRAVITY;
 			break;
 		}
 	}
