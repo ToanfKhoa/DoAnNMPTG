@@ -8,7 +8,7 @@
 #define ID_TEX_ENEMY 10
 #define ID_TEX_MISC 20
 #define ID_TEX_BACKGROUND 30
-
+#define ID_TEX_ENEMY2 40
 
 
 #define OBJECT_TYPE_MARIO	0
