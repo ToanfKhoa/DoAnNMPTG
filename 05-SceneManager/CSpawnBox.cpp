@@ -5,6 +5,7 @@
 
 CSpawnBox::CSpawnBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT, float spawnObjectX, float spawnObjectY, int spawnObjectType)
 {
+	isActivated = false;
 	this->x = x;
 	this->y = y;
 	this->bboxWidth = BBOX_WIDTH;
