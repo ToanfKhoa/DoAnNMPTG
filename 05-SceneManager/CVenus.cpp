@@ -1,4 +1,4 @@
-#include "CVenus.h"
+﻿#include "CVenus.h"
 #include "debug.h"
 #include "CBulletVenus.h"
 #include "CPipe.h"
@@ -136,13 +136,51 @@ void CVenus::UpAndDown(DWORD dt)
 
 void CVenus::Fire()
 {
+	// Set bullet position at venus position
 	this->bullet->SetPosition(x, y);
-	float mario_x, mario_y;
 
+	// Get player position
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	float player_x, player_y;
 	playScene->GetPlayer()->GetPosition(player_x, player_y);
-	this->bullet->Fire(player_x - this->x, player_y - this->y);
+	
+	// Find the direction vector and convert to angle
+	float dx = player_x - x;
+	float dy = player_y - y;
+	float angle = atan2(-dy, dx); // Value in [-π, π]
+	
+	DebugOut(L"dx %f\n", dx);
+	DebugOut(L"dy %f\n", dy);
+	DebugOut(L"angle radian %f\n", angle);
+
+	// Turn radian to degree for clarity [0, 360°)
+	float angle_deg = angle * 180.0f / 3.1416;
+	if (angle_deg < 0) angle_deg += 360.0f;
+	DebugOut(L"angle d %f\n", angle_deg);
+	// Venus only fires 1 in 8 directions
+	float fixed_angle_deg;
+	if (angle_deg >= 0.0f && angle_deg < 22.5f)
+		fixed_angle_deg = 22.5f; 
+	else if (angle_deg >= 22.5f && angle_deg < 90.0f)
+		fixed_angle_deg = 45.0f;
+	else if (angle_deg >= 90.0f && angle_deg < 157.5f)
+		fixed_angle_deg = 135.0f; 
+	else if (angle_deg >= 157.5f && angle_deg < 180.0f)
+		fixed_angle_deg = 157.5f; 
+	else if (angle_deg >= 180.0f && angle_deg < 202.5f)
+		fixed_angle_deg = 202.5f;
+	else if (angle_deg >= 202.5f && angle_deg < 270.0f)
+		fixed_angle_deg = 225.0f;
+	else if (angle_deg >= 270.0f && angle_deg < 337.5f)
+		fixed_angle_deg = 315.0f;
+	else
+		fixed_angle_deg = 337.5f; 
+
+	DebugOut(L"angle %f\n", fixed_angle_deg);
+	// Turn back to radian
+	float fixed_angle_rad = fixed_angle_deg * 3.1416 / 180.0f;
+	// Use cos and sin to find x, y of direction vector
+	this->bullet->Fire(cos(fixed_angle_rad), -sin(fixed_angle_rad));
 }
 
 void CVenus::CheckPlayerNearby()
