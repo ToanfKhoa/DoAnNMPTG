@@ -16,6 +16,7 @@
 #include "CPowerUpItem.h"
 #include "CKoopa.h"
 #include "Brick.h"
+#include "CPit.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -97,6 +98,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
 		OnCollisionWithBrick(e);
+	else if (dynamic_cast<CPit*>(e->obj))
+		OnCollisionWithPit(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -287,6 +290,11 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 			brick->SetState(BRICK_STATE_BOUNCING_UP);
 		}
 	}
+}
+
+void CMario::OnCollisionWithPit(LPCOLLISIONEVENT e)
+{
+	SetState(MARIO_STATE_DIE);
 }
 
 //
