@@ -163,6 +163,7 @@
     <ClCompile Include="CPowerUpItem.cpp" />
     <ClCompile Include="CSensorBox.cpp" />
     <ClCompile Include="CSmallBush.cpp" />
+    <ClCompile Include="CSpawnBox.cpp" />
     <ClCompile Include="CVenus.cpp" />
     <ClCompile Include="CWoodBlock.cpp" />
     <ClCompile Include="debug.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="CPowerUpItem.h" />
     <ClInclude Include="CSensorBox.h" />
     <ClInclude Include="CSmallBush.h" />
+    <ClInclude Include="CSpawnBox.h" />
     <ClInclude Include="CVenus.h" />
     <ClInclude Include="CWoodBlock.h" />
     <ClInclude Include="debug.h" />
