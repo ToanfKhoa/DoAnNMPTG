@@ -509,6 +509,12 @@ void CMario::Render()
 	else if (level == MARIO_LEVEL_SMALL)
 		aniId = GetAniIdSmall();
 
+	//blink effect
+	if (untouchable==1)
+	{
+		if ((GetTickCount64()/ 100) % 2 == 0) return;
+	}
+
 	animations->Get(aniId)->Render(x, y);
 
 	//RenderBoundingBox();
