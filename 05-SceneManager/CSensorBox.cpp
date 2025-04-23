@@ -6,7 +6,6 @@ CSensorBox::CSensorBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT): CGame
 	this->x = x;
 	this->y = y;
 	isOnPlatform = true;
-	noCollisionStart = 0;
 	ay = SENSORBOX_GRAVITY;
 	vy = 0;
 	this->bboxWidth = BBOX_WIDTH;
@@ -49,6 +48,5 @@ void CSensorBox::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vy = 0;
 		isOnPlatform = true;
-		noCollisionStart = 0;
 	}
 }

@@ -91,7 +91,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CBulletVenus.cpp">
-    <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CPowerUpItem.cpp">
       <Filter>Source Files</Filter>
@@ -106,9 +106,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSensorBox.cpp">
-    <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CColorBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CBigBush.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSmallBush.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CWoodBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,7 +210,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CBulletVenus.h">
-    <Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CPowerUpItem.h">
       <Filter>Header Files</Filter>
@@ -216,6 +228,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CColorBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBigBush.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSmallBush.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CWoodBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

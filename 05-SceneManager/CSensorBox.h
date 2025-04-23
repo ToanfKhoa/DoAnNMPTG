@@ -12,7 +12,6 @@ protected:
 	int bboxWidth;
 	int bboxHeight;
 	BOOLEAN isOnPlatform;
-	ULONGLONG noCollisionStart;
 
 public:
 	CSensorBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT);
