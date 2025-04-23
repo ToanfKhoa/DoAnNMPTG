@@ -196,7 +196,7 @@ void CVenus::TrackPlayerNearby()
 	else if (dx < 0 && dy >= 0)    // bot right
 		SetDirection(-1, 1);
 
-	if ((abs(player_x - this->x) <= VENUS_FIRE_DISTANCE_MIN + MARIO_BIG_BBOX_WIDTH/2) || ((abs(player_x) - this->x) >= VENUS_FIRE_DISTANCE_MAX))
+	if ((abs(player_x - this->x) <= VENUS_FIRE_DISTANCE_MIN + MARIO_BIG_BBOX_WIDTH/2) || (abs(player_x - this->x) >= VENUS_FIRE_DISTANCE_MAX))
 	{
 		isPlayerInRange = false;
 	}
