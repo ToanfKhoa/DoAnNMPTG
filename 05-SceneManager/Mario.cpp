@@ -18,6 +18,7 @@
 #include "Brick.h"
 #include "CPit.h"
 #include "CSpawnBox.h"
+#include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -681,6 +682,10 @@ void CMario::GetDamaged()
 		level = MARIO_LEVEL_SMALL;
 	
 	StartUntouchable();
+
+	//time stop effect
+	CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	if (scene) scene->StartTimeStop();
 }
 
 void CMario::Throw()
@@ -709,5 +714,9 @@ void CMario::SetLevel(int l)
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 	}
 	level = l;
+
+	//Time Stop
+	CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	if (scene) scene->StartTimeStop();
 }
 

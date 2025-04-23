@@ -46,6 +46,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 #define MAX_SCENE_LINE 1024
 
+#define TIME_STOP_DURATION 1000
+
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
 	vector<string> tokens = split(line);
@@ -372,6 +374,15 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	if (isTimeStopped) 
+	{
+		if (GetTickCount() - timeStopStart >= TIME_STOP_DURATION) 
+		{
+			isTimeStopped = false;
+		}
+		else return;
+	}
+
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
@@ -442,6 +453,12 @@ void CPlayScene::Unload()
 }
 
 bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; }
+
+void CPlayScene::StartTimeStop()
+{
+	isTimeStopped = true;
+	timeStopStart = GetTickCount();
+}
 
 void CPlayScene::PurgeDeletedObjects()
 {

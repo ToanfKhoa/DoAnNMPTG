@@ -17,6 +17,9 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 
+	bool isTimeStopped = false;
+	ULONGLONG timeStopStart = 0;
+
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 
@@ -41,6 +44,8 @@ public:
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
+
+	void StartTimeStop();
 };
 
 typedef CPlayScene* LPPLAYSCENE;
