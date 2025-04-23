@@ -51,7 +51,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		//release if not being held anymore
 		if (holdingObject->GetState() != KOOPA_STATE_BEING_HELD)
+		{
+			if (nx >= 0)
+				holdingObject->SetPosition(x + MARIO_BIG_BBOX_WIDTH, y - KOOPA_BBOX_HEIGHT / 2);
+			else
+				holdingObject->SetPosition(x - MARIO_BIG_BBOX_WIDTH, y - KOOPA_BBOX_HEIGHT / 2);
 			holdingObject = NULL;
+		}
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);

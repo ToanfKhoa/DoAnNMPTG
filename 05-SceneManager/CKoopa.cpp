@@ -49,7 +49,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CKoopa::Render()
 {
 	int aniId = ID_ANI_KOOPA_WALKING_LEFT;
-	if (state == KOOPA_STATE_SHELL_IDLE && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
+	if ( (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD) && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE;
 		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_REVIVE;
