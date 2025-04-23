@@ -44,7 +44,7 @@ void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
-	CheckPlayerNearby();
+	TrackPlayerNearby();
 	UpAndDown(dt);
 	
 	CGameObject::Update(dt, coObjects);
@@ -148,15 +148,11 @@ void CVenus::Fire()
 	float dx = player_x - x;
 	float dy = player_y - y;
 	float angle = atan2(-dy, dx); // Value in [-π, π]
-	
-	DebugOut(L"dx %f\n", dx);
-	DebugOut(L"dy %f\n", dy);
-	DebugOut(L"angle radian %f\n", angle);
 
 	// Turn radian to degree for clarity [0, 360°)
 	float angle_deg = angle * 180.0f / 3.1416;
 	if (angle_deg < 0) angle_deg += 360.0f;
-	DebugOut(L"angle d %f\n", angle_deg);
+
 	// Venus only fires 1 in 8 directions
 	float fixed_angle_deg;
 	if (angle_deg >= 0.0f && angle_deg < 22.5f)
@@ -176,18 +172,29 @@ void CVenus::Fire()
 	else
 		fixed_angle_deg = 337.5f; 
 
-	DebugOut(L"angle %f\n", fixed_angle_deg);
 	// Turn back to radian
 	float fixed_angle_rad = fixed_angle_deg * 3.1416 / 180.0f;
 	// Use cos and sin to find x, y of direction vector
 	this->bullet->Fire(cos(fixed_angle_rad), -sin(fixed_angle_rad));
 }
 
-void CVenus::CheckPlayerNearby()
+void CVenus::TrackPlayerNearby()
 {
 	float player_x, player_y;
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->GetPlayer()->GetPosition(player_x, player_y);
+
+	float dx = player_x - x;
+	float dy = player_y - y;
+
+	if (dx >= 0 && dy < 0)       // top left
+		SetDirection(1, -1);
+	else if (dx < 0 && dy < 0)   // top right
+		SetDirection(-1, -1);
+	else if (dx >= 0 && dy >= 0)   // bot left
+		SetDirection(1, 1);
+	else if (dx < 0 && dy >= 0)    // bot right
+		SetDirection(-1, 1);
 
 	if ((abs(player_x - this->x) <= VENUS_FIRE_DISTANCE_MIN + MARIO_BIG_BBOX_WIDTH/2) || ((abs(player_x) - this->x) >= VENUS_FIRE_DISTANCE_MAX))
 	{

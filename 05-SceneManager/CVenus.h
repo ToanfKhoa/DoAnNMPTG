@@ -15,8 +15,8 @@
 #define VENUS_STATE_DIE 500
 
 #define ID_ANI_VENUS_TOPLEFT 17000
-#define ID_ANI_VENUS_BOTLEFT 17001
-#define ID_ANI_VENUS_TOPRIGHT 17002
+#define ID_ANI_VENUS_TOPRIGHT 17001
+#define ID_ANI_VENUS_BOTLEFT 17002
 #define ID_ANI_VENUS_BOTRIGHT 17003
 #define ID_ANI_VENUS_DIE 17004
 
@@ -50,6 +50,6 @@ public:
 	virtual void SetState(int state);
 	void UpAndDown(DWORD dt);
 	void Fire();
-	void CheckPlayerNearby();
+	void TrackPlayerNearby();
+	void SetDirection(int x, int y) { this->direction_x = x; this->direction_y = y; }
 };
-
