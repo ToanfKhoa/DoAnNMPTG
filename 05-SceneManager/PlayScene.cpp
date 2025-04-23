@@ -22,6 +22,7 @@
 #include "CSmallBush.h"
 #include "CWoodBlock.h"
 #include "CPit.h"
+#include "CSpawnBox.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -136,7 +137,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_QUESTIONBLOCK:
 	{
 		int item_type = atoi(tokens[3].c_str());
-		obj = new CQuestionBlock(x, y, item_type); break;
+		obj = new CQuestionBlock(x, y, item_type); 
+		break;
 	}
 	case OBJECT_TYPE_VENUS: obj = new CVenus(x, y); break;
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
@@ -266,17 +268,26 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float b = (float)atoi(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
+		break;
 	}
 	case OBJECT_TYPE_PIT:
 	{
-		int width = atof(tokens[3].c_str());
-		int height = atof(tokens[4].c_str());
+		int width = atoi(tokens[3].c_str());
+		int height = atoi(tokens[4].c_str());
 		obj = new CPit(x, y, width, height);
+		break;
 	}
+	case OBJECT_TYPE_SPAWNBOX:
+	{
+		int bboxWidth = atoi(tokens[3].c_str());
+		int bboxHeight = atoi(tokens[4].c_str());
 
-	break;
-
-
+		float spawnObjectX = (float)atof(tokens[5].c_str());;
+		float spawnObjectY = (float)atof(tokens[6].c_str());;
+		int spawnObjectType = atoi(tokens[7].c_str());;
+		obj = new CSpawnBox(x, y, bboxWidth, bboxHeight, spawnObjectX, spawnObjectY, spawnObjectType);
+		break;
+	}
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
 		return;

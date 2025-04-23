@@ -31,6 +31,7 @@
 #define OBJECT_TYPE_WOODBLOCK 17
 #define OBJECT_TYPE_PORTAL	50
 #define OBJECT_TYPE_PIT	51
+#define OBJECT_TYPE_SPAWNBOX 52
 
 #pragma region MARIO 
 

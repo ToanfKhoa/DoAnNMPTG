@@ -17,6 +17,7 @@
 #include "CKoopa.h"
 #include "Brick.h"
 #include "CPit.h"
+#include "CSpawnBox.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -106,6 +107,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBrick(e);
 	else if (dynamic_cast<CPit*>(e->obj))
 		OnCollisionWithPit(e);
+	else if (dynamic_cast<CSpawnBox*>(e->obj))
+		OnCollisionWithSpawnBox(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -301,6 +304,14 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPit(LPCOLLISIONEVENT e)
 {
 	SetState(MARIO_STATE_DIE);
+}
+
+void CMario::OnCollisionWithSpawnBox(LPCOLLISIONEVENT e)
+{
+	CSpawnBox* spawnBox = dynamic_cast<CSpawnBox*>(e->obj);
+
+	spawnBox->Spawn();
+	spawnBox->SetIsActivated(true);
 }
 
 //
