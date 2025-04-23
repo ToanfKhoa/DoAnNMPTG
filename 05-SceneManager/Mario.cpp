@@ -57,6 +57,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				holdingObject->SetPosition(x + MARIO_BIG_BBOX_WIDTH, y - KOOPA_BBOX_HEIGHT / 2);
 			else
 				holdingObject->SetPosition(x - MARIO_BIG_BBOX_WIDTH, y - KOOPA_BBOX_HEIGHT / 2);
+
+			if (holdingObject->GetState() == KOOPA_STATE_WALKING_LEFT || holdingObject->GetState() == KOOPA_STATE_WALKING_LEFT) GetDamaged();
+
+
 			holdingObject = NULL;
 		}
 	}
