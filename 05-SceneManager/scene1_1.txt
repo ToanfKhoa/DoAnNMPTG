@@ -23,7 +23,7 @@ woodblock.txt
 [OBJECTS]
 # type	x	y	extra_settings per object type
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 16 = Koopa, 17 = woodblock
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 16 = Koopa, 17 = woodblock, 51 = pit
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
@@ -46,6 +46,9 @@ woodblock.txt
 
 # MARIO
 0	450	10
+
+# Pit
+51	1000	140	100	50
 
 #Brick
 1	316	134

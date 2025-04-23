@@ -21,6 +21,7 @@
 #include "CBigBush.h"
 #include "CSmallBush.h"
 #include "CWoodBlock.h"
+#include "CPit.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -134,7 +135,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParaGoomba(x, y); break;
 	case OBJECT_TYPE_QUESTIONBLOCK:
 	{
-		int item_type = (float)atof(tokens[3].c_str());
+		int item_type = atoi(tokens[3].c_str());
 		obj = new CQuestionBlock(x, y, item_type); break;
 	}
 	case OBJECT_TYPE_VENUS: obj = new CVenus(x, y); break;
@@ -261,11 +262,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_PORTAL:
 	{
-		float r = (float)atof(tokens[3].c_str());
-		float b = (float)atof(tokens[4].c_str());
+		float r = (float)atoi(tokens[3].c_str());
+		float b = (float)atoi(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
+	case OBJECT_TYPE_PIT:
+	{
+		int width = atof(tokens[3].c_str());
+		int height = atof(tokens[4].c_str());
+		obj = new CPit(x, y, width, height);
+	}
+
 	break;
 
 

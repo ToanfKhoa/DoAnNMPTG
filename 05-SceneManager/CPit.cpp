@@ -25,6 +25,7 @@ void CPit::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CPit::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	CMario* mario = dynamic_cast<CMario*>(e->obj);
-
+	DebugOut(L"Pit collision with mario\n");
 	mario->SetState(MARIO_STATE_DIE);
+	DebugOut(L"Pit, mario state %d\n", mario->GetState());
 }
