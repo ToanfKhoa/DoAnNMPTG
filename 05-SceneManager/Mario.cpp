@@ -309,6 +309,8 @@ void CMario::OnCollisionWithPit(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithSpawnBox(LPCOLLISIONEVENT e)
 {
 	CSpawnBox* spawnBox = dynamic_cast<CSpawnBox*>(e->obj);
+
+	spawnBox->Spawn();
 	spawnBox->SetIsActivated(true);
 }
 

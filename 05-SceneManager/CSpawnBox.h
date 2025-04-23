@@ -11,7 +11,7 @@ protected:
 
 	float spawnObjectX;
 	float spawnObjectY;
-	int spawnObjectType;
+	int spawnObjectType; // 0 = goomba, 1 = paragoomba
 
 public:
 	CSpawnBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT, float spawnObjectX, float spawnObjectY, int spawnObjectType);
@@ -22,5 +22,6 @@ public:
 	int IsCollidable() { return 1; }
 
 	void SetIsActivated(boolean value) { isActivated = value; }
+	void Spawn();
 };
 
