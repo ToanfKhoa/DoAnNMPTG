@@ -57,9 +57,18 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CParaGoomba::Render()
 {
 	int aniId = ID_ANI_PARAGOOMBA_WALKING;
+
 	if (state == GOOMBA_STATE_DIE)
 	{
-		aniId = ID_ANI_GOOMBA_DIE;
+		aniId = ID_ANI_PARAGOOMBA_DIE;
+	}
+	else if (state == GOOMBA_STATE_WALKING && isGoomba == true)
+	{
+		aniId = ID_ANI_PARAGOOMBA_ISGOOMBA_WALK;
+	}
+	else if (state == PARAGOOMBA_STATE_FLYING_UP || state == PARAGOOMBA_STATE_FLYING_DOWN)
+	{
+		aniId = ID_ANI_PARAGOOMBA_FLYING;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
