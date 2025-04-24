@@ -12,7 +12,8 @@ CVenus::CVenus(float x, float y) :CGameObject(x, y)
 	isPlayerInRange = false;
 	timer = 0;
 	this->bullet = new CBulletVenus(x, y);
-	
+	y_start = y;
+
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	if (playScene != NULL)
 	{
@@ -34,6 +35,8 @@ void CVenus::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"x: %f\n", x);
+	DebugOut(L"y: %f\n", y);
 	x += vx * dt;
 	y += vy * dt;
 
@@ -102,8 +105,8 @@ void CVenus::SetState(int state)
 		vy = VENUS_SPEED;
 		break;
 	case VENUS_STATE_FIRE:
-		Fire();
 		vy = 0;
+		Fire();
 		break;
 	}
 }
@@ -117,7 +120,7 @@ void CVenus::UpAndDown(DWORD dt)
 		SetState(VENUS_STATE_UP);
 		timer = 0;
 	}
-	else if (state == VENUS_STATE_UP && timer >= VENUS_MOVE_TIME)
+	else if (state == VENUS_STATE_UP && y <= y_start - VENUS_MOVING_OFFSET)
 	{
 		SetState(VENUS_STATE_FIRE);
 		timer = 0;
@@ -127,8 +130,9 @@ void CVenus::UpAndDown(DWORD dt)
 		SetState(VENUS_STATE_DOWN);
 		timer = 0;
 	}
-	else if (state == VENUS_STATE_DOWN && timer >= VENUS_MOVE_TIME)
+	else if (state == VENUS_STATE_DOWN && y >= y_start)
 	{
+		y = y_start;
 		SetState(VENUS_STATE_HIDE);
 		timer = 0;
 	}
@@ -137,7 +141,7 @@ void CVenus::UpAndDown(DWORD dt)
 void CVenus::Fire()
 {
 	// Set bullet position at venus position
-	this->bullet->SetPosition(x, y);
+	this->bullet->SetPosition(x, y - VENUS_BBOX_HEIGHT/4);
 
 	// Get player position
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());

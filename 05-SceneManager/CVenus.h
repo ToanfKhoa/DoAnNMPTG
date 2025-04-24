@@ -4,9 +4,10 @@
 #define VENUS_SPEED 0.05f
 
 #define VENUS_BBOX_WIDTH 20
-#define VENUS_BBOX_HEIGHT 40
+#define VENUS_BBOX_HEIGHT 26
 #define VENUS_FIRE_DISTANCE_MAX 150
 #define VENUS_FIRE_DISTANCE_MIN 16
+#define VENUS_MOVING_OFFSET 34
 
 #define VENUS_STATE_HIDE 100
 #define VENUS_STATE_UP 200
@@ -22,7 +23,6 @@
 
 #define VENUS_HIDE_TIME 1000
 #define VENUS_APPEAR_TIME 1000
-#define VENUS_MOVE_TIME 1000
 
 class CBulletVenus;            
 typedef CBulletVenus* LPBULLETVENUS;
@@ -34,6 +34,7 @@ protected:
 	int direction_y;
 	LPBULLETVENUS bullet;
 	bool isPlayerInRange;
+	float y_start;
 
 	DWORD timer;
 
