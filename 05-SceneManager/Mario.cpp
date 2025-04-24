@@ -207,6 +207,7 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithBulletVenus(LPCOLLISIONEVENT e)
 {
+	DebugOut(L"Mario collision bullet\n");
 	GetDamaged();
 }
 
@@ -539,7 +540,7 @@ void CMario::Render()
 
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);
 }
@@ -680,9 +681,10 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 void CMario::GetDamaged()
 {
 	if(untouchable) return;
-
+	DebugOut(L"Mario damage\n");
 	if (level == MARIO_LEVEL_SMALL)
 	{
+		DebugOut(L"Mario damage in small\n");
 		DebugOut(L">>> Mario DIE >>> \n");
 		SetState(MARIO_STATE_DIE);
 		return;
@@ -707,6 +709,8 @@ void CMario::Throw()
 		//Kick and trigger Shell moving
 		DebugOut(L"throw\n");
 		SetState(MARIO_STATE_KICK);
+
+		if (GetLevel() == MARIO_LEVEL_SMALL) koopaShell->AlignYOnTransform();
 		
 		if (nx > 0)
 			koopaShell->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
