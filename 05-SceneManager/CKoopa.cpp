@@ -261,7 +261,7 @@ CKoopa::CKoopa(float x, float y)
 	this->y = y;
 	ay = KOOPA_GRAVITY;
 	isFlipped = true;
-	sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH/2, KOOPA_BBOX_HEIGHT);
+	sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH/4, KOOPA_BBOX_HEIGHT/4);
 
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->AddObject(sensorBox);
