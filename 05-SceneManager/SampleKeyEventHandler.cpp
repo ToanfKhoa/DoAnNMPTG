@@ -5,11 +5,19 @@
 
 #include "Mario.h"
 #include "PlayScene.h"
-
+#include "CKoopa.h"
+#include "ParaGoomba.h"
+#include "CQuestionBlock.h"
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	float marioX, marioY;
+	int nx = mario->GetNx();
+	mario->GetPosition(marioX, marioY);
+
+	CGameObject* obj = NULL;
 
 	switch (KeyCode)
 	{
@@ -32,6 +40,45 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_3:
 		mario->SetLevel(MARIO_LEVEL_RACOON);
 		break;
+	case DIK_4:
+		if (nx > 0)
+			obj = new CKoopa(marioX + 32, marioY - 32);
+		else
+			obj = new CKoopa(marioX - 32, marioY - 32);
+
+		playScene->AddObject(obj);
+		break;
+
+	case DIK_5:
+
+		if (nx > 0)
+			obj = new CParaGoomba(marioX + 32, marioY - 32);
+		else
+			obj = new CParaGoomba(marioX - 32, marioY - 32);
+
+		playScene->AddObject(obj);
+		break;
+
+	case DIK_6:
+
+		if (nx > 0)
+			obj = new CGoomba(marioX + 32, marioY - 32);
+		else
+			obj = new CGoomba(marioX - 32, marioY - 32);
+
+		playScene->AddObject(obj);
+		break;
+
+	case DIK_7:
+
+		if (nx > 0)
+			obj = new CQuestionBlock(marioX + 32, marioY, 1);
+		else
+			obj = new CQuestionBlock(marioX - 32, marioY, 1);
+
+		playScene->AddObject(obj);
+		break;
+
 	case DIK_0:
 		mario->SetState(MARIO_STATE_DIE);
 		break;
