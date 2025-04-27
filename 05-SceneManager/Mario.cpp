@@ -131,8 +131,9 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by Goomba
 	{
-		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_BOUNCE_DEATH)
 		{
+			DebugOut(L"Mario collison with goomba state: %d\n", GetState());
 			GetDamaged();
 		}
 	}
