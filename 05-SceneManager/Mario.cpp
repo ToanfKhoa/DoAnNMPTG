@@ -162,7 +162,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by ParaGoomba
 	{
-		if (paragoomba->GetState() != GOOMBA_STATE_DIE)
+		if (paragoomba->GetState() != GOOMBA_STATE_DIE && paragoomba->GetState() != GOOMBA_STATE_BOUNCE_DEATH)
 		{
 			GetDamaged();
 		}
