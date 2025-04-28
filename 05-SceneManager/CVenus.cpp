@@ -35,8 +35,6 @@ void CVenus::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"x: %f\n", x);
-	DebugOut(L"y: %f\n", y);
 	x += vx * dt;
 	y += vy * dt;
 

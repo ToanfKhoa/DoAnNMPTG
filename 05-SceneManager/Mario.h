@@ -12,12 +12,15 @@
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
 
-#define MARIO_JUMP_SPEED_Y		0.5f
-#define MARIO_JUMP_RUN_SPEED_Y	0.6f
+#define MARIO_JUMP_SPEED_Y		0.4f
+#define MARIO_JUMP_RUN_SPEED_Y	0.5f
 
-#define MARIO_GRAVITY			0.002f
+#define MARIO_FRICTION 0.95 //Remaining of vx each frame when applying friction 
+#define MARIO_MIN_SPEED 0.01 //The minimum speed, when speed smaller this, it becomes 0
 
-#define MARIO_JUMP_DEFLECT_SPEED  0.4f
+#define MARIO_GRAVITY			0.0009f
+
+#define MARIO_JUMP_DEFLECT_SPEED  0.3f
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
