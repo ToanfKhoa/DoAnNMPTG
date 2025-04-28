@@ -22,17 +22,17 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-
+	vx += ax * dt;
 	vy += ay * dt;
-	if (state == MARIO_STATE_IDLE) //Mario slowly decrease vx when stop moving
+
+	//Mario slowly decrease vx when stop moving
+	if (state == MARIO_STATE_IDLE) 
 	{
-		if (abs(vx) > MARIO_MIN_SPEED)
+		if (abs(vx) > MARIO_MIN_SPEED) 
 			vx *= MARIO_FRICTION;
 		else
-			vx = 0;
+			vx = 0; //Mario completely stop 
 	}
-	else
-		vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
