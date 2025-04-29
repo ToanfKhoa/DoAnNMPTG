@@ -160,8 +160,13 @@ void CKoopa::UpdateSensorBoxPosition()
 
 	float newX = (state == KOOPA_STATE_WALKING_LEFT) ? x - KOOPA_BBOX_WIDTH / 2 : x+ KOOPA_BBOX_WIDTH / 2;
 	float newY;
-	if (changedDirection) newY = y;
+
+	// Koopa just turned back while walking, sensorbox freely falls to detect cliffs 
+	if (changedDirection || (state!=KOOPA_STATE_WALKING_LEFT && state!= KOOPA_STATE_WALKING_RIGHT)) newY = y;
 	else newY = sensorBox->GetY();
+
+	
+	if (sensorBox->GetY() - y >= KOOPA_BBOX_HEIGHT / 2) newY = y;
 
 	sensorBox->SetPosition(newX, newY);
 }
