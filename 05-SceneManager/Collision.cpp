@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include "debug.h"
+#include "CKoopa.h"
 
 #define BLOCK_PUSH_FACTOR 0.01f
 
@@ -25,7 +26,8 @@ void CCollision::SweptAABB(
 	float ml, float mt, float mr, float mb,
 	float dx, float dy,
 	float sl, float st, float sr, float sb,
-	float& t, float& nx, float& ny)
+	float& t, float& nx, float& ny,
+	LPGAMEOBJECT objSrc)
 {
 
 	float dx_entry, dx_exit, tx_entry, tx_exit;
@@ -97,7 +99,17 @@ void CCollision::SweptAABB(
 	}
 
 
-	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f) return;
+	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f)
+	{
+		// Handle overlap for Koopa shell
+		if ( !(tx_entry > 1.0f || ty_entry > 1.0f) && dynamic_cast<CKoopa*>(objSrc) != NULL)
+		{
+			t = 0;
+			nx = ny = 1;
+		}
+
+		return;
+	}
 
 	t_entry = max(tx_entry, ty_entry);
 	t_exit = min(tx_exit, ty_exit);
@@ -151,7 +163,8 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 		ml, mt, mr, mb,
 		dx, dy,
 		sl, st, sr, sb,
-		t, nx, ny
+		t, nx, ny,
+		objSrc
 	);
 
 	CCollisionEvent* e = new CCollisionEvent(t, nx, ny, dx, dy, objDest, objSrc);
@@ -170,7 +183,7 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 	{
 		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, objDests->at(i));
 
-		if (e->WasCollided()==1)
+		if (e->WasCollided()==1) 
 			coEvents.push_back(e);
 		else
 			delete e;

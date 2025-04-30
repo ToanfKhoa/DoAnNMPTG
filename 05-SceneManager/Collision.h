@@ -60,7 +60,8 @@ public:
 		float sb,
 		float& t,
 		float& nx,
-		float& ny);
+		float& ny,
+		LPGAMEOBJECT objSrc);
 
 	LPCOLLISIONEVENT SweptAABB(
 		LPGAMEOBJECT objSrc, 
