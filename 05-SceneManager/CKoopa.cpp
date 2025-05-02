@@ -110,6 +110,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (!e->obj->IsBlocking()) return;
 
+
 	if (e->ny != 0) // On top of a platform or bouncing in shell form and hitting a block above
 	{
 		vy = 0;
@@ -120,6 +121,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if(state == KOOPA_STATE_WALKING_RIGHT) SetState(KOOPA_STATE_WALKING_LEFT);
 		else if (state == KOOPA_STATE_SHELL_MOVING_LEFT) SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 		else if (state == KOOPA_STATE_SHELL_MOVING_RIGHT) SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
+		else if (state == KOOPA_STATE_BEING_HELD) SetState(GOOMBA_STATE_BOUNCE_DEATH);
 	}
 
 
