@@ -25,6 +25,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
+	DebugOut(L"speed %.3f\n", vx);
+	DebugOut(L"speedmax %.3f\n", maxVx);
+
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE) 
 	{
@@ -600,15 +603,17 @@ void CMario::Render()
 	else if (level == MARIO_LEVEL_SMALL)
 		aniId = GetAniIdSmall();
 
-	DebugOut(L"aniid %d\n", aniId);
 	//blink effect
 	if (untouchable==1)
 	{
 		if ((GetTickCount64()/ 100) % 2 == 0) return;
 	}
 
-	animations->Get(aniId)->Render(x, y);
-
+	if (abs(vx) < MARIO_RUNNING_SPEED)
+		animations->Get(aniId)->Render(x, y);
+	else
+		animations->Get(aniId)->RenderWithSpeed(x, y, MARIO_RUNNING_SPEED_RENDER); //Speed up render frame time while running
+	
 	RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);
