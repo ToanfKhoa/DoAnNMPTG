@@ -103,6 +103,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
+		if(e->ny > 0)
+			SetState(MARIO_STATE_RELEASE_JUMP); //Deflect downward when hitting a block above
 		if (e->ny < 0) isOnPlatform = true;
 	}
 	else 
