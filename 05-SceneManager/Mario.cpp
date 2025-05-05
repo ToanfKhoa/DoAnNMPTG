@@ -25,6 +25,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
+	DebugOut(L"speed %.3f\n", vx);
+	DebugOut(L"speedmax %.3f\n", maxVx);
+
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE) 
 	{
@@ -390,7 +393,7 @@ int CMario::GetAniIdSmall()
 			{
 				if (ax < 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_RIGHT;
-				else if (ax == MARIO_ACCEL_RUN_X)
+				else if (abs(vx) == MARIO_RUNNING_SPEED)
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
 				else 
 					aniId = ID_ANI_MARIO_SMALL_WALKING_RIGHT;
@@ -399,7 +402,7 @@ int CMario::GetAniIdSmall()
 			{
 				if (ax > 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_LEFT;
-				else if (ax == -MARIO_ACCEL_RUN_X)
+				else if (abs(vx) == MARIO_RUNNING_SPEED)
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_LEFT;
 				else
 					aniId = ID_ANI_MARIO_SMALL_WALKING_LEFT;
@@ -479,7 +482,7 @@ int CMario::GetAniIdBig()
 			{
 				if (ax < 0)
 					aniId = ID_ANI_MARIO_BIG_BRACE_RIGHT;
-				else if (ax == MARIO_ACCEL_RUN_X)
+				else if (abs(vx) == MARIO_RUNNING_SPEED)
 					aniId = ID_ANI_MARIO_BIG_RUNNING_RIGHT;
 				else
 					aniId = ID_ANI_MARIO_BIG_WALKING_RIGHT;
@@ -488,7 +491,7 @@ int CMario::GetAniIdBig()
 			{
 				if (ax > 0)
 					aniId = ID_ANI_MARIO_BIG_BRACE_LEFT;
-				else if (ax == -MARIO_ACCEL_RUN_X)
+				else if (abs(vx) == MARIO_RUNNING_SPEED)
 					aniId = ID_ANI_MARIO_BIG_RUNNING_LEFT;
 				else
 					aniId = ID_ANI_MARIO_BIG_WALKING_LEFT;
@@ -566,7 +569,7 @@ int CMario::GetAniIdRacoon()
 			{
 				if (ax < 0)
 					aniId = ID_ANI_MARIO_RACOON_BRACE_RIGHT;
-				else if (ax == MARIO_ACCEL_RUN_X)
+				else if (abs(vx) == MARIO_RUNNING_SPEED)
 					aniId = ID_ANI_MARIO_RACOON_RUNNING_RIGHT;
 				else
 					aniId = ID_ANI_MARIO_RACOON_WALKING_RIGHT;
@@ -575,7 +578,7 @@ int CMario::GetAniIdRacoon()
 			{
 				if (ax > 0)
 					aniId = ID_ANI_MARIO_RACOON_BRACE_LEFT;
-				else if (ax == -MARIO_ACCEL_RUN_X)
+				else if (abs(vx) == MARIO_RUNNING_SPEED)
 					aniId = ID_ANI_MARIO_RACOON_RUNNING_LEFT;
 				else
 					aniId = ID_ANI_MARIO_RACOON_WALKING_LEFT;
@@ -600,15 +603,17 @@ void CMario::Render()
 	else if (level == MARIO_LEVEL_SMALL)
 		aniId = GetAniIdSmall();
 
-	DebugOut(L"aniid %d\n", aniId);
 	//blink effect
 	if (untouchable==1)
 	{
 		if ((GetTickCount64()/ 100) % 2 == 0) return;
 	}
 
-	animations->Get(aniId)->Render(x, y);
-
+	if (abs(ax) == MARIO_ACCEL_RUN_X)
+		animations->Get(aniId)->RenderWithSpeed(x, y, MARIO_RUNNING_SPEED_RENDER); //Speed up render frame time while running
+	else
+		animations->Get(aniId)->Render(x, y);
+	
 	RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);
