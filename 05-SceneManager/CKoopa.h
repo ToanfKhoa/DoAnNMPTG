@@ -49,6 +49,7 @@ protected:
 	void OnNoCollision(DWORD dt);
 
 	void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnOverlapWith(LPCOLLISIONEVENT e);
 	void CheckAndChangeState();
 	void UpdateSensorBoxPosition();
 
@@ -58,6 +59,12 @@ protected:
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+
+	void OnOverlapWithGoomba(LPCOLLISIONEVENT e);
+	void OnOverlapWithParaGoomba(LPCOLLISIONEVENT e);
+	void OnOverlapWithVenus(LPCOLLISIONEVENT e);
+	void OnOverlapWithKoopa(LPCOLLISIONEVENT e);
+	void OnOverlapWithBrick(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y);
 	void SetState(int nextState);

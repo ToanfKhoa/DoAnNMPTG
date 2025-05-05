@@ -26,6 +26,7 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"Koopa update x: %d\n", x);
 	vy += ay * dt;
 	/*if (state == KOOPA_STATE_DIE)
 	{
@@ -86,6 +87,7 @@ void CKoopa::Render()
 
 void CKoopa::OnNoCollision(DWORD dt)
 {
+	DebugOut(L"Koopa on no collision");
 	x += vx * dt;
 	y += vy * dt;
 }
@@ -127,12 +129,31 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 }
 
+void CKoopa::OnOverlapWith(LPCOLLISIONEVENT e)
+{
+
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT || state == KOOPA_STATE_BEING_HELD)
+	{
+		if (dynamic_cast<CParaGoomba*>(e->obj))
+			OnOverlapWithParaGoomba(e);
+		else if (dynamic_cast<CGoomba*>(e->obj))
+			OnOverlapWithGoomba(e);
+		else if (dynamic_cast<CVenus*>(e->obj))
+			OnOverlapWithVenus(e);
+		else if (dynamic_cast<CKoopa*>(e->obj))
+			OnOverlapWithKoopa(e);
+		else if (dynamic_cast<CBrick*>(e->obj))
+			OnOverlapWithBrick(e);
+	}
+}
+
 void CKoopa::CheckAndChangeState()
 {
 	if(state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
 	{
 		if (GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME)
 		{
+			DebugOut(L"koopa collision with mario check revive\n");
 			SetState(KOOPA_STATE_WALKING_LEFT);
 		}
 	}
@@ -262,6 +283,59 @@ void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 	}
 }
 
+void CKoopa::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
+{
+	SetState(KOOPA_STATE_DIE);
+
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+}
+
+void CKoopa::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
+{
+	SetState(KOOPA_STATE_DIE);
+
+	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
+
+	if (paragoomba->GetIsGoomba() == false)
+	{
+		paragoomba->TurnIntoGoomba();
+	}
+	paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+}
+
+void CKoopa::OnOverlapWithVenus(LPCOLLISIONEVENT e)
+{
+	SetState(KOOPA_STATE_DIE);
+
+	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
+
+	venus->SetState(VENUS_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
+{
+	SetState(KOOPA_STATE_DIE);
+
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	{
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
+	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
+	{
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
+}
+
+void CKoopa::OnOverlapWithBrick(LPCOLLISIONEVENT e)
+{
+	if(state==KOOPA_STATE_SHELL_MOVING_LEFT || state==KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
 CKoopa::CKoopa(float x, float y)
 {
 	this->x = x;
@@ -281,6 +355,8 @@ void CKoopa::SetState(int nextState)
 	switch (nextState)
 	{
 		case KOOPA_STATE_WALKING_LEFT:
+
+			DebugOut(L"koopa set state walking left\n");
 			vx = -KOOPA_WALKING_SPEED;
 			isFlipped = false; //koopa wakes up and returns to normal
 
@@ -288,6 +364,7 @@ void CKoopa::SetState(int nextState)
 			break;
 
 		case KOOPA_STATE_WALKING_RIGHT:
+			DebugOut(L"koopa set state walking right\n");
 			vx = KOOPA_WALKING_SPEED;
 			isFlipped = false; //koopa wakes up and returns to normal
 
@@ -295,6 +372,7 @@ void CKoopa::SetState(int nextState)
 			break;
 
 		case KOOPA_STATE_SHELL_IDLE:
+			DebugOut(L"koopa set state shell idle\n");
 			shellStartTime = GetTickCount64();
 			vx = 0;
 			break;
@@ -302,9 +380,11 @@ void CKoopa::SetState(int nextState)
 			vx = KOOPA_WALKING_SPEED*2;
 			break;
 		case KOOPA_STATE_SHELL_MOVING_LEFT:
+			DebugOut(L"koopa set state shell moving left\n");
 			vx = -KOOPA_WALKING_SPEED*2;
 			break;
 		case KOOPA_STATE_BEING_HELD: //state when mario holds koopa
+			DebugOut(L"koopa set state being held\n");
 			vx = 0;
 			vy = 0;
 			isFlipped= true;	//start flipping koopa, other states koopa will be flipped too

@@ -10,7 +10,7 @@ CCollision* CCollision::__instance = NULL;
 
 int CCollisionEvent::WasCollided() {
 	return
-		(t = -0.5f || (t >= 0.0f && t <= 1.0f ))
+		(t == -0.5f || (t >= 0.0f && t <= 1.0f ))
 		&& obj->IsDirectionColliable(nx, ny) == 1;
 }
 
@@ -100,7 +100,15 @@ void CCollision::SweptAABB(
 	}
 
 
-	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f) return;
+	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f)
+	{
+		if ((tx_entry < -5 && ty_entry < -5) && !(tx_entry > 1.0f || ty_entry > 1.0f))
+		{
+			t = -0.5f;
+			nx = ny = 0;
+		}
+		return;
+	}
 
 	t_entry = max(tx_entry, ty_entry);
 	t_exit = min(tx_exit, ty_exit);
@@ -240,6 +248,19 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		Scan(objSrc, dt, coObjects, coEvents);
 	}
 
+	//handling overlap
+	for (UINT i = 0; i < coEvents.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEvents[i];
+		if (e->isDeleted) continue;
+
+		if (e->t == -0.5f )
+		{
+			objSrc->OnOverlapWith(e);
+			e->isDeleted = true;
+		}
+	}
+
 	// No collision detected
 	if (coEvents.size() == 0)
 	{
@@ -247,19 +268,6 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 	}
 	else
 	{
-		//handling overlap
-		for (UINT i = 0; i < coEvents.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEvents[i];
-			if (e->isDeleted) continue;
-
-			if (e->t == -0.5f)
-			{
-				objSrc->OnOverlapWith(e);
-				e->isDeleted = true;
-			}
-		}
-
 		Filter(objSrc, coEvents, colX, colY);
 
 		float x, y, vx, vy, dx, dy;
