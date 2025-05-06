@@ -34,7 +34,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			vx = 0; //Mario completely stop 
 	}
 
-	if (abs(vx) > abs(maxVx)) vx = maxVx;
+	//Limit the max speed, check to prevent vx from reversing direction when maxVx changes suddenly
+	if (abs(vx) > abs(maxVx) && (vx * maxVx >= 0)) vx = maxVx;
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
