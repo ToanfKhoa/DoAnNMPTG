@@ -13,13 +13,13 @@
 #define MARIO_ACCEL_WALK_X	0.0002f
 #define MARIO_ACCEL_RUN_X	0.00025f
 
-#define MARIO_JUMP_SPEED_Y		0.4f
-#define MARIO_JUMP_RUN_SPEED_Y	0.5f
+#define MARIO_JUMP_SPEED_Y		0.2f
+#define MARIO_JUMP_RUN_SPEED_Y	0.25f
 
 #define MARIO_FRICTION 0.95 //Remaining of vx each frame when applying friction 
 #define MARIO_MIN_SPEED 0.01 //The minimum speed, when speed smaller this, it becomes 0
 
-#define MARIO_GRAVITY			0.0009f
+#define MARIO_GRAVITY			0.001f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.3f
 
@@ -173,6 +173,7 @@
 
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_KICK_TIME 300
+#define MARIO_JUMP_TIME 400
 
 class CMario : public CGameObject
 {
@@ -190,6 +191,9 @@ class CMario : public CGameObject
 	DWORD kickTimer;
 	BOOLEAN isKicking;
 
+	DWORD jumpTimer;
+	BOOLEAN isJumping;
+	
 	LPGAMEOBJECT holdingObject;
 	BOOLEAN ableToHold;
 
@@ -227,6 +231,9 @@ public:
 
 		kickTimer == 0;
 		isKicking == false;
+
+		jumpTimer = 0;
+		isJumping = 0;
 
 		holdingObject = NULL;
 		ableToHold = false;

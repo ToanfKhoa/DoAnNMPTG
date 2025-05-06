@@ -25,9 +25,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
-	DebugOut(L"speed %.3f\n", vx);
-	DebugOut(L"speedmax %.3f\n", maxVx);
-
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE) 
 	{
@@ -46,13 +43,23 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 
-	if (isKicking == true)
-		kickTimer += dt;
 	// reset kick timer if kick time has pass
-	if (kickTimer >= MARIO_KICK_TIME)
+	if (isKicking == true)
 	{
-		isKicking = false;
-		kickTimer = 0;
+		kickTimer += dt;
+		if (kickTimer >= MARIO_KICK_TIME)
+		{
+			isKicking = false;
+			kickTimer = 0;
+		}
+	}
+
+	//Limit jumping time of Mario
+	if (isJumping == true)
+	{
+		jumpTimer += dt;
+		if (jumpTimer >= MARIO_JUMP_TIME)
+			SetState(MARIO_STATE_RELEASE_JUMP);
 	}
 
 	if (holdingObject != NULL)
@@ -93,6 +100,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
+		if(e->ny > 0)
+			SetState(MARIO_STATE_RELEASE_JUMP); //Deflect downward when hitting a block above
 		if (e->ny < 0) isOnPlatform = true;
 	}
 	else 
@@ -652,6 +661,9 @@ void CMario::SetState(int state)
 		if (isSitting) break;
 		if (isOnPlatform)
 		{
+			isJumping = true;
+			ay = 0;
+
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
@@ -660,6 +672,9 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
+		ay = MARIO_GRAVITY;
+		jumpTimer = 0;
+		isJumping = false;
 		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
 		break;
 
@@ -692,6 +707,7 @@ void CMario::SetState(int state)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;
 		ax = 0;
+		ay = MARIO_GRAVITY;
 		break;
 	}
 
