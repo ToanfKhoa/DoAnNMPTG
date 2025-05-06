@@ -29,7 +29,6 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"Koopa update x: %d\n", x);
 	vy += ay * dt;
 	/*if (state == KOOPA_STATE_DIE)
 	{
@@ -90,7 +89,6 @@ void CKoopa::Render()
 
 void CKoopa::OnNoCollision(DWORD dt)
 {
-	DebugOut(L"Koopa on no collision");
 	x += vx * dt;
 	y += vy * dt;
 }
@@ -164,7 +162,6 @@ void CKoopa::CheckAndChangeState()
 	{
 		if (GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME)
 		{
-			DebugOut(L"koopa collision with mario check revive\n");
 			SetState(KOOPA_STATE_WALKING_LEFT);
 		}
 	}
@@ -226,7 +223,6 @@ void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 		SetState(KOOPA_STATE_DIE);
 	}
 
-	DebugOut(L"[INFO] Koopa hit ParaGoomba\n");
 	if (paragoomba->GetIsGoomba() == false)
 	{
 		paragoomba->TurnIntoGoomba();
@@ -390,8 +386,6 @@ void CKoopa::SetState(int nextState)
 	switch (nextState)
 	{
 		case KOOPA_STATE_WALKING_LEFT:
-
-			DebugOut(L"koopa set state walking left\n");
 			vx = -KOOPA_WALKING_SPEED;
 			isFlipped = false; //koopa wakes up and returns to normal
 
@@ -399,7 +393,6 @@ void CKoopa::SetState(int nextState)
 			break;
 
 		case KOOPA_STATE_WALKING_RIGHT:
-			DebugOut(L"koopa set state walking right\n");
 			vx = KOOPA_WALKING_SPEED;
 			isFlipped = false; //koopa wakes up and returns to normal
 
@@ -407,7 +400,6 @@ void CKoopa::SetState(int nextState)
 			break;
 
 		case KOOPA_STATE_SHELL_IDLE:
-			DebugOut(L"koopa set state shell idle\n");
 			shellStartTime = GetTickCount64();
 			vx = 0;
 			break;
@@ -415,11 +407,9 @@ void CKoopa::SetState(int nextState)
 			vx = KOOPA_WALKING_SPEED*2;
 			break;
 		case KOOPA_STATE_SHELL_MOVING_LEFT:
-			DebugOut(L"koopa set state shell moving left\n");
 			vx = -KOOPA_WALKING_SPEED*2;
 			break;
 		case KOOPA_STATE_BEING_HELD: //state when mario holds koopa
-			DebugOut(L"koopa set state being held\n");
 			vx = 0;
 			vy = 0;
 			isFlipped= true;	//start flipping koopa, other states koopa will be flipped too
