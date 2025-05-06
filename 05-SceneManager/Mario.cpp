@@ -61,6 +61,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (jumpTimer >= MARIO_JUMP_TIME)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 	}
+	
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 
 	if (holdingObject != NULL)
 	{
@@ -85,7 +87,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
-	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -388,9 +389,9 @@ int CMario::GetAniIdSmall()
 				if (nx > 0) aniId = ID_ANI_MARIO_SMALL_HOLDING_IDLE_RIGHT;
 				else aniId = ID_ANI_MARIO_SMALL_HOLDING_IDLE_LEFT;
 			}
-			else if (vx > 0)
+			else if (nx > 0) //Turn immediately without braking
 				aniId = ID_ANI_MARIO_SMALL_HOLDING_WALKING_RIGHT;
-			else // vx < 0
+			else
 				aniId = ID_ANI_MARIO_SMALL_HOLDING_WALKING_LEFT;
 		}
 		else if (vx == 0)
@@ -477,9 +478,9 @@ int CMario::GetAniIdBig()
 					if (nx > 0) aniId = ID_ANI_MARIO_BIG_HOLDING_IDLE_RIGHT;
 					else aniId = ID_ANI_MARIO_BIG_HOLDING_IDLE_LEFT;
 				}
-				else if (vx > 0)
+				else if (nx > 0) //Turn immediately without braking
 					aniId = ID_ANI_MARIO_BIG_HOLDING_WALKING_RIGHT;
-				else // vx < 0
+				else 
 					aniId = ID_ANI_MARIO_BIG_HOLDING_WALKING_LEFT;
 			}
 			else if (vx == 0)
@@ -564,9 +565,9 @@ int CMario::GetAniIdRacoon()
 					if (nx > 0) aniId = ID_ANI_MARIO_RACOON_HOLDING_IDLE_RIGHT;
 					else aniId = ID_ANI_MARIO_RACOON_HOLDING_IDLE_LEFT;
 				}
-				else if (vx > 0)
+				else if (nx > 0) //Turn immediately without braking
 					aniId = ID_ANI_MARIO_RACOON_HOLDING_WALKING_RIGHT;
-				else // vx < 0
+				else
 					aniId = ID_ANI_MARIO_RACOON_HOLDING_WALKING_LEFT;
 			}
 			else if (vx == 0)
