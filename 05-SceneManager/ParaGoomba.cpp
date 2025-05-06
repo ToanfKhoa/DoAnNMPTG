@@ -10,6 +10,7 @@ CParaGoomba::CParaGoomba(float x, float y) : CGoomba(x, y)
 	SetState(PARAGOOMBA_STATE_WALKING);
 	vx = -PARAGOOMBA_WALKING_SPEED;
 	fly_start = GetTickCount64();
+	jumpTimer = 0;
 }
 
 void CParaGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -37,7 +38,17 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += ay * dt;
 		vx += ax * dt;
 
-		//Fly if it's ParaGoomba
+		//Jump while walking
+		if (state == PARAGOOMBA_STATE_WALKING)
+		{
+			jumpTimer += dt;
+			if (jumpTimer >= PARAGOOMBA_JUMP_PERIOD && isOnPlatform == true)
+			{
+				jumpTimer = 0;
+				vy = -PARAGOOMBA_JUMPING_SPEED;
+			}
+		}
+		//Check condition and fly
 		Flying();
 
 		if (state == GOOMBA_STATE_DIE)
@@ -58,7 +69,11 @@ void CParaGoomba::Render()
 {
 	int aniId = ID_ANI_PARAGOOMBA_WALKING;
 
-	if (state == GOOMBA_STATE_DIE || state == GOOMBA_STATE_BOUNCE_DEATH)
+	if (state == GOOMBA_STATE_BOUNCE_DEATH)
+	{
+		aniId = ID_ANI_PARAGOOMBA_BOUNCE_DEATH;
+	}
+	else if (state == GOOMBA_STATE_DIE)
 	{
 		aniId = ID_ANI_PARAGOOMBA_DIE;
 	}
