@@ -5,6 +5,9 @@
 #include "CQuestionBlock.h"
 #include "CVenus.h"
 #include "Brick.h"
+#include "CPipe.h"
+#include "CGround.h"
+#include "CWoodBlock.h"
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -144,6 +147,14 @@ void CKoopa::OnOverlapWith(LPCOLLISIONEVENT e)
 			OnOverlapWithKoopa(e);
 		else if (dynamic_cast<CBrick*>(e->obj))
 			OnOverlapWithBrick(e);
+		else if (dynamic_cast<CQuestionBlock*>(e->obj))
+			OnOverlapWithQuestionBlock(e);
+		else if (dynamic_cast<CPipe*>(e->obj))
+			OnOverlapWithPipe(e);
+		else if (dynamic_cast<CGround*>(e->obj))
+			OnOverlapWithGround(e);
+		else if (dynamic_cast<CWoodBlock*>(e->obj))
+			OnOverlapWithWoodBlock(e);
 	}
 }
 
@@ -333,6 +344,30 @@ void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
 void CKoopa::OnOverlapWithBrick(LPCOLLISIONEVENT e)
 {
 	if(state==KOOPA_STATE_SHELL_MOVING_LEFT || state==KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithPipe(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithGround(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithWoodBlock(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
 		SetState(KOOPA_STATE_DIE);
 }
 

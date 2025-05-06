@@ -65,6 +65,11 @@ protected:
 	void OnOverlapWithVenus(LPCOLLISIONEVENT e);
 	void OnOverlapWithKoopa(LPCOLLISIONEVENT e);
 	void OnOverlapWithBrick(LPCOLLISIONEVENT e);
+	void OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e);
+	void OnOverlapWithPipe(LPCOLLISIONEVENT e);
+	void OnOverlapWithGround(LPCOLLISIONEVENT e);
+	void OnOverlapWithWoodBlock(LPCOLLISIONEVENT e);
+
 public:
 	CKoopa(float x, float y);
 	void SetState(int nextState);
