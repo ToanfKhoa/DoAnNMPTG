@@ -41,8 +41,12 @@ void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//die
 	if (this->GetState() == VENUS_STATE_DIE)
 	{
-		isDeleted = true;
-		return;
+		dieTimer += dt;
+		if (dieTimer >= VENUS_DIE_TIME)
+		{
+			isDeleted = true;
+			return;
+		}
 	}
 
 	TrackPlayerNearby();

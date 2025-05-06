@@ -23,6 +23,7 @@
 
 #define VENUS_HIDE_TIME 1000
 #define VENUS_APPEAR_TIME 1000
+#define VENUS_DIE_TIME 400
 
 class CBulletVenus;            
 typedef CBulletVenus* LPBULLETVENUS;
@@ -35,8 +36,9 @@ protected:
 	LPBULLETVENUS bullet;
 	bool isPlayerInRange;
 	float y_start;
-
+	
 	DWORD timer;
+	DWORD dieTimer;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
