@@ -69,7 +69,11 @@ void CParaGoomba::Render()
 {
 	int aniId = ID_ANI_PARAGOOMBA_WALKING;
 
-	if (state == GOOMBA_STATE_DIE || state == GOOMBA_STATE_BOUNCE_DEATH)
+	if (state == GOOMBA_STATE_BOUNCE_DEATH)
+	{
+		aniId = ID_ANI_PARAGOOMBA_BOUNCE_DEATH;
+	}
+	else if (state == GOOMBA_STATE_DIE)
 	{
 		aniId = ID_ANI_PARAGOOMBA_DIE;
 	}

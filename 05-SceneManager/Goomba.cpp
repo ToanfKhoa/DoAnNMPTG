@@ -76,7 +76,7 @@ void CGoomba::Render()
 	}
 	else if (state == GOOMBA_STATE_BOUNCE_DEATH)
 	{
-		aniId = ID_ANI_GOOMBA_DIE;
+		aniId = ID_ANI_GOOMBA_BOUNCE_DEATH;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
