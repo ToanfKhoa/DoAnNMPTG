@@ -180,7 +180,8 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		SetState(KOOPA_STATE_DIE);
 	}
 
-	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+	if(goomba->GetState() != GOOMBA_STATE_BOUNCE_DEATH)
+		goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
 }
 
 void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
@@ -197,7 +198,9 @@ void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	{
 		paragoomba->TurnIntoGoomba();
 	}
-	paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+
+	if(paragoomba->GetState() != GOOMBA_STATE_BOUNCE_DEATH)
+		paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
 }
 
 void CKoopa::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
