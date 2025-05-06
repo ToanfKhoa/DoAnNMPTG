@@ -10,7 +10,8 @@ CCollision* CCollision::__instance = NULL;
 
 int CCollisionEvent::WasCollided() {
 	return
-		t >= 0.0f && t <= 1.0f && obj->IsDirectionColliable(nx, ny) == 1;
+		(t == -0.5f || (t >= 0.0f && t <= 1.0f ))
+		&& obj->IsDirectionColliable(nx, ny) == 1;
 }
 
 CCollision* CCollision::GetInstance()
@@ -101,11 +102,12 @@ void CCollision::SweptAABB(
 
 	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f)
 	{
-		// Handle overlap for Koopa shell
-		if ( !(tx_entry > 1.0f || ty_entry > 1.0f) && dynamic_cast<CKoopa*>(objSrc) != NULL)
+		// overlap handling
+		// -5 is used as a threshold to detect deep overlap.
+		if ((tx_entry < -5 && ty_entry < -5) && !(tx_entry > 1.0f || ty_entry > 1.0f))
 		{
-			t = 0;
-			nx = ny = 1;
+			t = -0.5f;
+			nx = ny = 0;
 		}
 
 		return;
@@ -249,6 +251,19 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		Scan(objSrc, dt, coObjects, coEvents);
 	}
 
+	//handling overlap
+	for (UINT i = 0; i < coEvents.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEvents[i];
+		if (e->isDeleted) continue;
+
+		if (e->t == -0.5f )
+		{
+			objSrc->OnOverlapWith(e);
+			e->isDeleted = true;
+		}
+	}
+
 	// No collision detected
 	if (coEvents.size() == 0)
 	{
@@ -367,7 +382,6 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 
 		objSrc->OnCollisionWith(e);			
 	}
-
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }

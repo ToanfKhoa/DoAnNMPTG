@@ -5,6 +5,9 @@
 #include "CQuestionBlock.h"
 #include "CVenus.h"
 #include "Brick.h"
+#include "CPipe.h"
+#include "CGround.h"
+#include "CWoodBlock.h"
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -110,6 +113,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (!e->obj->IsBlocking()) return;
 
+
 	if (e->ny != 0) // On top of a platform or bouncing in shell form and hitting a block above
 	{
 		vy = 0;
@@ -120,9 +124,36 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if(state == KOOPA_STATE_WALKING_RIGHT) SetState(KOOPA_STATE_WALKING_LEFT);
 		else if (state == KOOPA_STATE_SHELL_MOVING_LEFT) SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 		else if (state == KOOPA_STATE_SHELL_MOVING_RIGHT) SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
+		else if (state == KOOPA_STATE_BEING_HELD) SetState(GOOMBA_STATE_BOUNCE_DEATH);
 	}
 
 
+}
+
+void CKoopa::OnOverlapWith(LPCOLLISIONEVENT e)
+{
+
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT || state == KOOPA_STATE_BEING_HELD)
+	{
+		if (dynamic_cast<CParaGoomba*>(e->obj))
+			OnOverlapWithParaGoomba(e);
+		else if (dynamic_cast<CGoomba*>(e->obj))
+			OnOverlapWithGoomba(e);
+		else if (dynamic_cast<CVenus*>(e->obj))
+			OnOverlapWithVenus(e);
+		else if (dynamic_cast<CKoopa*>(e->obj))
+			OnOverlapWithKoopa(e);
+		else if (dynamic_cast<CBrick*>(e->obj))
+			OnOverlapWithBrick(e);
+		else if (dynamic_cast<CQuestionBlock*>(e->obj))
+			OnOverlapWithQuestionBlock(e);
+		else if (dynamic_cast<CPipe*>(e->obj))
+			OnOverlapWithPipe(e);
+		else if (dynamic_cast<CGround*>(e->obj))
+			OnOverlapWithGround(e);
+		else if (dynamic_cast<CWoodBlock*>(e->obj))
+			OnOverlapWithWoodBlock(e);
+	}
 }
 
 void CKoopa::CheckAndChangeState()
@@ -192,7 +223,6 @@ void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 		SetState(KOOPA_STATE_DIE);
 	}
 
-	DebugOut(L"[INFO] Koopa hit ParaGoomba\n");
 	if (paragoomba->GetIsGoomba() == false)
 	{
 		paragoomba->TurnIntoGoomba();
@@ -258,6 +288,83 @@ void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 			brick->SetState(BRICK_STATE_BOUNCING_UP);
 		}
 	}
+}
+
+void CKoopa::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
+{
+	SetState(KOOPA_STATE_DIE);
+
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+}
+
+void CKoopa::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
+{
+	SetState(KOOPA_STATE_DIE);
+
+	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
+
+	if (paragoomba->GetIsGoomba() == false)
+	{
+		paragoomba->TurnIntoGoomba();
+	}
+	paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+}
+
+void CKoopa::OnOverlapWithVenus(LPCOLLISIONEVENT e)
+{
+	SetState(KOOPA_STATE_DIE);
+
+	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
+
+	venus->SetState(VENUS_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
+{
+	SetState(KOOPA_STATE_DIE);
+
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	{
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
+	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
+	{
+		koopa->SetState(KOOPA_STATE_DIE);
+	}
+}
+
+void CKoopa::OnOverlapWithBrick(LPCOLLISIONEVENT e)
+{
+	if(state==KOOPA_STATE_SHELL_MOVING_LEFT || state==KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithPipe(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithGround(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithWoodBlock(LPCOLLISIONEVENT e)
+{
+	if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+		SetState(KOOPA_STATE_DIE);
 }
 
 CKoopa::CKoopa(float x, float y)

@@ -285,10 +285,12 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		//A is pressing = able to hold, hold the shell
 		if (ableToHold && koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
+
 			this->holdingObject = e->obj;
 			CKoopa* koopaShell = dynamic_cast<CKoopa*>(holdingObject);
 			DebugOut(L"setheld\n");
 			koopaShell->SetState(KOOPA_STATE_BEING_HELD);
+
 		}
 		else if (untouchable == 0) 
 		{
@@ -301,7 +303,6 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			{
 				float xKoopa, yKoopa;
 				koopa->GetPosition(xKoopa, yKoopa);
-
 				//Kick the shell
 				SetState(MARIO_STATE_KICK);
 				if (xKoopa >= x) 
@@ -382,7 +383,6 @@ int CMario::GetAniIdSmall()
 		}
 		else if (holdingObject != NULL)
 		{
-			DebugOut(L"what\n");
 			if (vx == 0)
 			{
 				if (nx > 0) aniId = ID_ANI_MARIO_SMALL_HOLDING_IDLE_RIGHT;
