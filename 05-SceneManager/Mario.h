@@ -251,6 +251,7 @@ public:
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnOverlapWith(LPCOLLISIONEVENT e);
 
 	int GetLevel() { return level; }
 	void SetLevel(int l);

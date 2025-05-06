@@ -139,6 +139,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSpawnBox(e);
 }
 
+void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
+{
+	if (dynamic_cast<CBulletVenus*>(e->obj))
+		OnCollisionWithBulletVenus(e);
+}
+
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
