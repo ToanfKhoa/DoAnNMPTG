@@ -25,9 +25,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
-	DebugOut(L"vy: %.3f\n", vy);
-	DebugOut(L"ay: %.3f\n", ay);
-
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE) 
 	{
@@ -61,7 +58,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (isJumping == true)
 	{
 		jumpTimer += dt;
-		if (jumpTimer >= 400)
+		if (jumpTimer >= MARIO_JUMP_TIME)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 	}
 
@@ -666,7 +663,7 @@ void CMario::SetState(int state)
 		{
 			isJumping = true;
 			ay = 0;
-			DebugOut(L"jump\n");
+
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
@@ -675,7 +672,6 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
-		DebugOut(L"release\n");
 		ay = MARIO_GRAVITY;
 		jumpTimer = 0;
 		isJumping = false;
