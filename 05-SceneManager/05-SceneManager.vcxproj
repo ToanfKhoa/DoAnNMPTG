@@ -154,6 +154,7 @@
     <ClCompile Include="CColorBlock.cpp" />
     <ClCompile Include="CCoinItem.cpp" />
     <ClCompile Include="CGround.cpp" />
+    <ClCompile Include="CHeadsUpDisplay.cpp" />
     <ClCompile Include="CKoopa.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="CColorBlock.h" />
     <ClInclude Include="CCoinItem.h" />
     <ClInclude Include="CGround.h" />
+    <ClInclude Include="CHeadsUpDisplay.h" />
     <ClInclude Include="CKoopa.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
