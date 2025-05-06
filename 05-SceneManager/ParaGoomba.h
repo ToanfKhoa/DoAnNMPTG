@@ -5,6 +5,7 @@
 #define PARAGOOMBA_GRAVITY 0.002f
 #define PARAGOOMBA_WALKING_SPEED 0.05f
 #define PARAGOOMBA_FLYING_SPEED 0.2f
+#define PARAGOOMBA_JUMPING_SPEED 0.15f
 
 #define PARAGOOMBA_BBOX_WIDTH 16
 #define PARAGOOMBA_BBOX_HEIGHT 14
@@ -21,6 +22,7 @@
 
 #define PARAGOOMBA_FLY_TIME 500
 #define PARAGOOMBA_FLY_PERIOD 1000
+#define PARAGOOMBA_JUMP_PERIOD 300
 
 class CParaGoomba : public CGoomba
 {
@@ -30,7 +32,7 @@ protected:
 	void Render();
 	boolean isGoomba;
 	ULONGLONG fly_start;
-
+	DWORD jumpTimer;
 public:
 	CParaGoomba(float x, float y);
 	void SetState(int state);
