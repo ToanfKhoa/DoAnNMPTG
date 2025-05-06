@@ -23,6 +23,7 @@
 #include "CWoodBlock.h"
 #include "CPit.h"
 #include "CSpawnBox.h"
+#include "CHeadsUpDisplay.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -288,6 +289,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float spawnObjectY = (float)atof(tokens[6].c_str());;
 		int spawnObjectType = atoi(tokens[7].c_str());;
 		obj = new CSpawnBox(x, y, bboxWidth, bboxHeight, spawnObjectX, spawnObjectY, spawnObjectType);
+		break;
+	}
+	case OBJECT_TYPE_HUD:
+	{
+		int spriteId = atoi(tokens[3].c_str());
+		obj = new CHeadsUpDisplay(x, y, spriteId);
+
 		break;
 	}
 	default:
