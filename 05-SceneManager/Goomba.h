@@ -23,6 +23,7 @@ class CGoomba : public CGameObject
 protected:
 	float ax;				
 	float ay; 
+	BOOLEAN isOnPlatform;
 
 	ULONGLONG die_start;
 

@@ -6,6 +6,7 @@ CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 	this->ay = GOOMBA_GRAVITY;
 	die_start = -1;
 	vx = -GOOMBA_WALKING_SPEED;
+	isOnPlatform = false;
 	SetState(GOOMBA_STATE_WALKING);
 }
 
@@ -31,6 +32,7 @@ void CGoomba::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
+	isOnPlatform = false;
 };
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -41,6 +43,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0 )
 	{
 		vy = 0;
+		if (e->ny < 0) isOnPlatform = true;
 	}
 	else if (e->nx != 0)
 	{

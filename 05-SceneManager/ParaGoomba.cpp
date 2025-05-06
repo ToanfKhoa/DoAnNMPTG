@@ -42,7 +42,7 @@ void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (state == PARAGOOMBA_STATE_WALKING)
 		{
 			jumpTimer += dt;
-			if (jumpTimer >= PARAGOOMBA_JUMP_PERIOD)
+			if (jumpTimer >= PARAGOOMBA_JUMP_PERIOD && isOnPlatform == true)
 			{
 				jumpTimer = 0;
 				vy = -PARAGOOMBA_JUMPING_SPEED;
