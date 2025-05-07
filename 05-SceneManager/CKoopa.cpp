@@ -64,7 +64,7 @@ void CKoopa::Render()
 		RenderBoundingBox();
 		return;
 	}
-	else if (state == KOOPA_STATE_SHELL_IDLE)
+	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE;
 		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_IDLE;
@@ -78,7 +78,7 @@ void CKoopa::Render()
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
 		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_MOVING;
 	}
-	else if (state == KOOPA_STATE_DIE || state == KOOPA_STATE_BEING_HELD)
+	else if (state == KOOPA_STATE_DIE)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_FLIPPED_IDLE;
 	}
