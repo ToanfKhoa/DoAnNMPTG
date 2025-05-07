@@ -24,7 +24,7 @@ hud.txt
 [OBJECTS]
 # type	x	y	extra_settings per object type
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 16 = Koopa, 17 = woodblock, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
@@ -93,29 +93,50 @@ hud.txt
 14	2768	178	16	16	3	101009	101010	101007	101008
 14	2753	178	16	16	1	101009	101010	101007	101008
 
-#SmallBush
-
+#Decoration small bush
 15	168	178	3	16	0	102000
-
 15	680	162	6	16	0	102000
-
 15	1034	162	2	16	0	102000
-
 15	1184	178	3	16	0	102000
-
 15	1728	178	3	16	0	102000
 
+#Decoration eye cloud
+15	136	50	1	0	0	102009
+15	156	50	1	0	0	102011
+
+15	344	40	1	0	0	102009
+
+15	664	50	1	0	0	102009
+
+15	744	80	1	0	0	102009
+15	760	80	1	0	0	102010
+15	780	80	1	0	0	102011
+
+15	1192	60	1	0	0	102009
+
+15	1672	60	1	0	0	102009
+15	1688	60	1	0	0	102010
+15	1708	60	1	0	0	102011
+
+15	2340	80	1	0	0	102009
+
+#Decoration goal boundary
 15	2480	3	30	0	16	102001
-15	216	100	1	0	0	102002
-15	232	100	1	0	0	102003
-15	216	116	1	0	0	102004
-15	232	116	1	0	0	102005
-15	232	50	1	0	0	102006
-15	248	50	1	0	0	102007
-15	264	50	1	0	0	102008
+
+#Decoration card
+15	2695	100	1	0	0	102002
+15	2711	100	1	0	0	102003
+15	2695	116	1	0	0	102004
+15	2711	116	1	0	0	102005
+
+#Decoration card box
+15	2703	108	1	0	0	102006
+15	2703	108	1	0	0	102007
+15	2703	108	1	0	0	102008
+
 
 # MARIO
-0	2500	178
+0	700	178
 
 # Pit
 51	1000	500	10000	30
@@ -145,21 +166,9 @@ hud.txt
 1	2112	178
 1	2096	162
 
-1	2816	194
-1	2816	178
-1	2816	162
-1	2816	146
-1	2816	130
-1	2816	114
-1	2816	98
-1	2816	82
-1	2816	66
-1	2816	50
-1	2816	34
-
-
 #Map limit, a pipe
 11	-16	178	30	16	20	71000	71000
+11	2822	178	30	16	20	71000	71000
 
 #COIN
 4	1080	116
