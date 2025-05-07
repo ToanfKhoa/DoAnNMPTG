@@ -46,5 +46,9 @@
 100037	69	52	84	67	30
 100038	69	86	84	101	30
 
+#shadow
+100040	103	69	118	84	30
+100041	103	86	118	101	30
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
