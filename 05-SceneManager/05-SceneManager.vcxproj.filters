@@ -114,7 +114,7 @@
     <ClCompile Include="CBigBush.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CSmallBush.cpp">
+    <ClCompile Include="CDecoration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CWoodBlock.cpp">
@@ -239,7 +239,7 @@
     <ClInclude Include="CBigBush.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CSmallBush.h">
+    <ClInclude Include="CDecoration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CWoodBlock.h">

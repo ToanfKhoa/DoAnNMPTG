@@ -1,7 +1,7 @@
-#include "CSmallBush.h"
+#include "CDecoration.h"
 #include "Sprites.h"
 
-void CSmallBush::Render()
+void CDecoration::Render()
 {
 	CSprites* s = CSprites::GetInstance();
 	s->Get(this->spriteId)->Draw(x, y);
