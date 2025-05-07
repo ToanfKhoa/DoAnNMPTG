@@ -1,4 +1,5 @@
 # id	left	top	right	bottom	texture_id
+# 0 - topleft_sky, 1 - topright_sky, 2 - left_border, 3 - right_border, 4 - topright_green, 5 - topleft_green, 6 - green_noborder.
 [SPRITES]
 101000	137	1	152	16	30
 101001	154	1	169	16	30
