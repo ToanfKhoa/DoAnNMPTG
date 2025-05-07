@@ -19,7 +19,7 @@
 #include "CCoinItem.h"
 #include "CKoopa.h"
 #include "CBigBush.h"
-#include "CSmallBush.h"
+#include "CDecoration.h"
 #include "CWoodBlock.h"
 #include "CPit.h"
 #include "CSpawnBox.h"
@@ -251,10 +251,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
-	case OBJECT_TYPE_SMALLBUSH:
+	case OBJECT_TYPE_DECORATION:
 	{
-		int spriteId = atoi(tokens[3].c_str());
-		obj = new CSmallBush(x, y, spriteId);
+		int count = atoi(tokens[3].c_str());
+		int x_spacing = atoi(tokens[4].c_str());
+		int y_spacing = atoi(tokens[5].c_str());
+		int spriteId = atoi(tokens[6].c_str());
+
+		obj = new CDecoration(x, y, spriteId);
+
+		for (int i = 1; i < count; i++)
+		{
+			CDecoration* decoration = new CDecoration(x + i * x_spacing, y + i * y_spacing, spriteId);
+			objects.push_back(decoration);
+		}
 
 		break;
 	}
