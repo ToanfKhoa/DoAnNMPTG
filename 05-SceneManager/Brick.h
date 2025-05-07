@@ -41,4 +41,5 @@ public:
 	CBrick(float x, float y);
 	void SetState(int state);
 	void SetIsBreakable(boolean value);
+	void SpawnBrokenPieces();
 };

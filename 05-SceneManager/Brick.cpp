@@ -1,4 +1,6 @@
 #include "Brick.h"
+#include "CBrokenBrickPiece.h"
+#include "PlayScene.h"
 
 void CBrick::Render()
 {
@@ -65,6 +67,23 @@ void CBrick::SetIsBreakable(boolean value)
 	isBreakable = value;
 }
 
+void CBrick::SpawnBrokenPieces()
+{
+	CBrokenBrickPiece* pieceTopLeft = new CBrokenBrickPiece(x, y, -0.02f, -0.4f);
+	CBrokenBrickPiece* pieceTopRight = new CBrokenBrickPiece(x, y, 0.02f, -0.4f);
+	CBrokenBrickPiece* pieceBotLeft = new CBrokenBrickPiece(x, y, -0.02f, -0.2f);
+	CBrokenBrickPiece* pieceBotRight = new CBrokenBrickPiece(x, y, 0.02f, -0.2f);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	if (playScene != NULL)
+	{
+		playScene->AddObject(pieceTopLeft);
+		playScene->AddObject(pieceTopRight);
+		playScene->AddObject(pieceBotLeft);
+		playScene->AddObject(pieceBotRight);
+	}
+}
+
 CBrick::CBrick(float x, float y) : CGameObject(x, y) 
 {
 	this->x = x;
@@ -92,6 +111,7 @@ void CBrick::SetState(int state)
 		vy = BRICK_BOUNCING_SPEED;
 		break;
 	case BRICK_STATE_BROKEN:
+		SpawnBrokenPieces();
 		isDeleted = true;
 		break;
 	}

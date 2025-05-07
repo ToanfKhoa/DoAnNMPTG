@@ -3,8 +3,8 @@
 
 void CBrokenBrickPiece::Render()
 {
-	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_SPRITE_BROKEN_BRICK_PIECE)->Render(x, y);
+	CSprites* s = CSprites::GetInstance();
+	s->Get(ID_SPRITE_BROKEN_BRICK_PIECE)->Draw(x, y);
 }
 
 void CBrokenBrickPiece::Update(DWORD dt)
