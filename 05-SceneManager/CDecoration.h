@@ -1,11 +1,11 @@
 #pragma once
 #include "GameObject.h"
-class CSmallBush : public CGameObject
+class CDecoration : public CGameObject
 {
 protected:
 	int spriteId;
 public:
-	CSmallBush(float x, float y, int spriteId) : CGameObject(x, y)
+	CDecoration(float x, float y, int spriteId) : CGameObject(x, y)
 	{
 		this->spriteId = spriteId;
 	}
