@@ -407,10 +407,10 @@ void CKoopa::SetState(int nextState)
 			vx = 0;
 			break;
 		case KOOPA_STATE_SHELL_MOVING_RIGHT:
-			vx = KOOPA_WALKING_SPEED*2;
+			vx = KOOPA_SHELL_MOVING_SPEED;
 			break;
 		case KOOPA_STATE_SHELL_MOVING_LEFT:
-			vx = -KOOPA_WALKING_SPEED*2;
+			vx = -KOOPA_SHELL_MOVING_SPEED;
 			break;
 		case KOOPA_STATE_BEING_HELD: //state when mario holds koopa
 			vx = 0;
