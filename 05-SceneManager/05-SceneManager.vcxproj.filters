@@ -129,6 +129,9 @@
     <ClCompile Include="CHeadsUpDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CBrokenBrickPiece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -252,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CHeadsUpDisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBrokenBrickPiece.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
