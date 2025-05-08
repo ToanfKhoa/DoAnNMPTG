@@ -69,10 +69,10 @@ void CBrick::SetIsBreakable(boolean value)
 
 void CBrick::SpawnBrokenPieces()
 {
-	CBrokenBrickPiece* pieceTopLeft = new CBrokenBrickPiece(x, y, -0.02f, -0.4f);
-	CBrokenBrickPiece* pieceTopRight = new CBrokenBrickPiece(x, y, 0.02f, -0.4f);
-	CBrokenBrickPiece* pieceBotLeft = new CBrokenBrickPiece(x, y, -0.02f, -0.2f);
-	CBrokenBrickPiece* pieceBotRight = new CBrokenBrickPiece(x, y, 0.02f, -0.2f);
+	CBrokenBrickPiece* pieceTopLeft = new CBrokenBrickPiece(x, y, -0.1f, -0.4f);
+	CBrokenBrickPiece* pieceTopRight = new CBrokenBrickPiece(x, y, 0.1f, -0.4f);
+	CBrokenBrickPiece* pieceBotLeft = new CBrokenBrickPiece(x, y, -0.12f, -0.15f);
+	CBrokenBrickPiece* pieceBotRight = new CBrokenBrickPiece(x, y, 0.12f, -0.15f);
 
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	if (playScene != NULL)

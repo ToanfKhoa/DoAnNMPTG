@@ -1,5 +1,6 @@
 #include "CBrokenBrickPiece.h"
 #include "AssetIDs.h"
+#include "debug.h"
 
 void CBrokenBrickPiece::Render()
 {
@@ -7,7 +8,7 @@ void CBrokenBrickPiece::Render()
 	s->Get(ID_SPRITE_BROKEN_BRICK_PIECE)->Draw(x, y);
 }
 
-void CBrokenBrickPiece::Update(DWORD dt)
+void CBrokenBrickPiece::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 
