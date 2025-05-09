@@ -259,6 +259,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 	LPCOLLISIONEVENT colY = NULL;
 
 	coEvents.clear();
+	ovEvents.clear();
 
 	if (objSrc->IsCollidable())
 	{
