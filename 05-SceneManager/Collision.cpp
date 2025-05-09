@@ -103,8 +103,8 @@ void CCollision::SweptAABB(
 	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f)
 	{
 		// overlap handling
-		// -5 is used as a threshold to detect deep overlap.
-		if ((tx_entry < -5 && ty_entry < -5) && !(tx_entry > 1.0f || ty_entry > 1.0f))
+		// -2 is used as a threshold to detect deep overlap.
+		if ((tx_entry < -2 && ty_entry < -2) && !(tx_entry > 1.0f || ty_entry > 1.0f))
 		{
 			t = -0.5f;
 			nx = ny = 0;

@@ -63,12 +63,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 	}
 	
-	//Transform time
+	//Mario will transform while stop scenetime, transform stop when scene countinue to update
 	if (isTransforming == true)
 	{
-		transformTimer += dt;
-		if (transformTimer >= MARIO_TRANSFORM_TIME)
-			isTransforming = false;
+		isTransforming = false;
 	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);

@@ -396,7 +396,7 @@ void CPlayScene::Update(DWORD dt)
 {
 	if (isTimeStopped) 
 	{
-		if (GetTickCount() - timeStopStart >= TIME_STOP_DURATION) 
+		if (GetTickCount64() - timeStopStart >= TIME_STOP_DURATION) 
 		{
 			isTimeStopped = false;
 		}
@@ -478,7 +478,7 @@ bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; 
 void CPlayScene::StartTimeStop()
 {
 	isTimeStopped = true;
-	timeStopStart = GetTickCount();
+	timeStopStart = GetTickCount64();
 }
 
 void CPlayScene::PurgeDeletedObjects()

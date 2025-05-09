@@ -179,7 +179,6 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_KICK_TIME 300
 #define MARIO_JUMP_TIME 400
-#define MARIO_TRANSFORM_TIME 400
 
 class CMario : public CGameObject
 {
@@ -200,7 +199,6 @@ class CMario : public CGameObject
 	DWORD jumpTimer;
 	BOOLEAN isJumping;
 	
-	DWORD transformTimer;
 	BOOLEAN isTransforming;
 
 	LPGAMEOBJECT holdingObject;
@@ -246,7 +244,6 @@ public:
 		jumpTimer = 0;
 		isJumping = false;
 
-		transformTimer = 0;
 		isTransforming = false;
 
 		holdingObject = NULL;

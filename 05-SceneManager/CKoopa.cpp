@@ -295,18 +295,23 @@ void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 
 void CKoopa::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
 {
-	SetState(KOOPA_STATE_DIE);
 
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (goomba->GetState() == GOOMBA_STATE_DIE || goomba->GetState() == GOOMBA_STATE_BOUNCE_DEATH) return;
+
+	SetState(KOOPA_STATE_DIE);
+
 
 	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+
 }
 
 void CKoopa::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
 {
-	SetState(KOOPA_STATE_DIE);
-
 	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
+	if (paragoomba->GetState() == GOOMBA_STATE_DIE || paragoomba->GetState() == GOOMBA_STATE_BOUNCE_DEATH) return;
+
+	SetState(KOOPA_STATE_DIE);
 
 	if (paragoomba->GetIsGoomba() == false)
 	{
