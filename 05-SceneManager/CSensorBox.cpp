@@ -35,9 +35,10 @@ void CSensorBox::OnNoCollision(DWORD dt)
 		isOnPlatform = false;
 	}*/
 
+	y += vy * dt;
+
 	isOnPlatform = false;
 
-	y += vy * dt;
 }
 void CSensorBox::OnCollisionWith(LPCOLLISIONEVENT e)
 {

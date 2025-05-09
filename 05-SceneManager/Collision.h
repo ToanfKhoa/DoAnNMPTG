@@ -36,6 +36,7 @@ struct CCollisionEvent
 	}
 
 	int WasCollided();
+	int WasOverlap();
 
 	static bool compare(const LPCOLLISIONEVENT& a, LPCOLLISIONEVENT& b)
 	{
@@ -71,7 +72,8 @@ public:
 		LPGAMEOBJECT objSrc, 
 		DWORD dt, 
 		vector<LPGAMEOBJECT>* objDests, 
-		vector<LPCOLLISIONEVENT>& coEvents);
+		vector<LPCOLLISIONEVENT>& coEvents,
+		vector<LPCOLLISIONEVENT>& ovEvents);
 
 	void Filter(
 		LPGAMEOBJECT objSrc,

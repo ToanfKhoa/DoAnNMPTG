@@ -331,9 +331,13 @@ void CKoopa::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 
 void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
 {
-	SetState(KOOPA_STATE_DIE);
 
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	if (koopa->GetState() == KOOPA_STATE_DIE || koopa->GetState() == KOOPA_STATE_DIE) return;
+
+	SetState(KOOPA_STATE_DIE);
+
 
 	if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{

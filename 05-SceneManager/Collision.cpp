@@ -3,6 +3,7 @@
 
 #include "debug.h"
 #include "CKoopa.h"
+#include "Mario.h"
 
 #define BLOCK_PUSH_FACTOR 0.01f
 
@@ -10,8 +11,18 @@ CCollision* CCollision::__instance = NULL;
 
 int CCollisionEvent::WasCollided() {
 	return
-		(t == -0.5f || (t >= 0.0f && t <= 1.0f ))
+		(t >= 0.0f && t <= 1.0f )
 		&& obj->IsDirectionColliable(nx, ny) == 1;
+}
+
+int CCollisionEvent::WasOverlap()
+{
+	bool overlapObj = false;
+	CKoopa* koopa = dynamic_cast<CKoopa*>(src_obj);
+	CMario* mario = dynamic_cast<CMario*>(src_obj);
+	if (koopa != NULL || mario != NULL) overlapObj = true;
+
+	return t == -0.5f && overlapObj;
 }
 
 CCollision* CCollision::GetInstance()
@@ -103,8 +114,7 @@ void CCollision::SweptAABB(
 	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f)
 	{
 		// overlap handling
-		// -2 is used as a threshold to detect deep overlap.
-		if ((tx_entry < -2 && ty_entry < -2) && !(tx_entry > 1.0f || ty_entry > 1.0f))
+		if (!(tx_entry > 1.0f || ty_entry > 1.0f))
 		{
 			t = -0.5f;
 			nx = ny = 0;
@@ -179,16 +189,19 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 	coObjects: the list of colliable objects
 	coEvents: list of potential collisions
 */
-void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDests, vector<LPCOLLISIONEVENT>& coEvents)
+void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDests, vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& ovEvents)
 {
 	for (UINT i = 0; i < objDests->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, objDests->at(i));
 
-		if (e->WasCollided()==1) 
+		if (e->WasCollided() == 1)
 			coEvents.push_back(e);
+		else if (e->WasOverlap() == 1)
+			ovEvents.push_back(e);
 		else
 			delete e;
+
 	}
 
 	//std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
@@ -241,6 +254,7 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> ovEvents;
 	LPCOLLISIONEVENT colX = NULL; 
 	LPCOLLISIONEVENT colY = NULL;
 
@@ -248,20 +262,18 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 
 	if (objSrc->IsCollidable())
 	{
-		Scan(objSrc, dt, coObjects, coEvents);
+		Scan(objSrc, dt, coObjects, coEvents, ovEvents);
 	}
 
 	//handling overlap
-	for (UINT i = 0; i < coEvents.size(); i++)
+	for (UINT i = 0; i < ovEvents.size(); i++)
 	{
-		LPCOLLISIONEVENT e = coEvents[i];
+		LPCOLLISIONEVENT e = ovEvents[i];
 		if (e->isDeleted) continue;
 
-		if (e->t == -0.5f )
-		{
-			objSrc->OnOverlapWith(e);
-			e->isDeleted = true;
-		}
+		objSrc->OnOverlapWith(e);
+		e->isDeleted = true;
+
 	}
 
 	// No collision detected
