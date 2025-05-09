@@ -33,7 +33,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 			vx = 0; //Mario completely stop 
 	}
-
+	
 	//Limit the max speed, check to prevent vx from reversing direction when maxVx changes suddenly
 	if (abs(vx) > abs(maxVx) && (vx * maxVx >= 0)) vx = maxVx;
 
@@ -63,6 +63,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 	}
 	
+	//Transform time
+	if (isTransforming == true)
+	{
+		transformTimer += dt;
+		if (transformTimer >= MARIO_TRANSFORM_TIME)
+			isTransforming = false;
+	}
+
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
 	if (holdingObject != NULL)
@@ -437,7 +445,14 @@ int CMario::GetAniIdSmall()
 int CMario::GetAniIdBig()
 {
 	int aniId = -1;
-	if (!isOnPlatform)
+	if (isTransforming == true)
+	{
+		if (nx >= 0)
+			aniId = ID_ANI_MARIO_BIG_TRANSFORM_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_BIG_TRANSFORM_LEFT;
+	}
+	else if (!isOnPlatform)
 	{
 		if (holdingObject != NULL)
 		{
@@ -525,7 +540,11 @@ int CMario::GetAniIdBig()
 int CMario::GetAniIdRacoon()
 {
 	int aniId = -1;
-	if (!isOnPlatform)
+	if (isTransforming == true)
+	{
+		aniId = ID_ANI_MARIO_RACOON_TRANSFORM;
+	}
+	else if (!isOnPlatform)
 	{
 		if (holdingObject != NULL)
 		{
@@ -817,6 +836,11 @@ void CMario::SetLevel(int l)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 	}
+	
+	//Transform effect
+	if (l > level)
+		isTransforming = true;
+
 	level = l;
 
 	//Time Stop

@@ -76,6 +76,9 @@
 #define ID_ANI_MARIO_BIG_KICK_RIGHT	1010
 #define ID_ANI_MARIO_BIG_KICK_LEFT	1011
 
+#define ID_ANI_MARIO_BIG_TRANSFORM_RIGHT 1020
+#define ID_ANI_MARIO_BIG_TRANSFORM_LEFT 1021
+
 #define ID_ANI_MARIO_DIE 999
 
 // SMALL MARIO
@@ -143,6 +146,8 @@
 #define ID_ANI_MARIO_RACOON_KICK_RIGHT	2310
 #define ID_ANI_MARIO_RACOON_KICK_LEFT	2311
 
+#define ID_ANI_MARIO_RACOON_TRANSFORM	2320
+
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -174,6 +179,7 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_KICK_TIME 300
 #define MARIO_JUMP_TIME 400
+#define MARIO_TRANSFORM_TIME 400
 
 class CMario : public CGameObject
 {
@@ -194,6 +200,9 @@ class CMario : public CGameObject
 	DWORD jumpTimer;
 	BOOLEAN isJumping;
 	
+	DWORD transformTimer;
+	BOOLEAN isTransforming;
+
 	LPGAMEOBJECT holdingObject;
 	BOOLEAN ableToHold;
 
@@ -233,7 +242,10 @@ public:
 		isKicking == false;
 
 		jumpTimer = 0;
-		isJumping = 0;
+		isJumping = false;
+
+		transformTimer = 0;
+		isTransforming = false;
 
 		holdingObject = NULL;
 		ableToHold = false;
