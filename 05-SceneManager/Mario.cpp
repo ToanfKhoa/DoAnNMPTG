@@ -135,8 +135,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithVenus(e);
 	else if (dynamic_cast<CBulletVenus*>(e->obj))
 		OnCollisionWithBulletVenus(e);
-	else if (dynamic_cast<CPowerUpItem*>(e->obj))
-		OnCollisionWithPowerUpItem(e);
+	//else if (dynamic_cast<CPowerUpItem*>(e->obj))
+	//	OnCollisionWithPowerUpItem(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
@@ -151,6 +151,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 {
 	if (dynamic_cast<CBulletVenus*>(e->obj))
 		OnCollisionWithBulletVenus(e);
+	else if (dynamic_cast<CPowerUpItem*>(e->obj))
+		OnOverlapWithPowerUpItem(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -249,7 +251,7 @@ void CMario::OnCollisionWithBulletVenus(LPCOLLISIONEVENT e)
 	GetDamaged();
 }
 
-void CMario::OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e)
+void CMario::OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e)
 {
 	CPowerUpItem* item = dynamic_cast<CPowerUpItem*>(e->obj);
 	DebugOut(L"PowerUpItem collision \n");

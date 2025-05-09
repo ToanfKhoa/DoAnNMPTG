@@ -213,11 +213,13 @@ class CMario : public CGameObject
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithBulletVenus(LPCOLLISIONEVENT e);
-	void OnCollisionWithPowerUpItem(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithPit(LPCOLLISIONEVENT e);
 	void OnCollisionWithSpawnBox(LPCOLLISIONEVENT e);
+
+
+	void OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

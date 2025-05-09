@@ -8,6 +8,7 @@
 #include "CKoopa.h"
 #include "ParaGoomba.h"
 #include "CQuestionBlock.h"
+#include "Brick.h"
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -46,6 +47,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		else
 			obj = new CKoopa(marioX - 32, marioY - 32);
 
+		obj->SetState(KOOPA_STATE_SHELL_IDLE);
 		playScene->AddObject(obj);
 		break;
 
@@ -75,6 +77,16 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			obj = new CQuestionBlock(marioX + 32, marioY, 1);
 		else
 			obj = new CQuestionBlock(marioX - 32, marioY, 1);
+
+		playScene->AddObject(obj);
+		break;
+
+	case DIK_8:
+
+		if (nx > 0)
+			obj = new CBrick(marioX + 32, marioY);
+		else
+			obj = new CBrick(marioX - 32, marioY);
 
 		playScene->AddObject(obj);
 		break;

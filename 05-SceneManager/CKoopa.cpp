@@ -375,13 +375,13 @@ CKoopa::CKoopa(float x, float y)
 	this->x = x;
 	this->y = y;
 	ay = KOOPA_GRAVITY;
-	isFlipped = true;
+	isFlipped = false;
 	sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH/4, KOOPA_BBOX_HEIGHT/4);
 
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->AddObject(sensorBox);
 
-	SetState(KOOPA_STATE_SHELL_IDLE);
+	SetState(KOOPA_STATE_WALKING_LEFT);
 }
 
 void CKoopa::SetState(int nextState)
