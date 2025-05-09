@@ -2,7 +2,7 @@
 
 void CBulletVenus::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	CAnimations::GetInstance()->Get(ID_ANI_BULLETVENUS)->Render(x, y);
 }
 

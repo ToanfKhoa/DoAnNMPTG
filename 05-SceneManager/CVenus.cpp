@@ -84,7 +84,7 @@ void CVenus::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CVenus::SetState(int state)

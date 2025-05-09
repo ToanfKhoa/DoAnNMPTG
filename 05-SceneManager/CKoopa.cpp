@@ -61,7 +61,7 @@ void CKoopa::Render()
 		//(GetTickCount64() / 50) increments by 1 unit every 50ms
 		float offset = ((GetTickCount64() / 50) % 2 == 0) ? -0.5 : 0.5;
 		CAnimations::GetInstance()->Get(aniId)->Render(x + offset, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 		return;
 	}
 	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
@@ -84,7 +84,7 @@ void CKoopa::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CKoopa::OnNoCollision(DWORD dt)

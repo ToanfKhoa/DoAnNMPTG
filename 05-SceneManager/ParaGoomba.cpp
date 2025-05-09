@@ -87,7 +87,7 @@ void CParaGoomba::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CParaGoomba::SetState(int state)

@@ -15,7 +15,7 @@ protected:
 
 public:
 	CSpawnBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT, float spawnObjectX, float spawnObjectY, int spawnObjectType);
-	void Render() { RenderBoundingBox(); }
+	void Render() { /*RenderBoundingBox();*/ }
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
 	int IsBlocking() { return 0; }
