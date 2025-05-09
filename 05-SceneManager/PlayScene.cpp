@@ -49,6 +49,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 #define TIME_STOP_DURATION 1000
 
+#define END_OF_MAP 2524
+
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
 	vector<string> tokens = split(line);
@@ -428,6 +430,7 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
+	if (cx > END_OF_MAP) cx = END_OF_MAP;
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 

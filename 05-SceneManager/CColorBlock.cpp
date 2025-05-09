@@ -1,4 +1,5 @@
 #include "CColorBlock.h"
+#include "AssetIDs.h"
 
 void CColorBlock::Render()
 {
@@ -22,8 +23,15 @@ void CColorBlock::Render()
 			else if (j == length_y - 1) s->Get(this->spriteIdTop)->Draw(xx, yy);
 			else s->Get(this->spriteIdMiddle)->Draw(xx, yy);
 
+			//shadow of the box
+			if (i == length_x - 1 && j == length_y - 1)
+				s->Get(ID_SPRITE_SHADOW_TOP)->Draw(xx + this->cellWidth, yy);
+			else if (i == length_x - 1)
+				s->Get(ID_SPRITE_SHADOW_RIGHT)->Draw(xx + this->cellWidth, yy);
+
 			yy -= this->cellHeight;
 		}
+
 		yy = y;
 		xx += this->cellWidth;
 	}

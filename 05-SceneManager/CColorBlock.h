@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+
 class CColorBlock : public CGameObject
 {
 protected:

@@ -1,5 +1,7 @@
 # id	left	top	right	bottom	texture_id
 # 0 - topleft_sky, 1 - topright_sky, 2 - left_border, 3 - right_border, 4 - topright_green, 5 - topleft_green, 6 - green_noborder.
+# 7 to 12 is Black Bush: 7 - topleft, 8 - topright, 9 - left, 10 - right, 11 - blank
+
 [SPRITES]
 101000	137	1	152	16	30
 101001	154	1	169	16	30
@@ -8,6 +10,12 @@
 101004	154	35	169	50	30
 101005	137	35	152	50	30
 101006	137	52	152	67	30
+
+101007	103	1	118	16	30
+101008	120	1	135	16	30
+101009	103	18	118	33	30
+101010	120	18	135	33	30
+101011	120	52	135	67	30
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
