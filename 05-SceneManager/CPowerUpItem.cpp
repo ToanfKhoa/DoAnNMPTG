@@ -72,9 +72,9 @@ void CPowerUpItem::SetState(int state)
 		vy = POWERUPITEM_SPEED/3;
 
 		if(isSuperLeaf == true)
-			ay = POWERUPITEM_GRAVITY; // cho superleaf di chuyen cham hon
+			ay = POWERUPITEM_GRAVITY * 5; // cho superleaf di chuyen cham hon
 		else
-			ay = POWERUPITEM_GRAVITY*100;
+			ay = POWERUPITEM_GRAVITY * 100;
 
 		break;
 	case POWERUPITEM_STATE_MOVING_RIGHT:
@@ -82,7 +82,7 @@ void CPowerUpItem::SetState(int state)
 		vy = POWERUPITEM_SPEED/3;
 
 		if (isSuperLeaf == true)
-			ay = POWERUPITEM_GRAVITY; // cho superleaf di chuyen cham hon
+			ay = POWERUPITEM_GRAVITY * 5; // cho superleaf di chuyen cham hon
 		else
 			ay = POWERUPITEM_GRAVITY * 100;
 
@@ -134,9 +134,17 @@ void CPowerUpItem::CheckAndChangeState()
 		{
 			SetState(POWERUPITEM_STATE_MOVING_LEFT);
 		}
-		else if (state == POWERUPITEM_STATE_MOVING_LEFT && x <= x_start)
+		else if (state == POWERUPITEM_STATE_MOVING_RIGHT && x >= x_start + POWERUPITEM_SWING_WIDTH/2) //swing effect
+		{
+			ay = -5 * POWERUPITEM_GRAVITY;
+		}
+		else if (state == POWERUPITEM_STATE_MOVING_LEFT && x <= x_start + 16) //Add a small offset to avoid the QuestionBlock covering the leaf
 		{
 			SetState(POWERUPITEM_STATE_MOVING_RIGHT);
+		}
+		else if (state == POWERUPITEM_STATE_MOVING_LEFT && x <= x_start + (POWERUPITEM_SWING_WIDTH/2 + 16)) //swing effect
+		{
+			ay = -5 * POWERUPITEM_GRAVITY;
 		}
 	}
 	else
