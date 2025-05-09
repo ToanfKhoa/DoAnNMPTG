@@ -19,6 +19,7 @@ bigbush.txt
 decoration.txt
 woodblock.txt
 hud.txt
+brokenbrickpiece.txt
 
 #
 [OBJECTS]

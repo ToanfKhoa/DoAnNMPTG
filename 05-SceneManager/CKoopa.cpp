@@ -415,7 +415,6 @@ void CKoopa::SetState(int nextState)
 		case KOOPA_STATE_BEING_HELD: //state when mario holds koopa
 			vx = 0;
 			vy = 0;
-			isFlipped= true;	//start flipping koopa, other states koopa will be flipped too
 			break;
 		case KOOPA_STATE_DIE:
 			//isDeleted = true;
