@@ -154,6 +154,7 @@
     <ClCompile Include="CBulletVenus.cpp" />
     <ClCompile Include="CColorBlock.cpp" />
     <ClCompile Include="CCoinItem.cpp" />
+    <ClCompile Include="CExtraLifeMushroom.cpp" />
     <ClCompile Include="CGround.cpp" />
     <ClCompile Include="CHeadsUpDisplay.cpp" />
     <ClCompile Include="CKoopa.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="CBulletVenus.h" />
     <ClInclude Include="CColorBlock.h" />
     <ClInclude Include="CCoinItem.h" />
+    <ClInclude Include="CExtraLifeMushroom.h" />
     <ClInclude Include="CGround.h" />
     <ClInclude Include="CHeadsUpDisplay.h" />
     <ClInclude Include="CKoopa.h" />
