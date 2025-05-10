@@ -5,10 +5,20 @@
 #define EXTRALIFEMUSHROOM_SPEED 0.05f
 #define EXTRALIFEMUSHROOM_EMERGE_HEIGHT 16
 
+#define EXTRALIFEMUSHROOM_BBOX_WIDTH 16
+#define EXTRALIFEMUSHROOM_BBOX_HEIGHT 14
+
+#define EXTRALIFEMUSHROOM_STATE_IDLE 0
+#define EXTRALIFEMUSHROOM_STATE_EMERGING 100
+#define EXTRALIFEMUSHROOM_STATE_MOVING_LEFT 200
+#define EXTRALIFEMUSHROOM_STATE_MOVING_RIGHT 300
+#define EXTRALIFEMUSHROOM_STATE_EATEN 400
+
 class CExtraLifeMushroom : public CGameObject
 {
 protected:
 	float ay;
+	float y_start;
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
