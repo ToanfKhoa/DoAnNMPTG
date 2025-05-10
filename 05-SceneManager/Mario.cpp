@@ -22,6 +22,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	DebugOut(L"state %d\n", state);
 	vx += ax * dt;
 	vy += ay * dt;
 
@@ -62,7 +63,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (jumpTimer >= MARIO_JUMP_TIME)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 	}
-	
+
+	//Limit wagging time of Mario
+	if (isWagging == true)
+	{
+		wagTimer += dt;
+		if (wagTimer >= MARIO_WAG_TIME)
+		{
+			isWagging = false;
+			wagTimer = 0;
+		}
+	}
+		
 	//Mario will transform while stop scenetime, transform stop when scene countinue to update
 	if (isTransforming == true)
 	{
@@ -553,19 +565,26 @@ int CMario::GetAniIdRacoon()
 			else
 				aniId = ID_ANI_MARIO_RACOON_HOLDING_JUMP_LEFT;
 		}
-		else if (abs(ax) == MARIO_ACCEL_RUN_X)
+		else if (isWagging)
 		{
 			if (nx >= 0)
-				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_RIGHT;
+				aniId = ID_ANI_MARIO_RACOON_FALL_WAGGING_RIGHT;
 			else
-				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_LEFT;
+				aniId = ID_ANI_MARIO_RACOON_FALL_WAGGING_LEFT;
 		}
-		else
+		else if (ay == 0) //jump up
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_RACOON_JUMP_WALK_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_RACOON_JUMP_WALK_LEFT;
+		}
+		else
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACOON_FALL_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACOON_FALL_LEFT;
 		}
 	}
 	else
@@ -696,6 +715,13 @@ void CMario::SetState(int state)
 			else
 				vy = -MARIO_JUMP_SPEED_Y;
 		}
+		else if (level == MARIO_LEVEL_RACOON && ay != 0) //Wagging tail in Raccoon form
+		{
+			isWagging = true;
+			vy = MARIO_JUMP_SPEED_Y / 1000;
+			ay = MARIO_GRAVITY / 2;
+		}
+
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:

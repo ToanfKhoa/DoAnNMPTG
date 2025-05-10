@@ -131,6 +131,11 @@
 #define ID_ANI_MARIO_RACOON_JUMP_WALK_RIGHT 2000
 #define ID_ANI_MARIO_RACOON_JUMP_WALK_LEFT 2001
 
+#define ID_ANI_MARIO_RACOON_FALL_RIGHT 2002
+#define ID_ANI_MARIO_RACOON_FALL_LEFT 2003
+#define ID_ANI_MARIO_RACOON_FALL_WAGGING_RIGHT 2004
+#define ID_ANI_MARIO_RACOON_FALL_WAGGING_LEFT 2005
+
 #define ID_ANI_MARIO_RACOON_HOLDING_JUMP_RIGHT 2010
 #define ID_ANI_MARIO_RACOON_HOLDING_JUMP_LEFT 2011
 
@@ -179,6 +184,7 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_KICK_TIME 300
 #define MARIO_JUMP_TIME 400
+#define MARIO_WAG_TIME 100
 
 class CMario : public CGameObject
 {
@@ -198,7 +204,10 @@ class CMario : public CGameObject
 
 	DWORD jumpTimer;
 	BOOLEAN isJumping;
-	
+
+	DWORD wagTimer;
+	BOOLEAN isWagging;
+
 	BOOLEAN isTransforming;
 
 	LPGAMEOBJECT holdingObject;
@@ -244,10 +253,15 @@ public:
 		jumpTimer = 0;
 		isJumping = false;
 
+		wagTimer = 0;
+		isWagging = false;
+
 		isTransforming = false;
 
 		holdingObject = NULL;
 		ableToHold = false;
+
+		isWagging = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
