@@ -23,6 +23,7 @@
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	DebugOut(L"state %d\n", state);
+	DebugOut(L"ablefly %d\n", ableToFly);
 	vx += ax * dt;
 	vy += ay * dt;
 
@@ -74,7 +75,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			wagTimer = 0;
 		}
 	}
-		
+
+	//Check and fly
+	if (isOnPlatform && vx == MARIO_RUNNING_SPEED && ableToFly == false) 
+		ableToFly = true;
+	if (ableToFly == true) //Limit flying time of Mario
+	{
+		flyTimer += dt;
+		if (flyTimer >= MARIO_FLY_TIME)
+		{
+			ableToFly = false;
+			flyTimer = 0;
+		}
+	}
+	
 	//Mario will transform while stop scenetime, transform stop when scene countinue to update
 	if (isTransforming == true)
 	{
@@ -567,10 +581,20 @@ int CMario::GetAniIdRacoon()
 		}
 		else if (isWagging)
 		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_RACOON_FALL_WAGGING_RIGHT;
+			if (ableToFly)
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_RACOON_JUMP_WAG_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACOON_JUMP_WAG_LEFT;
+			}
 			else
-				aniId = ID_ANI_MARIO_RACOON_FALL_WAGGING_LEFT;
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_RACOON_FALL_WAG_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACOON_FALL_WAG_LEFT;
+			}
 		}
 		else if (vy > 0) //falling
 		{
@@ -578,6 +602,13 @@ int CMario::GetAniIdRacoon()
 				aniId = ID_ANI_MARIO_RACOON_FALL_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_RACOON_FALL_LEFT;
+		}
+		else if (ax = MARIO_ACCEL_RUN_X)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_LEFT;
 		}
 		else
 		{
@@ -705,6 +736,7 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_JUMP:
 		if (isSitting) break;
+
 		if (isOnPlatform)
 		{
 			isJumping = true;
@@ -714,6 +746,12 @@ void CMario::SetState(int state)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
 				vy = -MARIO_JUMP_SPEED_Y;
+		}
+		else if (level == MARIO_LEVEL_RACOON && ableToFly == true)
+		{
+			isWagging = true;
+			ay = 0;
+			vy = -MARIO_JUMP_SPEED_Y;
 		}
 		else if (level == MARIO_LEVEL_RACOON && vy > 0) //Wag tail in Raccoon form while falling
 		{

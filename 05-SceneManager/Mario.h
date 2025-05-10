@@ -133,14 +133,16 @@
 
 #define ID_ANI_MARIO_RACOON_FALL_RIGHT 2002
 #define ID_ANI_MARIO_RACOON_FALL_LEFT 2003
-#define ID_ANI_MARIO_RACOON_FALL_WAGGING_RIGHT 2004
-#define ID_ANI_MARIO_RACOON_FALL_WAGGING_LEFT 2005
+#define ID_ANI_MARIO_RACOON_FALL_WAG_RIGHT 2004
+#define ID_ANI_MARIO_RACOON_FALL_WAG_LEFT 2005
 
 #define ID_ANI_MARIO_RACOON_HOLDING_JUMP_RIGHT 2010
 #define ID_ANI_MARIO_RACOON_HOLDING_JUMP_LEFT 2011
 
 #define ID_ANI_MARIO_RACOON_JUMP_RUN_RIGHT 2100
 #define ID_ANI_MARIO_RACOON_JUMP_RUN_LEFT 2101
+#define ID_ANI_MARIO_RACOON_JUMP_WAG_RIGHT 2102
+#define ID_ANI_MARIO_RACOON_JUMP_WAG_LEFT 2103
 
 #define ID_ANI_MARIO_RACOON_SIT_RIGHT 2200
 #define ID_ANI_MARIO_RACOON_SIT_LEFT 2201
@@ -185,6 +187,7 @@
 #define MARIO_KICK_TIME 300
 #define MARIO_JUMP_TIME 400
 #define MARIO_WAG_TIME 100
+#define MARIO_FLY_TIME 6000
 
 class CMario : public CGameObject
 {
@@ -212,6 +215,9 @@ class CMario : public CGameObject
 
 	LPGAMEOBJECT holdingObject;
 	BOOLEAN ableToHold;
+
+	DWORD flyTimer;
+	BOOLEAN ableToFly;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
@@ -262,6 +268,9 @@ public:
 		ableToHold = false;
 
 		isWagging = false;
+
+		flyTimer = 0;
+		ableToFly = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
