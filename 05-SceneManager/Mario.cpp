@@ -572,19 +572,19 @@ int CMario::GetAniIdRacoon()
 			else
 				aniId = ID_ANI_MARIO_RACOON_FALL_WAGGING_LEFT;
 		}
-		else if (ay == 0) //jump up
-		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_RACOON_JUMP_WALK_RIGHT;
-			else
-				aniId = ID_ANI_MARIO_RACOON_JUMP_WALK_LEFT;
-		}
-		else
+		else if (vy > 0) //falling
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_RACOON_FALL_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_RACOON_FALL_LEFT;
+		}
+		else
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACOON_JUMP_WALK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACOON_JUMP_WALK_LEFT;
 		}
 	}
 	else
@@ -715,7 +715,7 @@ void CMario::SetState(int state)
 			else
 				vy = -MARIO_JUMP_SPEED_Y;
 		}
-		else if (level == MARIO_LEVEL_RACOON && ay != 0) //Wagging tail in Raccoon form
+		else if (level == MARIO_LEVEL_RACOON && vy > 0) //Wag tail in Raccoon form while falling
 		{
 			isWagging = true;
 			vy = MARIO_JUMP_SPEED_Y / 1000;
