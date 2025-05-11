@@ -434,7 +434,7 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0;
 	if (cx > END_OF_MAP) cx = END_OF_MAP;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CGame::GetInstance()->SetCamPos(cx, -100 /*cy*/);
 
 	PurgeDeletedObjects();
 }
