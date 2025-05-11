@@ -20,7 +20,7 @@
 #include "CSpawnBox.h"
 #include "PlayScene.h"
 
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	DebugOut(L"state %d\n", state);
 	DebugOut(L"ablefly %d\n", ableToFly);
@@ -28,19 +28,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vy += ay * dt;
 
 	//Mario slowly decrease vx when stop moving
-	if (state == MARIO_STATE_IDLE) 
+	if (state == MARIO_STATE_IDLE)
 	{
-		if (abs(vx) > MARIO_MIN_SPEED) 
+		if (abs(vx) > MARIO_MIN_SPEED)
 			vx *= MARIO_FRICTION;
 		else
 			vx = 0; //Mario completely stop 
 	}
-	
+
 	//Limit the max speed, check to prevent vx from reversing direction when maxVx changes suddenly
 	if (abs(vx) > abs(maxVx) && (vx * maxVx >= 0)) vx = maxVx;
 
 	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -76,10 +76,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
-	//Check and fly
-	if (isOnPlatform && vx == MARIO_RUNNING_SPEED && ableToFly == false) 
-		ableToFly = true;
-	if (ableToFly == true) //Limit flying time of Mario
+	//Limit flying time
+	if (ableToFly == true)
 	{
 		flyTimer += dt;
 		if (flyTimer >= MARIO_FLY_TIME)
@@ -88,7 +86,26 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			flyTimer = 0;
 		}
 	}
-	
+
+	DebugOut(L"runpow %d\n", runPower);
+	//Run power
+	if ((level == MARIO_LEVEL_RACOON && abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform) || ableToFly == true) //Running or is in flying time
+	{
+		//Increase and keep runPower at max value
+		if (runPower < MARIO_MAX_RUN_POWER)
+			runPower += dt;
+		else
+			runPower = MARIO_MAX_RUN_POWER;
+	}
+	else
+	{
+		//Decrease and keep runPower at 0
+		if(runPower > 0)
+			runPower -= dt;
+		else
+			runPower = 0;
+	}
+
 	//Mario will transform while stop scenetime, transform stop when scene countinue to update
 	if (isTransforming == true)
 	{
@@ -655,7 +672,7 @@ int CMario::GetAniIdRacoon()
 			{
 				if (ax < 0)
 					aniId = ID_ANI_MARIO_RACOON_BRACE_RIGHT;
-				else if (abs(vx) == MARIO_RUNNING_SPEED)
+				else if (runPower == MARIO_MAX_RUN_POWER)
 					aniId = ID_ANI_MARIO_RACOON_RUNNING_RIGHT;
 				else
 					aniId = ID_ANI_MARIO_RACOON_WALKING_RIGHT;
@@ -664,7 +681,7 @@ int CMario::GetAniIdRacoon()
 			{
 				if (ax > 0)
 					aniId = ID_ANI_MARIO_RACOON_BRACE_LEFT;
-				else if (abs(vx) == MARIO_RUNNING_SPEED)
+				else if (runPower == MARIO_MAX_RUN_POWER)
 					aniId = ID_ANI_MARIO_RACOON_RUNNING_LEFT;
 				else
 					aniId = ID_ANI_MARIO_RACOON_WALKING_LEFT;
@@ -742,12 +759,16 @@ void CMario::SetState(int state)
 			isJumping = true;
 			ay = 0;
 
+			//Start Fly time if has enough power
+			if (runPower == MARIO_MAX_RUN_POWER && ableToFly == false)
+				ableToFly = true;
+
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
 				vy = -MARIO_JUMP_SPEED_Y;
 		}
-		else if (level == MARIO_LEVEL_RACOON && ableToFly == true)
+		else if (level == MARIO_LEVEL_RACOON && ableToFly == true) //Wag tail to keep flying
 		{
 			isWagging = true;
 			ay = 0;

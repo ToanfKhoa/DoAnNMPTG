@@ -7,11 +7,11 @@
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.08f
-#define MARIO_RUNNING_SPEED		0.15f
+#define MARIO_RUNNING_SPEED		0.12f
 #define MARIO_RUNNING_SPEED_RENDER 2.0f
 
-#define MARIO_ACCEL_WALK_X	0.0002f
-#define MARIO_ACCEL_RUN_X	0.00025f
+#define MARIO_ACCEL_WALK_X	0.0005f
+#define MARIO_ACCEL_RUN_X	0.0007f
 
 #define MARIO_JUMP_SPEED_Y		0.2f
 #define MARIO_JUMP_RUN_SPEED_Y	0.25f
@@ -188,6 +188,7 @@
 #define MARIO_JUMP_TIME 400
 #define MARIO_WAG_TIME 100
 #define MARIO_FLY_TIME 6000
+#define MARIO_MAX_RUN_POWER 2000 //Max power = time to run
 
 class CMario : public CGameObject
 {
@@ -218,6 +219,8 @@ class CMario : public CGameObject
 
 	DWORD flyTimer;
 	BOOLEAN ableToFly;
+
+	DWORD runPower;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
@@ -271,6 +274,8 @@ public:
 
 		flyTimer = 0;
 		ableToFly = false;
+
+		runPower = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
