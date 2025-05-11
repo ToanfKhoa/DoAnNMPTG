@@ -1,5 +1,6 @@
 #include "Brick.h"
 #include "CBrokenBrickPiece.h"
+#include "CExtraLifeMushroom.h"
 #include "PlayScene.h"
 
 void CBrick::Render()
@@ -84,13 +85,24 @@ void CBrick::SpawnBrokenPieces()
 	}
 }
 
-CBrick::CBrick(float x, float y) : CGameObject(x, y) 
+CBrick::CBrick(float x, float y, int itemType) : CGameObject(x, y) 
 {
 	this->x = x;
 	this->y = y;
 	y_start = y;
+	this->itemType = itemType;
 	isBreakable = false;
 	SetState(BRICK_STATE_IDLE);
+
+	if (itemType == 1)
+	{
+		this->spawnedItem = new CExtraLifeMushroom(x, y);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(spawnedItem);
+		}
+	}
 }
 
 void CBrick::SetState(int state)
