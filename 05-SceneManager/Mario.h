@@ -191,7 +191,7 @@
 #define MARIO_JUMP_TIME 400
 #define MARIO_WAG_TIME 100
 #define MARIO_FLY_TIME 6000
-#define MARIO_ATTACK_TIME 240
+#define MARIO_ATTACK_TIME 300
 #define MARIO_MAX_RUN_POWER 2000 //Max power = time to run
 
 class CMario : public CGameObject
