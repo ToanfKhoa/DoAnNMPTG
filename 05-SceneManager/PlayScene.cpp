@@ -143,7 +143,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBrick(x, y, item_type); 
 		break;
 	}
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+	case OBJECT_TYPE_COIN:
+	{
+		int count = atoi(tokens[3].c_str());
+		int x_spacing = atoi(tokens[4].c_str());
+		int y_spacing = atoi(tokens[5].c_str());
+
+		obj = new CCoin(x, y);
+
+		for (int i = 1; i < count; i++)
+		{
+		    CCoin* coin = new CCoin(x + i * x_spacing, y + i * y_spacing);
+			objects.push_back(coin);
+		}
+
+		break;
+	}
+
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParaGoomba(x, y); break;
 	case OBJECT_TYPE_QUESTIONBLOCK:
 	{
