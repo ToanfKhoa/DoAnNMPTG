@@ -155,6 +155,9 @@
 
 #define ID_ANI_MARIO_RACOON_TRANSFORM	2320
 
+#define ID_ANI_MARIO_RACOON_ATTACK_RIGHT 2321
+#define ID_ANI_MARIO_RACOON_ATTACK_LEFT 2322
+
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -188,6 +191,7 @@
 #define MARIO_JUMP_TIME 400
 #define MARIO_WAG_TIME 100
 #define MARIO_FLY_TIME 6000
+#define MARIO_ATTACK_TIME 240
 #define MARIO_MAX_RUN_POWER 2000 //Max power = time to run
 
 class CMario : public CGameObject
@@ -219,6 +223,9 @@ class CMario : public CGameObject
 
 	DWORD flyTimer;
 	BOOLEAN ableToFly;
+
+	DWORD attackTimer;
+	BOOLEAN isAttacking;
 
 	DWORD runPower;
 
@@ -304,4 +311,6 @@ public:
 	void Throw();
 
 	void Setnx(int nx) { this->nx = nx; };
+
+	void Attack() { isAttacking = true; }
 };

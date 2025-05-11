@@ -22,8 +22,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"state %d\n", state);
-	DebugOut(L"ablefly %d\n", ableToFly);
+	DebugOut(L"timerattack %d\n", attackTimer);
 	vx += ax * dt;
 	vy += ay * dt;
 
@@ -84,6 +83,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			ableToFly = false;
 			flyTimer = 0;
+		}
+	}
+
+	//Limit attacking time
+	if (isAttacking == true)
+	{
+		attackTimer += dt;
+		if (attackTimer >= MARIO_ATTACK_TIME)
+		{
+			isAttacking = false;
+			attackTimer = 0;
 		}
 	}
 
@@ -587,6 +597,13 @@ int CMario::GetAniIdRacoon()
 	{
 		aniId = ID_ANI_MARIO_RACOON_TRANSFORM;
 	}
+	else if (isAttacking)
+	{
+		if (nx > 0)
+			aniId = ID_ANI_MARIO_RACOON_ATTACK_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_RACOON_ATTACK_LEFT;
+	}
 	else if (!isOnPlatform)
 	{
 		if (holdingObject != NULL)
@@ -717,7 +734,7 @@ void CMario::Render()
 	else
 		animations->Get(aniId)->Render(x, y);
 	
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);
 }

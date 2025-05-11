@@ -99,6 +99,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		mario->SetAbleToHold(true);
+		if (mario->GetLevel() == MARIO_LEVEL_RACOON)
+			mario->Attack();
 	}
 }
 
