@@ -338,11 +338,12 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 	{
 		if (brick->GetState() == BRICK_STATE_IDLE )
 		{
-			if (level != MARIO_LEVEL_SMALL)
+			if (level == MARIO_LEVEL_SMALL)
 			{
-				brick->SetIsBreakable(true);
+				brick->SetState(BRICK_STATE_BOUNCING_UP);
 			}
-			brick->SetState(BRICK_STATE_BOUNCING_UP);
+			else
+				brick->SetState(BRICK_STATE_BROKEN);
 		}
 	}
 }

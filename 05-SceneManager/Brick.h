@@ -25,7 +25,6 @@ class CBrick : public CGameObject {
 protected:
 	ULONGLONG bounce_start;
 	float y_start;
-	boolean isBreakable;
 	int itemType;	//0 = no item, 1 = ExtraLifeMushroom
 	CGameObject* spawnedItem;
 
@@ -40,6 +39,5 @@ protected:
 public:
 	CBrick(float x, float y, int itemType);
 	void SetState(int state);
-	void SetIsBreakable(boolean value);
 	void SpawnBrokenPieces();
 };
