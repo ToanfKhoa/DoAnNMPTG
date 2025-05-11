@@ -25,6 +25,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
+	DebugOut(L"mario x,y : %f %f\n", x, y);
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE) 
 	{
