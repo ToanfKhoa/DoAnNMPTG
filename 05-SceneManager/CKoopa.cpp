@@ -287,8 +287,7 @@ void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 	{
 		if (brick->GetState() == BRICK_STATE_IDLE)
 		{
-			brick->SetIsBreakable(true);
-			brick->SetState(BRICK_STATE_BOUNCING_UP);
+			brick->SetState(BRICK_STATE_BROKEN);
 		}
 	}
 }

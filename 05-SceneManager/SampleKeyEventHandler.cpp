@@ -84,9 +84,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_8:
 
 		if (nx > 0)
-			obj = new CBrick(marioX + 32, marioY);
+			obj = new CBrick(marioX + 32, marioY, 0);
 		else
-			obj = new CBrick(marioX - 32, marioY);
+			obj = new CBrick(marioX - 32, marioY, 0);
 
 		playScene->AddObject(obj);
 		break;
