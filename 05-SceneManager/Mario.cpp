@@ -73,7 +73,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
-	hitBox->SetPosition(x, y);
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE)
 	{
@@ -134,19 +133,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	//Limit attacking time
-	if (isAttacking == true)
-	{
-		attackTimer += dt;
-		if (attackTimer >= MARIO_ATTACK_TIME)
-		{
-			isAttacking = false;
-			hitBox->SetIsActive(false);
-			attackTimer = 0;
-		}
-	}
-
-	DebugOut(L"runpow %d\n", runPower);
 	//Run power
 	if ((level == MARIO_LEVEL_RACOON && abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform) || ableToFly == true) //Running or is in flying time
 	{
@@ -195,6 +181,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			holdingObject = NULL;
 		}
 	}
+
+
+	//Limit attacking time and set position hitbox
+
+	if (isAttacking == true)
+	{
+		attackTimer += dt;
+		if(attackTimer >= MARIO_ATTACK_TIME / 2)
+			hitBox->SetPosition(x + nx * MARIO_RACOON_BBOX_WIDTH / 2, y + MARIO_RACOON_BBOX_HEIGHT / 4);
+		else
+			hitBox->SetPosition(x - nx * MARIO_RACOON_BBOX_WIDTH / 2, y + MARIO_RACOON_BBOX_HEIGHT / 4);
+
+		if (attackTimer >= MARIO_ATTACK_TIME)
+		{
+			isAttacking = false;
+			hitBox->SetIsActive(false);
+			attackTimer = 0;
+		}
+	}
+	else
+		hitBox->SetPosition(x, y + MARIO_RACOON_BBOX_HEIGHT / 4);
 
 }
 
