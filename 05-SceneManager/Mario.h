@@ -3,7 +3,9 @@
 
 #include "Animation.h"
 #include "Animations.h"
-
+#include "CMarioHitBox.h"
+#include "PlayScene.h"
+#include "Game.h"
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.08f
@@ -178,7 +180,8 @@
 #define MARIO_RACOON_BBOX_HEIGHT 24
 #define MARIO_RACOON_SITTING_BBOX_WIDTH  14
 #define MARIO_RACOON_SITTING_BBOX_HEIGHT 16
-
+#define MARIO_HIT_BOX_WIDTH  30
+#define MARIO_HIT_BOX_HEIGHT 10
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
@@ -194,12 +197,14 @@
 #define MARIO_ATTACK_TIME 300
 #define MARIO_MAX_RUN_POWER 2000 //Max power = time to run
 
+typedef CMarioHitBox* LPHITBOX;
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
+	LPHITBOX hitBox;
 
 	int level; 
 	int untouchable; 
@@ -249,41 +254,7 @@ class CMario : public CGameObject
 	int GetAniIdRacoon();
 
 public:
-	CMario(float x, float y) : CGameObject(x, y)
-	{
-		isSitting = false;
-		maxVx = 0.0f;
-		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
-		nx = 1;
-
-		level = MARIO_LEVEL_SMALL;
-		untouchable = 0;
-		untouchable_start = -1;
-		isOnPlatform = false;
-		coin = 0;
-
-		kickTimer == 0;
-		isKicking == false;
-
-		jumpTimer = 0;
-		isJumping = false;
-
-		wagTimer = 0;
-		isWagging = false;
-
-		isTransforming = false;
-
-		holdingObject = NULL;
-		ableToHold = false;
-
-		isWagging = false;
-
-		flyTimer = 0;
-		ableToFly = false;
-
-		runPower = 0;
-	}
+	CMario(float x, float y);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
@@ -292,7 +263,7 @@ public:
 	{ 
 		return (state != MARIO_STATE_DIE); 
 	}
-
+	
 	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
 
 	void OnNoCollision(DWORD dt);
@@ -312,5 +283,5 @@ public:
 
 	void Setnx(int nx) { this->nx = nx; };
 
-	void Attack() { isAttacking = true; }
+	void Attack() { isAttacking = true; hitBox->SetIsActive(true); }
 };

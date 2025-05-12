@@ -20,12 +20,60 @@
 #include "CSpawnBox.h"
 #include "PlayScene.h"
 
+CMario::CMario(float x, float y) : CGameObject(x, y)
+{
+		isSitting = false;
+		maxVx = 0.0f;
+		ax = 0.0f;
+		ay = MARIO_GRAVITY;
+		nx = 1;
+
+		level = MARIO_LEVEL_SMALL;
+		untouchable = 0;
+		untouchable_start = -1;
+		isOnPlatform = false;
+		coin = 0;
+
+		kickTimer == 0;
+		isKicking == false;
+
+		jumpTimer = 0;
+		isJumping = false;
+
+		wagTimer = 0;
+		isWagging = false;
+
+		isTransforming = false;
+
+		holdingObject = NULL;
+		ableToHold = false;
+
+		isWagging = false;
+
+		flyTimer = 0;
+		ableToFly = false;
+
+		runPower = 0;
+
+		hitBox = new CMarioHitBox(x, y, MARIO_HIT_BOX_WIDTH, MARIO_HIT_BOX_HEIGHT);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(hitBox);
+		}
+		else
+		{
+			DebugOut(L"[ERROR] Scene is NULL\n");
+		}
+}
+
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	DebugOut(L"timerattack %d\n", attackTimer);
 	vx += ax * dt;
 	vy += ay * dt;
 
+	hitBox->SetPosition(x, y);
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE)
 	{
@@ -93,6 +141,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (attackTimer >= MARIO_ATTACK_TIME)
 		{
 			isAttacking = false;
+			hitBox->SetIsActive(false);
 			attackTimer = 0;
 		}
 	}
