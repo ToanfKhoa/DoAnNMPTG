@@ -15,6 +15,7 @@ public:
 
 	void OnOverlapWith(LPCOLLISIONEVENT e);
 	void OnOverlapWithGoomba(LPCOLLISIONEVENT e);
+	void OnOverlapWithParaGoomba(LPCOLLISIONEVENT e);
 	void OnOverlapWithVenus(LPCOLLISIONEVENT e);
 	void OnOverlapWithKoopa(LPCOLLISIONEVENT e);
 	void OnOverlapWithBrick(LPCOLLISIONEVENT e);
@@ -22,6 +23,7 @@ public:
 
 	int IsBlocking() { return 0; }
 	int IsCollidable() { return 1; }
+	int IsOverlappable() { return 1; }
 	void SetIsActive(BOOLEAN b) { isActive = b; }
 };
 

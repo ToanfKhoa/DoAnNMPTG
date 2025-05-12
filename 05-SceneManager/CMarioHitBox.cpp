@@ -1,6 +1,7 @@
 #include "CMarioHitBox.h"
 #include "CVenus.h"
 #include "Goomba.h"
+#include "ParaGoomba.h"
 #include "CKoopa.h"
 #include "CQuestionBlock.h"
 #include "Brick.h"
@@ -55,6 +56,16 @@ void CMarioHitBox::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
 
 	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
 
+}
+
+void CMarioHitBox::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
+{
+	CParaGoomba* paraGoomba = dynamic_cast<CParaGoomba*>(e->obj);
+	if (paraGoomba->GetState() == GOOMBA_STATE_DIE || paraGoomba->GetState() == GOOMBA_STATE_BOUNCE_DEATH) return;
+
+	SetState(KOOPA_STATE_DIE);
+
+	paraGoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
 }
 
 void CMarioHitBox::OnOverlapWithVenus(LPCOLLISIONEVENT e)

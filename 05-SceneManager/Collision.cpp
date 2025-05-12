@@ -17,12 +17,7 @@ int CCollisionEvent::WasCollided() {
 
 int CCollisionEvent::WasOverlap()
 {
-	bool overlapObj = false;
-	CKoopa* koopa = dynamic_cast<CKoopa*>(src_obj);
-	CMario* mario = dynamic_cast<CMario*>(src_obj);
-	if (koopa != NULL || mario != NULL) overlapObj = true;
-
-	return t == -0.5f && overlapObj;
+	return t == -0.5f && src_obj->IsOverlappable() == 1;
 }
 
 CCollision* CCollision::GetInstance()
