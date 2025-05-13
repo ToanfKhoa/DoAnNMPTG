@@ -52,12 +52,12 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopa::Render()
 {
-	if (isGreen == 0)
+	if (isGreen)
 	{
-		RenderRedKoopa();
+		RenderGreenKoopa();
 	}
 	else
-		RenderGreenKoopa();
+		RenderRedKoopa();
 	//RenderBoundingBox();
 }
 
