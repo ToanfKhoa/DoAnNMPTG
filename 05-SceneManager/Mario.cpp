@@ -69,7 +69,7 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"timerattack %d\n", attackTimer);
+	//DebugOut(L"timerattack %d\n", attackTimer);
 	vx += ax * dt;
 	vy += ay * dt;
 
@@ -653,7 +653,7 @@ int CMario::GetAniIdRacoon()
 	{
 		aniId = ID_ANI_MARIO_RACOON_TRANSFORM;
 	}
-	else if (isAttacking)
+	else if (isAttacking && !isSitting)
 	{
 		if (nx > 0)
 			aniId = ID_ANI_MARIO_RACOON_ATTACK_RIGHT;
@@ -985,6 +985,14 @@ void CMario::Throw()
 		//Release
 		this->holdingObject = NULL;
 	}
+}
+
+void CMario::Attack()
+{
+	if (isSitting)
+		return;
+	isAttacking = true; 
+	hitBox->SetIsActive(true); 
 }
 
 void CMario::SetLevel(int l)

@@ -288,5 +288,5 @@ public:
 
 	void Setnx(int nx) { this->nx = nx; };
 
-	void Attack() { isAttacking = true; hitBox->SetIsActive(true); }
+	void Attack();
 };
