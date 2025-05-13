@@ -57,6 +57,13 @@ void CCollision::SweptAABB(
 
 	if (br < sl || bl > sr || bb < st || bt > sb) return;
 
+	//Overlap handling
+	if (ml < sr && mr > sl && mt < sb && mb > st)
+	{
+		t = -0.5;
+		nx = ny = 0;
+		return;
+	}
 
 	if (dx == 0 && dy == 0) return;		// moving object is not moving > obvious no collision
 
@@ -108,13 +115,6 @@ void CCollision::SweptAABB(
 
 	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f)
 	{
-		// overlap handling
-		if (!(tx_entry > 1.0f || ty_entry > 1.0f))
-		{
-			t = -0.5f;
-			nx = ny = 0;
-		}
-
 		return;
 	}
 
