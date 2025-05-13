@@ -32,6 +32,15 @@
 #define ID_ANI_KOOPA_SHELL_FLIPPED_MOVING 15006
 #define ID_ANI_KOOPA_SHELL_FLIPPED_REVIVE 15007
 
+#define ID_ANI_GREEN_KOOPA_WALKING_LEFT 15008
+#define ID_ANI_GREEN_KOOPA_WALKING_RIGHT 15009
+#define ID_ANI_GREEN_KOOPA_SHELL_UPRIGHT_IDLE 15010
+#define ID_ANI_GREEN_KOOPA_SHELL_UPRIGHT_MOVING 15011
+#define ID_ANI_GREEN_KOOPA_SHELL_UPRIGHT_REVIVE 15012
+#define ID_ANI_GREEN_KOOPA_SHELL_FLIPPED_IDLE 15013
+#define ID_ANI_GREEN_KOOPA_SHELL_FLIPPED_MOVING 15014
+#define ID_ANI_GREEN_KOOPA_SHELL_FLIPPED_REVIVE 15015
+
 class CKoopa :public CGameObject
 {
 protected:
@@ -44,6 +53,8 @@ protected:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
+	void RenderRedKoopa();
+	void RenderGreenKoopa();
 
 	int IsCollidable() { return state!=KOOPA_STATE_DIE; }
 

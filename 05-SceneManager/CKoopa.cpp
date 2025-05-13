@@ -52,23 +52,33 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopa::Render()
 {
+	if (isGreen == 0)
+	{
+		RenderRedKoopa();
+	}
+	else
+		RenderGreenKoopa();
+	//RenderBoundingBox();
+}
+
+void CKoopa::RenderRedKoopa()
+{
 	int aniId = ID_ANI_KOOPA_WALKING_LEFT;
-	if ( (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD) && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
+	if ((state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD) && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_REVIVE;
-		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_REVIVE;
+		if (isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_REVIVE;
 
 		//shake effect
 		//(GetTickCount64() / 50) increments by 1 unit every 50ms
 		float offset = ((GetTickCount64() / 50) % 2 == 0) ? -0.5 : 0.5;
 		CAnimations::GetInstance()->Get(aniId)->Render(x + offset, y);
-		//RenderBoundingBox();
 		return;
 	}
 	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_IDLE;
-		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_IDLE;
+		if (isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_IDLE;
 	}
 	if (state == KOOPA_STATE_WALKING_RIGHT)
 	{
@@ -77,7 +87,7 @@ void CKoopa::Render()
 	else if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
 		aniId = ID_ANI_KOOPA_SHELL_UPRIGHT_MOVING;
-		if(isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_MOVING;
+		if (isFlipped) aniId = ID_ANI_KOOPA_SHELL_FLIPPED_MOVING;
 	}
 	else if (state == KOOPA_STATE_DIE)
 	{
@@ -85,7 +95,42 @@ void CKoopa::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	//RenderBoundingBox();
+}
+
+void CKoopa::RenderGreenKoopa()
+{
+	int aniId = ID_ANI_GREEN_KOOPA_WALKING_LEFT;
+	if ((state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD) && GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME - KOOPA_REVIVE_BLINK_TIME)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_SHELL_UPRIGHT_REVIVE;
+		if (isFlipped) aniId = ID_ANI_GREEN_KOOPA_SHELL_FLIPPED_REVIVE;
+
+		//shake effect
+		//(GetTickCount64() / 50) increments by 1 unit every 50ms
+		float offset = ((GetTickCount64() / 50) % 2 == 0) ? -0.5 : 0.5;
+		CAnimations::GetInstance()->Get(aniId)->Render(x + offset, y);
+		return;
+	}
+	else if (state == KOOPA_STATE_SHELL_IDLE || state == KOOPA_STATE_BEING_HELD)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_SHELL_UPRIGHT_IDLE;
+		if (isFlipped) aniId = ID_ANI_GREEN_KOOPA_SHELL_FLIPPED_IDLE;
+	}
+	if (state == KOOPA_STATE_WALKING_RIGHT)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_WALKING_RIGHT;
+	}
+	else if (state == KOOPA_STATE_SHELL_MOVING_LEFT || state == KOOPA_STATE_SHELL_MOVING_RIGHT)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_SHELL_UPRIGHT_MOVING;
+		if (isFlipped) aniId = ID_ANI_GREEN_KOOPA_SHELL_FLIPPED_MOVING;
+	}
+	else if (state == KOOPA_STATE_DIE)
+	{
+		aniId = ID_ANI_GREEN_KOOPA_SHELL_FLIPPED_IDLE;
+	}
+
+	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }
 
 void CKoopa::OnNoCollision(DWORD dt)
