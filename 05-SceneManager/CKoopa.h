@@ -38,7 +38,8 @@ protected:
 	float ay;
 	boolean isFlipped;
 	ULONGLONG shellStartTime;
-	CSensorBox * sensorBox;
+	CSensorBox* sensorBox;
+	boolean isGreen;
 	
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -72,7 +73,7 @@ protected:
 	void OnOverlapWithWoodBlock(LPCOLLISIONEVENT e);
 
 public:
-	CKoopa(float x, float y);
+	CKoopa(float x, float y, boolean isGreen);
 	void SetState(int nextState);
 	void AlignYOnTransform();
 };

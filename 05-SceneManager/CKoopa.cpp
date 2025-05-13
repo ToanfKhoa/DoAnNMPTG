@@ -37,7 +37,8 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}*/
 	CheckAndChangeState();
 
-	UpdateSensorBoxPosition();
+	//only red koopa check sensorbox
+	if(isGreen == 0) UpdateSensorBoxPosition();
 
 	//Check if is held
 	if (state == KOOPA_STATE_BEING_HELD)
@@ -378,16 +379,23 @@ void CKoopa::OnOverlapWithWoodBlock(LPCOLLISIONEVENT e)
 		SetState(KOOPA_STATE_DIE);
 }
 
-CKoopa::CKoopa(float x, float y)
+CKoopa::CKoopa(float x, float y, boolean isGreen)
 {
 	this->x = x;
 	this->y = y;
+	this->isGreen = isGreen;
 	ay = KOOPA_GRAVITY;
 	isFlipped = false;
-	sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH/4, KOOPA_BBOX_HEIGHT/4);
 
-	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-	playScene->AddObject(sensorBox);
+	if (isGreen == 0)
+	{
+		sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH / 4, KOOPA_BBOX_HEIGHT / 4);
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		playScene->AddObject(sensorBox);
+	}
+	else 
+		sensorBox = NULL;
 
 	SetState(KOOPA_STATE_WALKING_LEFT);
 }
