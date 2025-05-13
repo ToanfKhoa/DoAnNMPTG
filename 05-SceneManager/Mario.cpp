@@ -188,7 +188,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isAttacking == true)
 	{
 		attackTimer += dt;
-		if(attackTimer >= MARIO_ATTACK_TIME / 2)
+		if(attackTimer >= MARIO_ATTACK_TIME / 3)
 			hitBox->SetPosition(x + nx * MARIO_RACOON_BBOX_WIDTH / 2, y + MARIO_RACOON_BBOX_HEIGHT / 4);
 		else
 			hitBox->SetPosition(x - nx * MARIO_RACOON_BBOX_WIDTH / 2, y + MARIO_RACOON_BBOX_HEIGHT / 4);
@@ -686,19 +686,19 @@ int CMario::GetAniIdRacoon()
 					aniId = ID_ANI_MARIO_RACOON_FALL_WAG_LEFT;
 			}
 		}
+		else if (runPower == MARIO_MAX_RUN_POWER)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_LEFT;
+		}
 		else if (vy > 0) //falling
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_RACOON_FALL_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_RACOON_FALL_LEFT;
-		}
-		else if (ax = MARIO_ACCEL_RUN_X)
-		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_RIGHT;
-			else
-				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_LEFT;
 		}
 		else
 		{
