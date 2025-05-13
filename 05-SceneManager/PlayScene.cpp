@@ -171,7 +171,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
 	case OBJECT_TYPE_EXTRALIFEMUSHROOM: obj = new CExtraLifeMushroom(x, y); break;
 	case OBJECT_TYPE_COINITEM: obj = new CCoinItem(x, y); break;
-	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
+	case OBJECT_TYPE_KOOPA:
+	{
+		//0 = red koopa, 1 = green koopa
+		int koopa_type = atoi(tokens[3].c_str());
+		obj = new CKoopa(x, y, koopa_type); 
+		break;
+	}
 
 	case OBJECT_TYPE_PLATFORM:
 	{
