@@ -155,7 +155,7 @@ void CPowerUpItem::CheckAndChangeState()
 			float marioX, marioY;
 			(dynamic_cast<CMario*>(playScene->GetPlayer()))->GetPosition(marioX, marioY);
 
-			if(marioX<=this->x) SetState(POWERUPITEM_STATE_MOVING_RIGHT); //tam thoi nam di chuyen sang phai
+			if(marioX<=this->x) SetState(POWERUPITEM_STATE_MOVING_RIGHT);
 			else SetState(POWERUPITEM_STATE_MOVING_LEFT);
 
 		}

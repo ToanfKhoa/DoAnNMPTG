@@ -19,6 +19,7 @@
 #include "CPit.h"
 #include "CSpawnBox.h"
 #include "PlayScene.h"
+#include "CExtraLifeMushroom.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -73,6 +74,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
+	DebugOut(L"mario x,y : %f %f\n", x, y);
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE)
 	{
@@ -260,6 +262,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBulletVenus(e);
 	else if (dynamic_cast<CPowerUpItem*>(e->obj))
 		OnOverlapWithPowerUpItem(e);
+	else if (dynamic_cast<CExtraLifeMushroom*>(e->obj))
+		OnOverlapWithExtraLifeMushroom(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -354,20 +358,29 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithBulletVenus(LPCOLLISIONEVENT e)
 {
-	DebugOut(L"Mario collision bullet\n");
 	GetDamaged();
 }
 
 void CMario::OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e)
 {
 	CPowerUpItem* item = dynamic_cast<CPowerUpItem*>(e->obj);
-	DebugOut(L"PowerUpItem collision \n");
 	if (item->GetState() != POWERUPITEM_STATE_IDLE && item->GetState() != POWERUPITEM_STATE_EATEN)
 	{
 		if (level == MARIO_LEVEL_SMALL)
 			SetLevel(MARIO_LEVEL_BIG);
 		else if (level == MARIO_LEVEL_BIG)
 			SetLevel(MARIO_LEVEL_RACOON);
+
+		item->SetState(POWERUPITEM_STATE_EATEN);
+	}
+}
+
+void CMario::OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e)
+{
+	CExtraLifeMushroom* item = dynamic_cast<CExtraLifeMushroom*>(e->obj);
+	if (item->GetState() != EXTRALIFEMUSHROOM_STATE_IDLE && item->GetState() != EXTRALIFEMUSHROOM_STATE_EATEN)
+	{
+		//1-up 
 
 		item->SetState(POWERUPITEM_STATE_EATEN);
 	}
@@ -446,11 +459,12 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 	{
 		if (brick->GetState() == BRICK_STATE_IDLE )
 		{
-			if (level != MARIO_LEVEL_SMALL)
+			if (level == MARIO_LEVEL_SMALL)
 			{
-				brick->SetIsBreakable(true);
+				brick->SetState(BRICK_STATE_BOUNCING_UP);
 			}
-			brick->SetState(BRICK_STATE_BOUNCING_UP);
+			else
+				brick->SetState(BRICK_STATE_BROKEN);
 		}
 	}
 }

@@ -24,6 +24,7 @@
 #include "CPit.h"
 #include "CSpawnBox.h"
 #include "CHeadsUpDisplay.h"
+#include "CExtraLifeMushroom.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -136,8 +137,29 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+	case OBJECT_TYPE_BRICK:
+	{
+		int item_type = atoi(tokens[3].c_str());
+		obj = new CBrick(x, y, item_type); 
+		break;
+	}
+	case OBJECT_TYPE_COIN:
+	{
+		int count = atoi(tokens[3].c_str());
+		int x_spacing = atoi(tokens[4].c_str());
+		int y_spacing = atoi(tokens[5].c_str());
+
+		obj = new CCoin(x, y);
+
+		for (int i = 1; i < count; i++)
+		{
+		    CCoin* coin = new CCoin(x + i * x_spacing, y + i * y_spacing);
+			objects.push_back(coin);
+		}
+
+		break;
+	}
+
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParaGoomba(x, y); break;
 	case OBJECT_TYPE_QUESTIONBLOCK:
 	{
@@ -147,8 +169,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_VENUS: obj = new CVenus(x, y); break;
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
+	case OBJECT_TYPE_EXTRALIFEMUSHROOM: obj = new CExtraLifeMushroom(x, y); break;
 	case OBJECT_TYPE_COINITEM: obj = new CCoinItem(x, y); break;
-	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
+	case OBJECT_TYPE_KOOPA:
+	{
+		//0 = red koopa, 1 = green koopa
+		int koopa_type = atoi(tokens[3].c_str());
+		obj = new CKoopa(x, y, koopa_type); 
+		break;
+	}
 
 	case OBJECT_TYPE_PLATFORM:
 	{
@@ -432,7 +461,7 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0;
 	if (cx > END_OF_MAP) cx = END_OF_MAP;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CGame::GetInstance()->SetCamPos(cx, 0 /*cy*/);
 
 	PurgeDeletedObjects();
 }

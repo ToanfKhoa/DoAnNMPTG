@@ -43,9 +43,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_4:
 		if (nx > 0)
-			obj = new CKoopa(marioX + 32, marioY - 32);
+			obj = new CKoopa(marioX + 32, marioY - 32, 1);
 		else
-			obj = new CKoopa(marioX - 32, marioY - 32);
+			obj = new CKoopa(marioX - 32, marioY - 32, 0);
 
 		obj->SetState(KOOPA_STATE_SHELL_IDLE);
 		playScene->AddObject(obj);
@@ -84,9 +84,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_8:
 
 		if (nx > 0)
-			obj = new CBrick(marioX + 32, marioY);
+			obj = new CBrick(marioX + 32, marioY, 0);
 		else
-			obj = new CBrick(marioX - 32, marioY);
+			obj = new CBrick(marioX - 32, marioY, 0);
 
 		playScene->AddObject(obj);
 		break;

@@ -1,16 +1,16 @@
 #include "Brick.h"
 #include "CBrokenBrickPiece.h"
+#include "CExtraLifeMushroom.h"
 #include "PlayScene.h"
 
 void CBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 
-	if(state == BRICK_STATE_IDLE || isBreakable==false) animations->Get(ID_ANI_BRICK_IDLE)->Render(x, y); //brick is idle, mario small
-	else if(state != BRICK_STATE_IDLE && isBreakable==true) //mario big, but no item inside
-		animations->Get(ID_ANI_BRICK_IDLE)->Render(x, y);
-	else
-		animations->Get(ID_ANI_BRICK_USED)->Render(x, y); //mario is big, brick's item was used
+	if(state == BRICK_STATE_IDLE || itemType==0) animations->Get(ID_ANI_BRICK_IDLE)->Render(x, y); //brick is idle, mario small
+	else 
+		animations->Get(ID_ANI_BRICK_USED)->Render(x, y); //brick's item was used
+		
 	//RenderBoundingBox();
 }
 
@@ -56,15 +56,12 @@ void CBrick::Bouncing()
 		{
 			y = y_start;
 
-			if(isBreakable) SetState(BRICK_STATE_BROKEN);
-			else SetState(BRICK_STATE_IDLE);
+			if (itemType != 0) 
+				SetState(BRICK_STATE_USED);
+			else 
+				SetState(BRICK_STATE_IDLE);
 		}
 	}
-}
-
-void CBrick::SetIsBreakable(boolean value)
-{
-	isBreakable = value;
 }
 
 void CBrick::SpawnBrokenPieces()
@@ -84,13 +81,23 @@ void CBrick::SpawnBrokenPieces()
 	}
 }
 
-CBrick::CBrick(float x, float y) : CGameObject(x, y) 
+CBrick::CBrick(float x, float y, int itemType) : CGameObject(x, y) 
 {
 	this->x = x;
 	this->y = y;
 	y_start = y;
-	isBreakable = false;
+	this->itemType = itemType;
 	SetState(BRICK_STATE_IDLE);
+
+	if (itemType == 1)
+	{
+		this->spawnedItem = new CExtraLifeMushroom(x, y);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(spawnedItem);
+		}
+	}
 }
 
 void CBrick::SetState(int state)
@@ -109,8 +116,24 @@ void CBrick::SetState(int state)
 		break;
 	case BRICK_STATE_BOUNCING_DOWN:
 		vy = BRICK_BOUNCING_SPEED;
+
+		//activate item
+		if (itemType == 1)
+		{
+			spawnedItem->SetPosition(x, y); 
+			spawnedItem->SetState(EXTRALIFEMUSHROOM_STATE_EMERGING);
+		}
+
 		break;
 	case BRICK_STATE_BROKEN:
+
+		//brick cant break if it contains an item
+		if (itemType != 0)
+		{
+			SetState(BRICK_STATE_BOUNCING_UP);
+			return;
+		}
+
 		SpawnBrokenPieces();
 		isDeleted = true;
 		break;

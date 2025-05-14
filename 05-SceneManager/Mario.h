@@ -248,6 +248,7 @@ class CMario : public CGameObject
 
 
 	void OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e);
+	void OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
