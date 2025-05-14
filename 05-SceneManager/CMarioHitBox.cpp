@@ -5,6 +5,7 @@
 #include "CKoopa.h"
 #include "CQuestionBlock.h"
 #include "Brick.h"
+#include "CPiranha.h"
 
 CMarioHitBox::CMarioHitBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT)
 {
@@ -39,6 +40,8 @@ void CMarioHitBox::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithGoomba(e);
 	else if (dynamic_cast<CVenus*>(e->obj))
 		OnOverlapWithVenus(e);
+	else if (dynamic_cast<CPiranha*>(e->obj))
+		OnOverlapWithPiranha(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnOverlapWithKoopa(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
@@ -73,6 +76,13 @@ void CMarioHitBox::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
 	venus->SetState(VENUS_STATE_DIE);
+}
+
+void CMarioHitBox::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
+{
+	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
+
+	piranha->SetState(PIRANHA_STATE_DIE);
 }
 
 void CMarioHitBox::OnOverlapWithKoopa(LPCOLLISIONEVENT e)

@@ -8,6 +8,7 @@
 #include "CPipe.h"
 #include "CGround.h"
 #include "CWoodBlock.h"
+#include "CPiranha.h"
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -151,6 +152,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithQuestionBlock(e);
 		else if (dynamic_cast<CVenus*>(e->obj))
 			OnCollisionWithVenus(e);
+		else if (dynamic_cast<CPiranha*>(e->obj))
+			OnCollisionWithPiranha(e);
 		else if (dynamic_cast<CKoopa*>(e->obj))
 			OnCollisionWithKoopa(e);
 		else if (dynamic_cast<CBrick*>(e->obj))
@@ -187,6 +190,8 @@ void CKoopa::OnOverlapWith(LPCOLLISIONEVENT e)
 			OnOverlapWithGoomba(e);
 		else if (dynamic_cast<CVenus*>(e->obj))
 			OnOverlapWithVenus(e);
+		else if (dynamic_cast<CVenus*>(e->obj))
+			OnOverlapWithPiranha(e);
 		else if (dynamic_cast<CKoopa*>(e->obj))
 			OnOverlapWithKoopa(e);
 		else if (dynamic_cast<CBrick*>(e->obj))
@@ -305,6 +310,19 @@ void CKoopa::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 	venus->SetState(VENUS_STATE_DIE);
 }
 
+void CKoopa::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
+{
+	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
+	if (piranha->GetState() == PIRANHA_STATE_DIE) return;
+
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
+	piranha->SetState(PIRANHA_STATE_DIE);
+}
+
 void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
@@ -372,6 +390,16 @@ void CKoopa::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
 	venus->SetState(VENUS_STATE_DIE);
+}
+
+void CKoopa::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
+{
+	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
+	if (piranha->GetState() == PIRANHA_STATE_DIE) return;
+
+	SetState(KOOPA_STATE_DIE);
+
+	piranha->SetState(PIRANHA_STATE_DIE);
 }
 
 void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)

@@ -20,6 +20,7 @@
 #include "CSpawnBox.h"
 #include "PlayScene.h"
 #include "CExtraLifeMushroom.h"
+#include "CPiranha.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -242,6 +243,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CVenus*>(e->obj))
 		OnCollisionWithVenus(e);
+	else if (dynamic_cast<CPiranha*>(e->obj))
+		OnCollisionWithPiranha(e);
 	else if (dynamic_cast<CBulletVenus*>(e->obj))
 		OnCollisionWithBulletVenus(e);
 	//else if (dynamic_cast<CPowerUpItem*>(e->obj))
@@ -349,6 +352,19 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 	
 	// die if hit Venus
 	if (venus->GetState() != VENUS_STATE_DIE)
+	{
+		{
+			GetDamaged();
+		}
+	}
+}
+
+void CMario::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
+{
+	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
+
+	// die if hit Piranha
+	if (piranha->GetState() != PIRANHA_STATE_DIE)
 	{
 		{
 			GetDamaged();

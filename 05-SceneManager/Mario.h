@@ -240,6 +240,7 @@ class CMario : public CGameObject
 	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
+	void OnCollisionWithPiranha(LPCOLLISIONEVENT e);
 	void OnCollisionWithBulletVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
