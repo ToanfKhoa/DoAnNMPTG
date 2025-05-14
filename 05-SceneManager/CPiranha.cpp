@@ -44,6 +44,7 @@ void CPiranha::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CPiranha::Render()
 {
+	RenderBoundingBox();
 	int aniId = ID_ANI_PIRANHA;
 
 	//Set animation based on direction
@@ -75,6 +76,9 @@ void CPiranha::SetState(int state)
 	case PIRANHA_STATE_DOWN:
 		vy = PIRANHA_SPEED;
 		break;
+	case PIRANHA_STATE_APPEAR:
+		vy = 0;
+		break;
 	}
 }
 
@@ -87,7 +91,12 @@ void CPiranha::UpAndDown(DWORD dt)
 		SetState(PIRANHA_STATE_UP);
 		timer = 0;
 	}
-	else if (state == PIRANHA_STATE_UP && timer >= PIRANHA_APPEAR_TIME)
+	else if (state == PIRANHA_STATE_UP && y <= y_start - PIRANHA_MOVING_OFFSET)
+	{
+		SetState(PIRANHA_STATE_APPEAR);
+		timer = 0;
+	}
+	else if (state == PIRANHA_STATE_APPEAR && timer >= PIRANHA_APPEAR_TIME)
 	{
 		SetState(PIRANHA_STATE_DOWN);
 		timer = 0;

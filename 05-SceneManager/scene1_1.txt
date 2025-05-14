@@ -21,12 +21,13 @@ woodblock.txt
 hud.txt
 brokenbrickpiece.txt
 extralifemushroom.txt
+piranha.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
@@ -246,6 +247,9 @@ extralifemushroom.txt
 #Venus
 9	365	158
 
+#Piranha
+18	1800	168
+
 #Pipe
 11	365	178	30	16	3	71000	72000
 
@@ -270,7 +274,7 @@ extralifemushroom.txt
 5	1486	-30	16	16	13	54000	54000	54000
 
 # MARIO
-0	1320	-75
+0	1750	160
 
 #HUD
 53	182	232	120000
