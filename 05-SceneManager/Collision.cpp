@@ -58,7 +58,7 @@ void CCollision::SweptAABB(
 	if (br < sl || bl > sr || bb < st || bt > sb) return;
 
 	//Overlap handling
-	if (ml < sr && mr > sl && mt < sb && mb > st)
+	if (ml <= sr && mr >= sl && mt <= sb && mb >= st)
 	{
 		t = -0.5;
 		nx = ny = 0;
@@ -188,6 +188,9 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 {
 	for (UINT i = 0; i < objDests->size(); i++)
 	{
+		//objSrc overlap with itself
+		if (objSrc == objDests->at(i)) continue;
+
 		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, objDests->at(i));
 
 		if (e->WasCollided() == 1)
