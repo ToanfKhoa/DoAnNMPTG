@@ -57,6 +57,7 @@ protected:
 	void RenderGreenKoopa();
 
 	int IsCollidable() { return state!=KOOPA_STATE_DIE; }
+	int IsOverlappable() { return state!=KOOPA_STATE_DIE; }
 
 	int IsBlocking() { return 0; }
 	void OnNoCollision(DWORD dt);

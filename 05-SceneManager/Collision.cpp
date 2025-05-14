@@ -17,12 +17,7 @@ int CCollisionEvent::WasCollided() {
 
 int CCollisionEvent::WasOverlap()
 {
-	bool overlapObj = false;
-	CKoopa* koopa = dynamic_cast<CKoopa*>(src_obj);
-	CMario* mario = dynamic_cast<CMario*>(src_obj);
-	if (koopa != NULL || mario != NULL) overlapObj = true;
-
-	return t == -0.5f && overlapObj;
+	return t == -0.5f && src_obj->IsOverlappable() == 1;
 }
 
 CCollision* CCollision::GetInstance()
@@ -62,6 +57,13 @@ void CCollision::SweptAABB(
 
 	if (br < sl || bl > sr || bb < st || bt > sb) return;
 
+	//Overlap handling
+	if (ml <= sr && mr >= sl && mt <= sb && mb >= st)
+	{
+		t = -0.5;
+		nx = ny = 0;
+		return;
+	}
 
 	if (dx == 0 && dy == 0) return;		// moving object is not moving > obvious no collision
 
@@ -113,13 +115,6 @@ void CCollision::SweptAABB(
 
 	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f)
 	{
-		// overlap handling
-		if (!(tx_entry > 1.0f || ty_entry > 1.0f))
-		{
-			t = -0.5f;
-			nx = ny = 0;
-		}
-
 		return;
 	}
 
@@ -193,6 +188,9 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 {
 	for (UINT i = 0; i < objDests->size(); i++)
 	{
+		//objSrc overlap with itself
+		if (objSrc == objDests->at(i)) continue;
+
 		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, objDests->at(i));
 
 		if (e->WasCollided() == 1)

@@ -21,26 +21,74 @@
 #include "PlayScene.h"
 #include "CExtraLifeMushroom.h"
 
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+CMario::CMario(float x, float y) : CGameObject(x, y)
 {
+		isSitting = false;
+		maxVx = 0.0f;
+		ax = 0.0f;
+		ay = MARIO_GRAVITY;
+		nx = 1;
+
+		level = MARIO_LEVEL_SMALL;
+		untouchable = 0;
+		untouchable_start = -1;
+		isOnPlatform = false;
+		coin = 0;
+
+		kickTimer == 0;
+		isKicking == false;
+
+		jumpTimer = 0;
+		isJumping = false;
+
+		wagTimer = 0;
+		isWagging = false;
+
+		isTransforming = false;
+
+		holdingObject = NULL;
+		ableToHold = false;
+
+		isWagging = false;
+
+		flyTimer = 0;
+		ableToFly = false;
+
+		runPower = 0;
+
+		hitBox = new CMarioHitBox(x, y, MARIO_HIT_BOX_WIDTH, MARIO_HIT_BOX_HEIGHT);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(hitBox);
+		}
+		else
+		{
+			DebugOut(L"[ERROR] Scene is NULL\n");
+		}
+}
+
+void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	//DebugOut(L"timerattack %d\n", attackTimer);
 	vx += ax * dt;
 	vy += ay * dt;
 
 	DebugOut(L"mario x,y : %f %f\n", x, y);
 	//Mario slowly decrease vx when stop moving
-	if (state == MARIO_STATE_IDLE) 
+	if (state == MARIO_STATE_IDLE)
 	{
-		if (abs(vx) > MARIO_MIN_SPEED) 
+		if (abs(vx) > MARIO_MIN_SPEED)
 			vx *= MARIO_FRICTION;
 		else
 			vx = 0; //Mario completely stop 
 	}
-	
+
 	//Limit the max speed, check to prevent vx from reversing direction when maxVx changes suddenly
 	if (abs(vx) > abs(maxVx) && (vx * maxVx >= 0)) vx = maxVx;
 
 	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -64,7 +112,47 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (jumpTimer >= MARIO_JUMP_TIME)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 	}
-	
+
+	//Limit wagging time of Mario
+	if (isWagging == true)
+	{
+		wagTimer += dt;
+		if (wagTimer >= MARIO_WAG_TIME)
+		{
+			isWagging = false;
+			wagTimer = 0;
+		}
+	}
+
+	//Limit flying time
+	if (ableToFly == true)
+	{
+		flyTimer += dt;
+		if (flyTimer >= MARIO_FLY_TIME)
+		{
+			ableToFly = false;
+			flyTimer = 0;
+		}
+	}
+
+	//Run power
+	if ((level == MARIO_LEVEL_RACOON && abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform) || ableToFly == true) //Running or is in flying time
+	{
+		//Increase and keep runPower at max value
+		if (runPower < MARIO_MAX_RUN_POWER)
+			runPower += dt;
+		else
+			runPower = MARIO_MAX_RUN_POWER;
+	}
+	else
+	{
+		//Decrease and keep runPower at 0
+		if(runPower > 0)
+			runPower -= dt;
+		else
+			runPower = 0;
+	}
+
 	//Mario will transform while stop scenetime, transform stop when scene countinue to update
 	if (isTransforming == true)
 	{
@@ -95,6 +183,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			holdingObject = NULL;
 		}
 	}
+
+
+	//Limit attacking time and set position hitbox
+
+	if (isAttacking == true)
+	{
+		attackTimer += dt;
+		if(attackTimer >= MARIO_ATTACK_TIME / 3)
+			hitBox->SetPosition(x + nx * MARIO_RACOON_BBOX_WIDTH / 2, y + MARIO_RACOON_BBOX_HEIGHT / 4);
+		else
+			hitBox->SetPosition(x - nx * MARIO_RACOON_BBOX_WIDTH / 2, y + MARIO_RACOON_BBOX_HEIGHT / 4);
+
+		if (attackTimer >= MARIO_ATTACK_TIME)
+		{
+			isAttacking = false;
+			hitBox->SetIsActive(false);
+			attackTimer = 0;
+		}
+	}
+	else
+		hitBox->SetPosition(x, y + MARIO_RACOON_BBOX_HEIGHT / 4);
 
 }
 
@@ -558,6 +667,13 @@ int CMario::GetAniIdRacoon()
 	{
 		aniId = ID_ANI_MARIO_RACOON_TRANSFORM;
 	}
+	else if (isAttacking && !isSitting)
+	{
+		if (nx > 0)
+			aniId = ID_ANI_MARIO_RACOON_ATTACK_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_RACOON_ATTACK_LEFT;
+	}
 	else if (!isOnPlatform)
 	{
 		if (holdingObject != NULL)
@@ -567,12 +683,36 @@ int CMario::GetAniIdRacoon()
 			else
 				aniId = ID_ANI_MARIO_RACOON_HOLDING_JUMP_LEFT;
 		}
-		else if (abs(ax) == MARIO_ACCEL_RUN_X)
+		else if (isWagging)
+		{
+			if (ableToFly)
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_RACOON_JUMP_WAG_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACOON_JUMP_WAG_LEFT;
+			}
+			else
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_RACOON_FALL_WAG_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_RACOON_FALL_WAG_LEFT;
+			}
+		}
+		else if (runPower == MARIO_MAX_RUN_POWER)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_RACOON_JUMP_RUN_LEFT;
+		}
+		else if (vy > 0) //falling
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_RACOON_FALL_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACOON_FALL_LEFT;
 		}
 		else
 		{
@@ -619,7 +759,7 @@ int CMario::GetAniIdRacoon()
 			{
 				if (ax < 0)
 					aniId = ID_ANI_MARIO_RACOON_BRACE_RIGHT;
-				else if (abs(vx) == MARIO_RUNNING_SPEED)
+				else if (runPower == MARIO_MAX_RUN_POWER)
 					aniId = ID_ANI_MARIO_RACOON_RUNNING_RIGHT;
 				else
 					aniId = ID_ANI_MARIO_RACOON_WALKING_RIGHT;
@@ -628,7 +768,7 @@ int CMario::GetAniIdRacoon()
 			{
 				if (ax > 0)
 					aniId = ID_ANI_MARIO_RACOON_BRACE_LEFT;
-				else if (abs(vx) == MARIO_RUNNING_SPEED)
+				else if (runPower == MARIO_MAX_RUN_POWER)
 					aniId = ID_ANI_MARIO_RACOON_RUNNING_LEFT;
 				else
 					aniId = ID_ANI_MARIO_RACOON_WALKING_LEFT;
@@ -664,7 +804,7 @@ void CMario::Render()
 	else
 		animations->Get(aniId)->Render(x, y);
 	
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);
 }
@@ -700,16 +840,34 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_JUMP:
 		if (isSitting) break;
+
 		if (isOnPlatform)
 		{
 			isJumping = true;
 			ay = 0;
+
+			//Start Fly time if has enough power
+			if (runPower == MARIO_MAX_RUN_POWER && ableToFly == false)
+				ableToFly = true;
 
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
 				vy = -MARIO_JUMP_SPEED_Y;
 		}
+		else if (level == MARIO_LEVEL_RACOON && ableToFly == true) //Wag tail to keep flying
+		{
+			isWagging = true;
+			ay = 0;
+			vy = -MARIO_JUMP_SPEED_Y;
+		}
+		else if (level == MARIO_LEVEL_RACOON && vy > 0) //Wag tail in Raccoon form while falling
+		{
+			isWagging = true;
+			vy = MARIO_JUMP_SPEED_Y / 1000;
+			ay = MARIO_GRAVITY / 2;
+		}
+
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
@@ -841,6 +999,14 @@ void CMario::Throw()
 		//Release
 		this->holdingObject = NULL;
 	}
+}
+
+void CMario::Attack()
+{
+	if (isSitting)
+		return;
+	isAttacking = true; 
+	hitBox->SetIsActive(true); 
 }
 
 void CMario::SetLevel(int l)

@@ -3,15 +3,17 @@
 
 #include "Animation.h"
 #include "Animations.h"
-
+#include "CMarioHitBox.h"
+#include "PlayScene.h"
+#include "Game.h"
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.08f
-#define MARIO_RUNNING_SPEED		0.15f
+#define MARIO_RUNNING_SPEED		0.12f
 #define MARIO_RUNNING_SPEED_RENDER 2.0f
 
-#define MARIO_ACCEL_WALK_X	0.0002f
-#define MARIO_ACCEL_RUN_X	0.00025f
+#define MARIO_ACCEL_WALK_X	0.0005f
+#define MARIO_ACCEL_RUN_X	0.0007f
 
 #define MARIO_JUMP_SPEED_Y		0.2f
 #define MARIO_JUMP_RUN_SPEED_Y	0.25f
@@ -131,11 +133,18 @@
 #define ID_ANI_MARIO_RACOON_JUMP_WALK_RIGHT 2000
 #define ID_ANI_MARIO_RACOON_JUMP_WALK_LEFT 2001
 
+#define ID_ANI_MARIO_RACOON_FALL_RIGHT 2002
+#define ID_ANI_MARIO_RACOON_FALL_LEFT 2003
+#define ID_ANI_MARIO_RACOON_FALL_WAG_RIGHT 2004
+#define ID_ANI_MARIO_RACOON_FALL_WAG_LEFT 2005
+
 #define ID_ANI_MARIO_RACOON_HOLDING_JUMP_RIGHT 2010
 #define ID_ANI_MARIO_RACOON_HOLDING_JUMP_LEFT 2011
 
 #define ID_ANI_MARIO_RACOON_JUMP_RUN_RIGHT 2100
 #define ID_ANI_MARIO_RACOON_JUMP_RUN_LEFT 2101
+#define ID_ANI_MARIO_RACOON_JUMP_WAG_RIGHT 2102
+#define ID_ANI_MARIO_RACOON_JUMP_WAG_LEFT 2103
 
 #define ID_ANI_MARIO_RACOON_SIT_RIGHT 2200
 #define ID_ANI_MARIO_RACOON_SIT_LEFT 2201
@@ -147,6 +156,9 @@
 #define ID_ANI_MARIO_RACOON_KICK_LEFT	2311
 
 #define ID_ANI_MARIO_RACOON_TRANSFORM	2320
+
+#define ID_ANI_MARIO_RACOON_ATTACK_RIGHT 2321
+#define ID_ANI_MARIO_RACOON_ATTACK_LEFT 2322
 
 #pragma endregion
 
@@ -168,7 +180,8 @@
 #define MARIO_RACOON_BBOX_HEIGHT 24
 #define MARIO_RACOON_SITTING_BBOX_WIDTH  14
 #define MARIO_RACOON_SITTING_BBOX_HEIGHT 16
-
+#define MARIO_HIT_BOX_WIDTH  26
+#define MARIO_HIT_BOX_HEIGHT 10
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
@@ -179,13 +192,19 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_KICK_TIME 300
 #define MARIO_JUMP_TIME 400
+#define MARIO_WAG_TIME 100
+#define MARIO_FLY_TIME 6000
+#define MARIO_ATTACK_TIME 300
+#define MARIO_MAX_RUN_POWER 2000 //Max power = time to run
 
+typedef CMarioHitBox* LPHITBOX;
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
+	LPHITBOX hitBox;
 
 	int level; 
 	int untouchable; 
@@ -198,11 +217,22 @@ class CMario : public CGameObject
 
 	DWORD jumpTimer;
 	BOOLEAN isJumping;
-	
+
+	DWORD wagTimer;
+	BOOLEAN isWagging;
+
 	BOOLEAN isTransforming;
 
 	LPGAMEOBJECT holdingObject;
 	BOOLEAN ableToHold;
+
+	DWORD flyTimer;
+	BOOLEAN ableToFly;
+
+	DWORD attackTimer;
+	BOOLEAN isAttacking;
+
+	DWORD runPower;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
@@ -225,31 +255,7 @@ class CMario : public CGameObject
 	int GetAniIdRacoon();
 
 public:
-	CMario(float x, float y) : CGameObject(x, y)
-	{
-		isSitting = false;
-		maxVx = 0.0f;
-		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
-		nx = 1;
-
-		level = MARIO_LEVEL_SMALL;
-		untouchable = 0;
-		untouchable_start = -1;
-		isOnPlatform = false;
-		coin = 0;
-
-		kickTimer == 0;
-		isKicking == false;
-
-		jumpTimer = 0;
-		isJumping = false;
-
-		isTransforming = false;
-
-		holdingObject = NULL;
-		ableToHold = false;
-	}
+	CMario(float x, float y);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
@@ -257,6 +263,11 @@ public:
 	int IsCollidable()
 	{ 
 		return (state != MARIO_STATE_DIE); 
+	}
+	
+	int IsOverlappable()
+	{
+		return (state != MARIO_STATE_DIE);
 	}
 
 	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
@@ -277,4 +288,6 @@ public:
 	void Throw();
 
 	void Setnx(int nx) { this->nx = nx; };
+
+	void Attack();
 };
