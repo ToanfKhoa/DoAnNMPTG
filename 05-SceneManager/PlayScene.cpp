@@ -51,6 +51,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define TIME_STOP_DURATION 1000
 
 #define END_OF_MAP 2524
+#define END_OF_SKY -188
+
+#define DEADZONE_X 16
+#define DEADZONE_Y 32
 
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
@@ -451,17 +455,7 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return; 
 
 	// Update camera to follow mario
-	float cx, cy;
-	player->GetPosition(cx, cy);
-
-	CGame *game = CGame::GetInstance();
-	cx -= game->GetBackBufferWidth() / 2;
-	cy -= game->GetBackBufferHeight() / 2;
-
-	if (cx < 0) cx = 0;
-	if (cx > END_OF_MAP) cx = END_OF_MAP;
-
-	CGame::GetInstance()->SetCamPos(cx, 0 /*cy*/);
+	UpdateCameraPosition();
 
 	PurgeDeletedObjects();
 }
@@ -508,6 +502,55 @@ void CPlayScene::StartTimeStop()
 {
 	isTimeStopped = true;
 	timeStopStart = GetTickCount64();
+}
+
+void CPlayScene::UpdateCameraPosition()
+{
+	float cx, cy;
+	player->GetPosition(cx, cy);
+
+	CGame* game = CGame::GetInstance();
+	cx -= game->GetBackBufferWidth() / 2;
+	cy -= game->GetBackBufferHeight() / 2;
+
+	float centerX, centerY;
+	game->GetCamPos(centerX, centerY);
+
+	//x direction
+	if (cx < centerX - DEADZONE_X || cx > centerX + DEADZONE_X)
+	{
+		//set cam pos with cx +- DEADZONE for smoother follow 
+		if (cx < centerX - DEADZONE_X)
+		{
+			cx += DEADZONE_X;
+		}
+		else
+		{
+			cx -= DEADZONE_X;
+		}
+	}
+	else cx = centerX;
+
+	//y direction
+	CMario* mario = dynamic_cast<CMario*>(player);
+	if (mario->IsFullRunPower() && cy < centerY - DEADZONE_Y)
+	{
+		DebugOut(L"du dieu kien");
+		isCameraFollowingY = true;
+	};
+	if (isCameraFollowingY)	cy += DEADZONE_Y;
+
+	if (cx > END_OF_MAP) cx = END_OF_MAP;
+	if (cx < 0) cx = 0;
+	if (cy < END_OF_SKY) cy = END_OF_SKY;
+	if (cy >= 0 || isCameraFollowingY==false)
+	{
+		isCameraFollowingY = false;
+		cy = 0;
+	}
+
+	DebugOut(L"camera cy: %f\n", cy);
+	CGame::GetInstance()->SetCamPos(cx, cy);
 }
 
 void CPlayScene::PurgeDeletedObjects()

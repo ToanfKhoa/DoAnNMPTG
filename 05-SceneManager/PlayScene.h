@@ -19,6 +19,7 @@ protected:
 
 	bool isTimeStopped = false;
 	ULONGLONG timeStopStart = 0;
+	bool isCameraFollowingY = true;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -46,6 +47,7 @@ public:
 	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
 
 	void StartTimeStop();
+	void UpdateCameraPosition();
 };
 
 typedef CPlayScene* LPPLAYSCENE;

@@ -290,4 +290,6 @@ public:
 	void Setnx(int nx) { this->nx = nx; };
 
 	void Attack();
+
+	bool IsFullRunPower() { return runPower == MARIO_MAX_RUN_POWER; }
 };
