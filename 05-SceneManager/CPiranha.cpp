@@ -44,7 +44,7 @@ void CPiranha::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CPiranha::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	int aniId = ID_ANI_PIRANHA;
 
 	//Set animation based on direction
