@@ -25,7 +25,7 @@
 #include "CSpawnBox.h"
 #include "CHeadsUpDisplay.h"
 #include "CExtraLifeMushroom.h"
-
+#include "CPiranha.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -171,7 +171,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CQuestionBlock(x, y, item_type); 
 		break;
 	}
-	case OBJECT_TYPE_VENUS: obj = new CVenus(x, y); break;
+	case OBJECT_TYPE_VENUS:
+	{
+		BOOLEAN isGreen = atoi(tokens[3].c_str());
+		obj = new CVenus(x, y, isGreen);
+		break;
+	}
+	case OBJECT_TYPE_PIRANHA: obj = new CPiranha(x, y); break;
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
 	case OBJECT_TYPE_EXTRALIFEMUSHROOM: obj = new CExtraLifeMushroom(x, y); break;
 	case OBJECT_TYPE_COINITEM: obj = new CCoinItem(x, y); break;
