@@ -242,6 +242,7 @@ class CMario : public CGameObject
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithBulletVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithParaKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithPit(LPCOLLISIONEVENT e);
 	void OnCollisionWithSpawnBox(LPCOLLISIONEVENT e);
