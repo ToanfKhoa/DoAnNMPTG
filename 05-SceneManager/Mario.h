@@ -210,7 +210,9 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	int coin; 
+	int coins; 
+	float playTime;
+	int points;
 
 	DWORD kickTimer;
 	BOOLEAN isKicking;
@@ -293,4 +295,8 @@ public:
 	void Attack();
 
 	bool IsFullRunPower() { return runPower == MARIO_MAX_RUN_POWER; }
+
+	int GetCoins() { return coins; };
+	int GetPlayTime() { return playTime; };
+	int GetPoints() { return points; };
 };

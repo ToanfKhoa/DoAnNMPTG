@@ -11,20 +11,13 @@ protected:
 	int value;
 	vector<CGameObject*> digits;
 public:
-	CNumber(float x, float y, int digitCount) : CGameObject(x, y)
-	{
-		this->digitCount = digitCount;
-		this->value = 0;
-		for (int i = 0; i < digitCount; i++)
-		{
-			CGameObject* digit = new CDigit(x + i * DIGIT_SPACING, y);
-			digits.push_back(digit);
-		}
-	}
+	CNumber(float x, float y, int digitCount);
 
-	void Update();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void SetValue(int value) { this->value = value; }
 	int GetValue() { return this->value; }
 	int GetDigitCount() { return this->digitCount; }
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
+	void Render();
 };
 
