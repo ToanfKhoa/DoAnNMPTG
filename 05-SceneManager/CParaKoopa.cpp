@@ -14,6 +14,23 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
+void CParaKoopa::Render()
+{
+	if (isKoopa)
+	{
+		CKoopa::Render();
+		return;
+	}
+
+	int aniId = ID_ANI_GREEN_PARAKOOPA_WALKING_LEFT;
+	if (state == PARAKOOPA_STATE_WALKING_RIGHT)
+	{
+		aniId = ID_ANI_GREEN_PARAKOOPA_WALKING_RIGHT;
+	}
+
+	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+}
+
 void CParaKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (isKoopa)
@@ -63,5 +80,11 @@ void CParaKoopa::SetState(int nextState)
 		break;
 	}
 	CGameObject::SetState(nextState); //need to update state later to check current state
+}
+
+void CParaKoopa::TurnIntoKoopa()
+{
+	isKoopa = true;
+	CKoopa::CKoopa(x, y, isGreen);
 }
 
