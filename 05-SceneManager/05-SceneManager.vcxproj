@@ -161,6 +161,7 @@
     <ClCompile Include="CMarioHitBox.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CParaKoopa.cpp" />
     <ClCompile Include="CPipe.cpp" />
     <ClCompile Include="CPit.cpp" />
     <ClCompile Include="CQuestionBlock.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="CMarioHitBox.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CParaKoopa.h" />
     <ClInclude Include="CPipe.h" />
     <ClInclude Include="CPit.h" />
     <ClInclude Include="CQuestionBlock.h" />
