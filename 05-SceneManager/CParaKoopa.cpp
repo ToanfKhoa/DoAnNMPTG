@@ -1,4 +1,19 @@
 #include "CParaKoopa.h"
+#include "debug.h"
+
+void CParaKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	if (isKoopa)
+	{
+		CKoopa::GetBoundingBox(left, top, right, bottom);
+		return;
+	}
+
+	left = x - KOOPA_BBOX_WIDTH / 2;
+	top = y - KOOPA_BBOX_HEIGHT / 2;
+	right = left + KOOPA_BBOX_WIDTH;
+	bottom = top + KOOPA_BBOX_HEIGHT;
+}
 
 void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -16,6 +31,7 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CParaKoopa::Render()
 {
+	RenderBoundingBox();
 	if (isKoopa)
 	{
 		CKoopa::Render();
@@ -55,7 +71,8 @@ void CParaKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 CParaKoopa::CParaKoopa(float x, float y, boolean isGreen): CKoopa(x,y,isGreen)
 {
 	this->ay = PARAKOOPA_GRAVITY;
-	boolean isKoopa = false;
+	this->vx = PARAKOOPA_WALKING_SPEED;
+	this->isKoopa = false;
 	SetState(PARAKOOPA_STATE_WALKING_LEFT);
 }
 
@@ -70,12 +87,12 @@ void CParaKoopa::SetState(int nextState)
 	switch (nextState)
 	{
 	case PARAKOOPA_STATE_WALKING_LEFT:
-		vx = -KOOPA_WALKING_SPEED;
+		vx = -PARAKOOPA_WALKING_SPEED;
 		isFlipped = false; //koopa wakes up and returns to normal
 		break;
 
 	case PARAKOOPA_STATE_WALKING_RIGHT:
-		vx = KOOPA_WALKING_SPEED;
+		vx = PARAKOOPA_WALKING_SPEED;
 		isFlipped = false; //koopa wakes up and returns to normal
 		break;
 	}

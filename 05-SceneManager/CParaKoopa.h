@@ -1,8 +1,9 @@
 #pragma once
 #include "CKoopa.h"
 
-#define PARAKOOPA_BOUNCE_SPEED -0.4f
-#define PARAKOOPA_GRAVITY 0.02f
+#define PARAKOOPA_WALKING_SPEED 0.03f
+#define PARAKOOPA_BOUNCE_SPEED -0.22f
+#define PARAKOOPA_GRAVITY 0.0005f
 
 #define PARAKOOPA_STATE_WALKING_LEFT 10
 #define PARAKOOPA_STATE_WALKING_RIGHT 11
@@ -14,9 +15,13 @@
 class CParaKoopa :public CKoopa
 {
 protected:
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	boolean isKoopa;
+
+	int IsCollidable() { return 1; }
+	int IsOverlappable() { return 0; }
 
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 

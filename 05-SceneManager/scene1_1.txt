@@ -21,6 +21,7 @@ woodblock.txt
 hud.txt
 brokenbrickpiece.txt
 extralifemushroom.txt
+parakoopa.txt
 
 #
 [OBJECTS]
@@ -264,6 +265,9 @@ extralifemushroom.txt
 16	585	140	0
 16	2096	140	0
 16	1472	120	1
+
+#ParaKoopa
+19	1400	50	1
 
 #Platform Lakitu cloud
 5	1406	-14	16	16	4	54000	54000	54000

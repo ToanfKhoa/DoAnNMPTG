@@ -25,6 +25,7 @@
 #include "CSpawnBox.h"
 #include "CHeadsUpDisplay.h"
 #include "CExtraLifeMushroom.h"
+#include "CParaKoopa.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -182,7 +183,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CKoopa(x, y, koopa_type); 
 		break;
 	}
-
+	case OBJECT_TYPE_PARAKOOPA:
+	{
+		//1 = green parakoopa
+		int koopa_type = atoi(tokens[3].c_str());
+		obj = new CParaKoopa(x, y, koopa_type); 
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 
