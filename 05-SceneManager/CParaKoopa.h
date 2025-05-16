@@ -36,7 +36,7 @@ protected:
 public:
 	CParaKoopa(float x, float y, boolean isGreen);
 	void SetState(int nextState);
-	boolean GetIsKoomba() { return isKoopa; }
+	boolean GetIsKoopa() { return isKoopa; }
 	void TurnIntoKoopa();
 };
 

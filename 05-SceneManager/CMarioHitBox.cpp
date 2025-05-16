@@ -5,6 +5,7 @@
 #include "CKoopa.h"
 #include "CQuestionBlock.h"
 #include "Brick.h"
+#include "CParaKoopa.h"
 
 CMarioHitBox::CMarioHitBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT)
 {
@@ -39,6 +40,8 @@ void CMarioHitBox::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithGoomba(e);
 	else if (dynamic_cast<CVenus*>(e->obj))
 		OnOverlapWithVenus(e);
+	else if (dynamic_cast<CParaKoopa*>(e->obj))
+		OnOverlapWithParaKoopa(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnOverlapWithKoopa(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
@@ -75,19 +78,32 @@ void CMarioHitBox::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 	venus->SetState(VENUS_STATE_DIE);
 }
 
+void CMarioHitBox::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
+{
+	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
+	if (paraKoopa->GetIsKoopa())
+	{
+		OnOverlapWithKoopa(e);
+		return;
+	}
+
+	paraKoopa->TurnIntoKoopa();
+	paraKoopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
+}
+
 void CMarioHitBox::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 
-	if (koopa->GetState() == KOOPA_STATE_DIE || koopa->GetState() == KOOPA_STATE_DIE) return;
+	if (koopa->GetState() == KOOPA_STATE_DIE) return;
 
 	if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
-		koopa->SetState(KOOPA_STATE_DIE);
+		koopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
 	}
 	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 	{
-		koopa->SetState(KOOPA_STATE_DIE);
+		koopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
 	}
 }
 

@@ -96,6 +96,7 @@ void CKoopa::RenderRedKoopa()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+
 }
 
 void CKoopa::RenderGreenKoopa()
@@ -173,7 +174,6 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if(state == KOOPA_STATE_WALKING_RIGHT) SetState(KOOPA_STATE_WALKING_LEFT);
 		else if (state == KOOPA_STATE_SHELL_MOVING_LEFT) SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 		else if (state == KOOPA_STATE_SHELL_MOVING_RIGHT) SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
-		else if (state == KOOPA_STATE_BEING_HELD) SetState(GOOMBA_STATE_BOUNCE_DEATH);
 	}
 
 
@@ -313,7 +313,7 @@ void CKoopa::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 {
 	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
-	if (paraKoopa->GetIsKoomba())
+	if (paraKoopa->GetIsKoopa())
 	{
 		OnCollisionWithKoopa(e);
 		return;
@@ -408,7 +408,7 @@ void CKoopa::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
 {
 	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
 
-	if (paraKoopa->GetIsKoomba())
+	if (paraKoopa->GetIsKoopa())
 	{
 		OnOverlapWithKoopa(e);
 		return;
@@ -532,6 +532,18 @@ void CKoopa::SetState(int nextState)
 			//isDeleted = true;
 			vy = -KOOPA_BOUNCE_SPEED;
 			break;
+		case KOOPA_STATE_SHELL_BOUNCE:
+			DebugOut(L"koopa set state BOUNCE\n");
+			isFlipped = true;
+			vy = -KOOPA_BOUNCE_SPEED*1.4f;
+
+			//set state shell idle 
+			shellStartTime = GetTickCount64();
+			vx = 0;
+			nextState = KOOPA_STATE_SHELL_IDLE;
+
+			break;
 	}
+	//only a SetState will update koopa state
 	CGameObject::SetState(nextState); //need to update state later to check current state
 }
