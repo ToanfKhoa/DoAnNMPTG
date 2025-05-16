@@ -8,6 +8,7 @@
 #include "CPipe.h"
 #include "CGround.h"
 #include "CWoodBlock.h"
+#include "CParaKoopa.h"
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -151,6 +152,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithQuestionBlock(e);
 		else if (dynamic_cast<CVenus*>(e->obj))
 			OnCollisionWithVenus(e);
+		else if (dynamic_cast<CParaKoopa*>(e->obj))
+			OnCollisionWithParaKoopa(e);
 		else if (dynamic_cast<CKoopa*>(e->obj))
 			OnCollisionWithKoopa(e);
 		else if (dynamic_cast<CBrick*>(e->obj))
@@ -187,6 +190,8 @@ void CKoopa::OnOverlapWith(LPCOLLISIONEVENT e)
 			OnOverlapWithGoomba(e);
 		else if (dynamic_cast<CVenus*>(e->obj))
 			OnOverlapWithVenus(e);
+		else if (dynamic_cast<CParaKoopa*>(e->obj))
+			OnOverlapWithParaKoopa(e);
 		else if (dynamic_cast<CKoopa*>(e->obj))
 			OnOverlapWithKoopa(e);
 		else if (dynamic_cast<CBrick*>(e->obj))
@@ -305,6 +310,23 @@ void CKoopa::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 	venus->SetState(VENUS_STATE_DIE);
 }
 
+void CKoopa::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
+{
+	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
+	if (paraKoopa->GetIsKoomba())
+	{
+		OnCollisionWithKoopa(e);
+		return;
+	}
+
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+	paraKoopa->TurnIntoKoopa();
+	paraKoopa->SetState(KOOPA_STATE_DIE);
+}
+
 void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
@@ -344,8 +366,10 @@ void CKoopa::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	if (goomba->GetState() == GOOMBA_STATE_DIE || goomba->GetState() == GOOMBA_STATE_BOUNCE_DEATH) return;
 
-	SetState(KOOPA_STATE_DIE);
-
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
 
 	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
 
@@ -356,7 +380,10 @@ void CKoopa::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
 	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
 	if (paragoomba->GetState() == GOOMBA_STATE_DIE || paragoomba->GetState() == GOOMBA_STATE_BOUNCE_DEATH) return;
 
-	SetState(KOOPA_STATE_DIE);
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
 
 	if (paragoomba->GetIsGoomba() == false)
 	{
@@ -367,26 +394,50 @@ void CKoopa::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
 
 void CKoopa::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 {
-	SetState(KOOPA_STATE_DIE);
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
 
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
 	venus->SetState(VENUS_STATE_DIE);
 }
 
+void CKoopa::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
+{
+	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
+
+	if (paraKoopa->GetIsKoomba())
+	{
+		OnOverlapWithKoopa(e);
+		return;
+	}
+
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
+
+	paraKoopa->TurnIntoKoopa();
+	paraKoopa->SetState(KOOPA_STATE_DIE);
+}
+
 void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
 {
-
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 
-	if (koopa->GetState() == KOOPA_STATE_DIE || koopa->GetState() == KOOPA_STATE_DIE) return;
+	if (koopa->GetState() == KOOPA_STATE_DIE) return;
 
-	SetState(KOOPA_STATE_DIE);
-
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
 
 	if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
 		koopa->SetState(KOOPA_STATE_DIE);
+		SetState(KOOPA_STATE_DIE);
 	}
 	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 	{

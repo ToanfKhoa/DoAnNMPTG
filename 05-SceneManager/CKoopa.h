@@ -71,12 +71,14 @@ protected:
 	virtual void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithVenus(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithParaKoopa(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 
 	virtual void OnOverlapWithGoomba(LPCOLLISIONEVENT e);
 	virtual void OnOverlapWithParaGoomba(LPCOLLISIONEVENT e);
 	virtual void OnOverlapWithVenus(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithParaKoopa(LPCOLLISIONEVENT e);
 	virtual void OnOverlapWithKoopa(LPCOLLISIONEVENT e);
 	virtual void OnOverlapWithBrick(LPCOLLISIONEVENT e);
 	virtual void OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e);
