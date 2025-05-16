@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "CDigit.h"
 
-#define DIGIT_SPACING 10
+#define DIGIT_SPACING 8
 
 class CNumber : public CGameObject
 {

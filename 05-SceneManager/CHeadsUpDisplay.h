@@ -19,9 +19,9 @@ public:
 	{
 		CPlayScene* currentScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		this->spriteId = spriteId;
-		numberCoin = new CNumber(x, y - 60, 2);
-		numberTime = new CNumber(x, y - 50, 3);
-		numberPoint = new CNumber(x, y - 40, 7);
+		numberCoin = new CNumber(x - 10, y - 16, 2);
+		numberTime = new CNumber(x - 10, y - 8, 3);
+		numberPoint = new CNumber(x - 62, y - 8, 7);
 	}
 
 	void Render();

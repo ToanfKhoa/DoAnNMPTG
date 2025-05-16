@@ -5,11 +5,11 @@
 void CHeadsUpDisplay::Render()
 {
 	CSprites* s = CSprites::GetInstance();
+	s->Get(this->spriteId)->DrawOnScreen(x, y);
 
 	numberCoin->Render();
 	numberPoint->Render();
 	numberTime->Render();
-	s->Get(this->spriteId)->DrawOnScreen(x, y);
 }
 
 void CHeadsUpDisplay::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
