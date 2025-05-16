@@ -11,7 +11,7 @@ protected:
 
 	float spawnObjectX;
 	float spawnObjectY;
-	int spawnObjectType; // 0 = goomba, 1 = paragoomba
+	int spawnObjectType; // 0 = goomba, 1 = paragoomba, 2 = green koopa, 3 = green parakoopa
 
 public:
 	CSpawnBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT, float spawnObjectX, float spawnObjectY, int spawnObjectType);

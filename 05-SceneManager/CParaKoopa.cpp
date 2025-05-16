@@ -32,7 +32,7 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CParaKoopa::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	if (isKoopa)
 	{
 		CKoopa::Render();
