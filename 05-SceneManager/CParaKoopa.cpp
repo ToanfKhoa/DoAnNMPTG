@@ -63,6 +63,8 @@ void CParaKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (e->ny != 0) //bounce
 	{
+		if(e->ny>0) vy = -PARAKOOPA_BOUNCE_SPEED;
+		else
 		vy = PARAKOOPA_BOUNCE_SPEED;
 	}
 	else if (e->nx != 0)
