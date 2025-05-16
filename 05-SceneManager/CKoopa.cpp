@@ -213,7 +213,12 @@ void CKoopa::CheckAndChangeState()
 	{
 		if (GetTickCount64() - shellStartTime > KOOPA_REVIVE_TIME)
 		{
-			SetState(KOOPA_STATE_WALKING_LEFT);
+			if (isGreen)
+			{
+				TurnToMario();
+			}
+			else
+				SetState(KOOPA_STATE_WALKING_LEFT);
 		}
 	}
 }
@@ -251,6 +256,20 @@ void CKoopa::UpdateSensorBoxPosition()
 	if (sensorBox->GetY() - y >= KOOPA_BBOX_HEIGHT / 2) newY = y;
 
 	sensorBox->SetPosition(newX, newY);
+}
+
+void CKoopa::TurnToMario()
+{
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	float marioX = 0, marioY = 0;
+	CMario* mario = dynamic_cast<CMario*>(playScene->GetPlayer());
+	if (mario != NULL)
+	{
+		mario->GetPosition(marioX, marioY);
+	}
+	
+	if (marioX <= this->x) SetState(KOOPA_STATE_WALKING_LEFT);
+	else SetState(KOOPA_STATE_WALKING_RIGHT);
 }
 
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -490,11 +509,18 @@ CKoopa::CKoopa(float x, float y, boolean isGreen)
 
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		playScene->AddObject(sensorBox);
+
+
+		SetState(KOOPA_STATE_WALKING_LEFT);
 	}
-	else 
+	else
+	{
 		sensorBox = NULL;
 
-	SetState(KOOPA_STATE_WALKING_LEFT);
+		//set state
+		TurnToMario();
+	}
+
 }
 
 void CKoopa::SetState(int nextState)

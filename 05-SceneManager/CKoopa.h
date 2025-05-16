@@ -68,6 +68,7 @@ protected:
 	virtual void OnOverlapWith(LPCOLLISIONEVENT e);
 	virtual void CheckAndChangeState();
 	virtual void UpdateSensorBoxPosition();
+	virtual void TurnToMario();
 
 	virtual void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
