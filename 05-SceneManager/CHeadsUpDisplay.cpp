@@ -12,14 +12,16 @@ void CHeadsUpDisplay::Render()
 	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
 	float powerCount = player->GetRunPower() / MARIO_MAX_RUN_POWER * 6;
 
-	DebugOut(L"Power count: %d\n", powerCount);
 	//Run power bar
 	if (powerCount > 0)
 	{
 		for (int i = 0; i <= powerCount; i++)
 		{
 			if (i == powerCount && powerCount == 6)
-				s->Get(SPRITE_FULL_POWER)->DrawOnScreen(x - 110 + i * 9, y - 16);
+			{
+				if((GetTickCount64() / 100) % 2 == 0) //Blink effect
+					s->Get(SPRITE_FULL_POWER)->DrawOnScreen(x - 105 + i * 9, y - 16);
+			}
 			else
 				s->Get(SPRITE_POWER_ACTIVE)->DrawOnScreen(x - 110 + i * 9, y - 16);
 		}

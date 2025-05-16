@@ -156,20 +156,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform || ableToFly == true) //Running or is in flying time
 	{
 		//Increase and keep runPower at max value
-		if (runPower < MARIO_MAX_RUN_POWER)
-			runPower += dt;
-		else
-			runPower = MARIO_MAX_RUN_POWER;
+		runPower = min(MARIO_MAX_RUN_POWER, runPower + dt);
 	}
 	else
 	{
 		//Decrease and keep runPower at 0
-		if(runPower > 0)
-			runPower -= dt;
-		else
-			runPower = 0;
+		runPower = max(0, runPower - dt);
 	}
-
 	//Mario will transform while stop scenetime, transform stop when scene countinue to update
 	if (isTransforming == true)
 	{
@@ -221,7 +214,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 		hitBox->SetPosition(x, y + MARIO_RACOON_BBOX_HEIGHT / 4);
-
+	
 }
 
 void CMario::OnNoCollision(DWORD dt)
