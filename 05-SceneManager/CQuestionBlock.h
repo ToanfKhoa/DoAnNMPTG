@@ -39,5 +39,6 @@ protected:
 public:
 	CQuestionBlock(float x, float y, int itemType);
 	void SetState(int state);
+	int getItemType() { return itemType; };
 };
 

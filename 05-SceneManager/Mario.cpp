@@ -21,6 +21,7 @@
 #include "PlayScene.h"
 #include "CExtraLifeMushroom.h"
 #include "CParaKoopa.h"
+#include "CPiranha.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -34,7 +35,9 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
-		coin = 0;
+		coins = 0;
+		playTime = 300;
+		points = 0;
 
 		kickTimer == 0;
 		isKicking == false;
@@ -71,6 +74,20 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"time: %.2f\n", playTime);
+	DebugOut(L"coin: %.2f\n", coins);
+	DebugOut(L"point: %.2f\n", points);
+	//Remain Time
+	if(playTime > 0)
+	{
+		playTime -= (float) dt / 1000;
+		if (playTime <= 0)
+		{
+			SetState(MARIO_STATE_DIE);
+			DebugOut(L"Time is up\n");
+		}
+	}
+
 	//DebugOut(L"timerattack %d\n", attackTimer);
 	vx += ax * dt;
 	vy += ay * dt;
@@ -137,23 +154,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	//Run power
-	if ((level == MARIO_LEVEL_RACOON && abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform) || ableToFly == true) //Running or is in flying time
+	if (abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform || ableToFly == true) //Running or is in flying time
 	{
 		//Increase and keep runPower at max value
-		if (runPower < MARIO_MAX_RUN_POWER)
-			runPower += dt;
-		else
-			runPower = MARIO_MAX_RUN_POWER;
+		runPower = min(MARIO_MAX_RUN_POWER, runPower + dt);
 	}
 	else
 	{
 		//Decrease and keep runPower at 0
-		if(runPower > 0)
-			runPower -= dt;
-		else
-			runPower = 0;
+		runPower = max(0, runPower - dt);
 	}
-
 	//Mario will transform while stop scenetime, transform stop when scene countinue to update
 	if (isTransforming == true)
 	{
@@ -205,7 +215,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 		hitBox->SetPosition(x, y + MARIO_RACOON_BBOX_HEIGHT / 4);
-
+	
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -243,6 +253,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CVenus*>(e->obj))
 		OnCollisionWithVenus(e);
+	else if (dynamic_cast<CPiranha*>(e->obj))
+		OnCollisionWithPiranha(e);
 	else if (dynamic_cast<CBulletVenus*>(e->obj))
 		OnCollisionWithBulletVenus(e);
 	//else if (dynamic_cast<CPowerUpItem*>(e->obj))
@@ -280,6 +292,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			AddPoints(100);
 		}
 	}
 	else // hit by Goomba
@@ -303,6 +316,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 		{
 			paragoomba->TurnIntoGoomba();
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			AddCoins(100);
 		}
 		else
 		{
@@ -310,6 +324,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 			{
 				paragoomba->SetState(GOOMBA_STATE_DIE);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				AddPoints(200);
 			}
 		}
 	}
@@ -325,7 +340,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
-	coin++;
+	AddCoins(1);
 }
 
 void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
@@ -336,6 +351,11 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 		if (question->GetState() == QUESTIONBLOCK_STATE_IDLE)
 		{
 			question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
+			if (question->getItemType() == 0)
+			{
+				AddCoins(1);
+				AddPoints(100);
+			}
 		}
 	}
 }
@@ -359,6 +379,19 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
+{
+	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
+
+	// die if hit Piranha
+	if (piranha->GetState() != PIRANHA_STATE_DIE)
+	{
+		{
+			GetDamaged();
+		}
+	}
+}
+
 void CMario::OnCollisionWithBulletVenus(LPCOLLISIONEVENT e)
 {
 	GetDamaged();
@@ -375,6 +408,8 @@ void CMario::OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e)
 			SetLevel(MARIO_LEVEL_RACOON);
 
 		item->SetState(POWERUPITEM_STATE_EATEN);
+
+		AddPoints(1000);
 	}
 }
 
@@ -423,6 +458,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			koopa->SetState(KOOPA_STATE_SHELL_IDLE);
 
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+
+			AddPoints(100);
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
@@ -435,6 +472,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 			else
 				koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
+
+			AddPoints(200);
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
 		{
@@ -832,7 +871,7 @@ void CMario::Render()
 	
 	RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	DebugOutTitle(L"Coins: %d", coins);
 }
 
 void CMario::SetState(int state)

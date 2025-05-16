@@ -18,6 +18,7 @@ public:
 	void OnOverlapWithParaGoomba(LPCOLLISIONEVENT e);
 	void OnOverlapWithVenus(LPCOLLISIONEVENT e);
 	void OnOverlapWithParaKoopa(LPCOLLISIONEVENT e);
+	void OnOverlapWithPiranha(LPCOLLISIONEVENT e);
 	void OnOverlapWithKoopa(LPCOLLISIONEVENT e);
 	void OnOverlapWithBrick(LPCOLLISIONEVENT e);
 	void OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e);

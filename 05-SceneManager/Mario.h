@@ -195,7 +195,7 @@
 #define MARIO_WAG_TIME 100
 #define MARIO_FLY_TIME 6000
 #define MARIO_ATTACK_TIME 300
-#define MARIO_MAX_RUN_POWER 2000 //Max power = time to run
+#define MARIO_MAX_RUN_POWER 2000.0f //Max power = time to run
 
 typedef CMarioHitBox* LPHITBOX;
 class CMario : public CGameObject
@@ -210,7 +210,9 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	int coin; 
+	int coins; 
+	float playTime;
+	int points;
 
 	DWORD kickTimer;
 	BOOLEAN isKicking;
@@ -232,7 +234,7 @@ class CMario : public CGameObject
 	DWORD attackTimer;
 	BOOLEAN isAttacking;
 
-	DWORD runPower;
+	float runPower;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
@@ -240,6 +242,7 @@ class CMario : public CGameObject
 	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
+	void OnCollisionWithPiranha(LPCOLLISIONEVENT e);
 	void OnCollisionWithBulletVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaKoopa(LPCOLLISIONEVENT e);
@@ -293,4 +296,12 @@ public:
 	void Attack();
 
 	bool IsFullRunPower() { return runPower == MARIO_MAX_RUN_POWER; }
+
+	int GetCoins() { return coins; };
+	int GetPlayTime() { return playTime; };
+	int GetPoints() { return points; };
+	void AddPoints(int p) { points += p; };
+	void AddCoins(int c) { coins += c; };
+
+	float GetRunPower() { return runPower; };
 };

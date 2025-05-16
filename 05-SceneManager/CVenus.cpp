@@ -6,8 +6,9 @@
 #include "Game.h"
 
 
-CVenus::CVenus(float x, float y) :CGameObject(x, y)
+CVenus::CVenus(float x, float y, BOOLEAN isGreen) :CGameObject(x, y)
 {
+	this->isGreen = isGreen;
 	SetState(VENUS_STATE_HIDE);
 	isPlayerInRange = false;
 	timer = 0;
@@ -61,28 +62,55 @@ void CVenus::Render()
 {
 	int aniId = ID_ANI_VENUS_TOPLEFT;
 	
-	//Set animation based on direction
-	if (state == VENUS_STATE_DIE)
+	if (isGreen == false)
 	{
-		aniId = ID_ANI_VENUS_DIE;
+		//Set animation based on direction
+		if (state == VENUS_STATE_DIE)
+		{
+			aniId = ID_ANI_VENUS_DIE;
+		}
+		else if (direction_x == -1 && direction_y == -1)
+		{
+			aniId = ID_ANI_VENUS_TOPLEFT;
+		}
+		else if (direction_x == -1 && direction_y == 1)
+		{
+			aniId = ID_ANI_VENUS_BOTLEFT;
+		}
+		else if (direction_x == 1 && direction_y == -1)
+		{
+			aniId = ID_ANI_VENUS_TOPRIGHT;
+		}
+		else if (direction_x == 1 && direction_y == 1)
+		{
+			aniId = ID_ANI_VENUS_BOTRIGHT;
+		}
 	}
-	else if(direction_x == -1 && direction_y == -1) 	
+	else
 	{
-		aniId = ID_ANI_VENUS_TOPLEFT;
+		//Set animation based on direction
+		if (state == VENUS_STATE_DIE)
+		{
+			aniId = ID_ANI_VENUS_DIE;
+		}
+		else if (direction_x == -1 && direction_y == -1)
+		{
+			aniId = ID_ANI_GREEN_VENUS_TOPLEFT;
+		}
+		else if (direction_x == -1 && direction_y == 1)
+		{
+			aniId = ID_ANI_GREEN_VENUS_BOTLEFT;
+		}
+		else if (direction_x == 1 && direction_y == -1)
+		{
+			aniId = ID_ANI_GREEN_VENUS_TOPRIGHT;
+		}
+		else if (direction_x == 1 && direction_y == 1)
+		{
+			aniId = ID_ANI_GREEN_VENUS_BOTRIGHT;
+		}
 	}
-	else if (direction_x == -1 && direction_y == 1)
-	{
-		aniId = ID_ANI_VENUS_BOTLEFT;
-	}
-	else if (direction_x == 1 && direction_y == -1)
-	{
-		aniId = ID_ANI_VENUS_TOPRIGHT;
-	}
-	else if (direction_x == 1 && direction_y == 1)
-	{
-		aniId = ID_ANI_VENUS_BOTRIGHT;
-	}
-
+	
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
 }

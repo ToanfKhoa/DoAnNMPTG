@@ -141,6 +141,15 @@
     <ClCompile Include="CParaKoopa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CDigit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPiranha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CNumber.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -276,6 +285,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CParaKoopa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CDigit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPiranha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CNumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

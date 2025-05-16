@@ -6,6 +6,7 @@
 #include "CQuestionBlock.h"
 #include "Brick.h"
 #include "CParaKoopa.h"
+#include "CPiranha.h"
 
 CMarioHitBox::CMarioHitBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT)
 {
@@ -44,6 +45,8 @@ void CMarioHitBox::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithParaKoopa(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnOverlapWithKoopa(e);
+	else if (dynamic_cast<CPiranha*>(e->obj))
+		OnOverlapWithPiranha(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
 		OnOverlapWithBrick(e);
 	else if (dynamic_cast<CQuestionBlock*>(e->obj))
@@ -89,6 +92,13 @@ void CMarioHitBox::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
 
 	paraKoopa->TurnIntoKoopa();
 	paraKoopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
+}
+
+void CMarioHitBox::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
+{
+	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
+
+	piranha->SetState(PIRANHA_STATE_DIE);
 }
 
 void CMarioHitBox::OnOverlapWithKoopa(LPCOLLISIONEVENT e)

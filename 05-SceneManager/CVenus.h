@@ -7,7 +7,7 @@
 #define VENUS_BBOX_HEIGHT 26
 #define VENUS_FIRE_DISTANCE_MAX 150
 #define VENUS_FIRE_DISTANCE_MIN 16
-#define VENUS_MOVING_OFFSET 34
+#define VENUS_MOVING_OFFSET 45
 
 #define VENUS_STATE_HIDE 100
 #define VENUS_STATE_UP 200
@@ -20,6 +20,11 @@
 #define ID_ANI_VENUS_BOTLEFT 5202
 #define ID_ANI_VENUS_BOTRIGHT 5203
 #define ID_ANI_VENUS_DIE 5204
+
+#define ID_ANI_GREEN_VENUS_TOPLEFT 5205
+#define ID_ANI_GREEN_VENUS_TOPRIGHT 5206
+#define ID_ANI_GREEN_VENUS_BOTLEFT 5207
+#define ID_ANI_GREEN_VENUS_BOTRIGHT 5208
 
 #define VENUS_HIDE_TIME 1000
 #define VENUS_APPEAR_TIME 1000
@@ -36,7 +41,8 @@ protected:
 	LPBULLETVENUS bullet;
 	bool isPlayerInRange;
 	float y_start;
-	
+	BOOLEAN isGreen;
+
 	DWORD timer;
 	DWORD dieTimer;
 
@@ -49,7 +55,7 @@ protected:
 
 
 public:
-	CVenus(float x, float y);
+	CVenus(float x, float y, BOOLEAN isGreen);
 	virtual void SetState(int state);
 	void UpAndDown(DWORD dt);
 	void Fire();
