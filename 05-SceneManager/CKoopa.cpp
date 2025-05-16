@@ -330,6 +330,7 @@ void CKoopa::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	if (koopa->GetState() == KOOPA_STATE_DIE) return;
 	
 	if (state == KOOPA_STATE_BEING_HELD)
 	{
