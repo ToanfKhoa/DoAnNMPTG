@@ -138,6 +138,9 @@
     <ClCompile Include="CExtraLifeMushroom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CParaKoopa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CDigit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -279,6 +282,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CExtraLifeMushroom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CParaKoopa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CDigit.h">

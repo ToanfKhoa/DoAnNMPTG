@@ -20,6 +20,7 @@
 #include "CSpawnBox.h"
 #include "PlayScene.h"
 #include "CExtraLifeMushroom.h"
+#include "CParaKoopa.h"
 #include "CPiranha.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
@@ -258,6 +259,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBulletVenus(e);
 	//else if (dynamic_cast<CPowerUpItem*>(e->obj))
 	//	OnCollisionWithPowerUpItem(e);
+	else if (dynamic_cast<CParaKoopa*>(e->obj))
+		OnCollisionWithParaKoopa(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
@@ -421,6 +424,29 @@ void CMario::OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
+{
+	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
+	if (paraKoopa->GetIsKoopa())
+	{
+		OnCollisionWithKoopa(e);
+		return;
+	}
+	// jump on top >> kill ParaGoomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		paraKoopa->TurnIntoKoopa();
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
+	}
+	else //Hit not on top
+	{
+		if (untouchable == 0) 
+		{
+			GetDamaged();
+		}
+	}
+}
+
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
@@ -442,7 +468,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 			//Kick the shell
 			SetState(MARIO_STATE_KICK);
-			if (xKoopa >= x) 
+			if (xKoopa >= x)
 				koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 			else
 				koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
@@ -469,20 +495,20 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			koopaShell->SetState(KOOPA_STATE_BEING_HELD);
 
 		}
-		else if (untouchable == 0) 
+		else if (untouchable == 0)
 		{
 			if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT
 				|| koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
 			{
 				GetDamaged();
 			}
-			else if(koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
+			else if (koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 			{
 				float xKoopa, yKoopa;
 				koopa->GetPosition(xKoopa, yKoopa);
 				//Kick the shell
 				SetState(MARIO_STATE_KICK);
-				if (xKoopa >= x) 
+				if (xKoopa >= x)
 					koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 				else
 					koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);

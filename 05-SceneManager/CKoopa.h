@@ -22,6 +22,8 @@
 #define KOOPA_STATE_SHELL_REVIVE 5
 #define KOOPA_STATE_BEING_HELD 6
 #define KOOPA_STATE_DIE 7
+#define KOOPA_STATE_SHELL_BOUNCE 8
+//PARAKOOPA_STATE 10
 
 #define ID_ANI_KOOPA_WALKING_LEFT 15000
 #define ID_ANI_KOOPA_WALKING_RIGHT 15001
@@ -50,45 +52,48 @@ protected:
 	CSensorBox* sensorBox;
 	boolean isGreen;
 	
-	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	void Render();
-	void RenderRedKoopa();
-	void RenderGreenKoopa();
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void Render();
+	virtual void RenderRedKoopa();
+	virtual void RenderGreenKoopa();
 
-	int IsCollidable() { return state!=KOOPA_STATE_DIE; }
-	int IsOverlappable() { return state!=KOOPA_STATE_DIE; }
+	virtual int IsCollidable() { return state!=KOOPA_STATE_DIE; }
+	virtual int IsOverlappable() { return state!=KOOPA_STATE_DIE; }
 
-	int IsBlocking() { return 0; }
-	void OnNoCollision(DWORD dt);
+	virtual int IsBlocking() { return 0; }
+	virtual void OnNoCollision(DWORD dt);
 
-	void OnCollisionWith(LPCOLLISIONEVENT e);
-	void OnOverlapWith(LPCOLLISIONEVENT e);
-	void CheckAndChangeState();
-	void UpdateSensorBoxPosition();
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWith(LPCOLLISIONEVENT e);
+	virtual void CheckAndChangeState();
+	virtual void UpdateSensorBoxPosition();
+	virtual void TurnToMario();
 
-	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
-	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
-	void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
-	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
-	void OnCollisionWithPiranha(LPCOLLISIONEVENT e);
-	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
-	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithVenus(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithPiranha(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithParaKoopa(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 
-	void OnOverlapWithGoomba(LPCOLLISIONEVENT e);
-	void OnOverlapWithParaGoomba(LPCOLLISIONEVENT e);
-	void OnOverlapWithVenus(LPCOLLISIONEVENT e);
-	void OnOverlapWithPiranha(LPCOLLISIONEVENT e);
-	void OnOverlapWithKoopa(LPCOLLISIONEVENT e);
-	void OnOverlapWithBrick(LPCOLLISIONEVENT e);
-	void OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e);
-	void OnOverlapWithPipe(LPCOLLISIONEVENT e);
-	void OnOverlapWithGround(LPCOLLISIONEVENT e);
-	void OnOverlapWithWoodBlock(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithGoomba(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithParaGoomba(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithVenus(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithPiranha(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithParaKoopa(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithKoopa(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithBrick(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithPipe(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithGround(LPCOLLISIONEVENT e);
+	virtual void OnOverlapWithWoodBlock(LPCOLLISIONEVENT e);
 
 public:
 	CKoopa(float x, float y, boolean isGreen);
-	void SetState(int nextState);
-	void AlignYOnTransform();
+	virtual void SetState(int nextState);
+	virtual void AlignYOnTransform();
 };
 

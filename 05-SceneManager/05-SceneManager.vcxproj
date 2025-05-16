@@ -163,6 +163,7 @@
     <ClCompile Include="CNumber.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CParaKoopa.cpp" />
     <ClCompile Include="CPipe.cpp" />
     <ClCompile Include="CPiranha.cpp" />
     <ClCompile Include="CPit.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="CNumber.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CParaKoopa.h" />
     <ClInclude Include="CPipe.h" />
     <ClInclude Include="CPiranha.h" />
     <ClInclude Include="CPit.h" />

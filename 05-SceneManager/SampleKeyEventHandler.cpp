@@ -9,6 +9,8 @@
 #include "ParaGoomba.h"
 #include "CQuestionBlock.h"
 #include "Brick.h"
+#include "CParaKoopa.h"
+
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -87,6 +89,14 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			obj = new CBrick(marioX + 32, marioY, 0);
 		else
 			obj = new CBrick(marioX - 32, marioY, 0);
+
+		playScene->AddObject(obj);
+		break;
+	case DIK_9:
+		if (nx > 0)
+			obj = new CParaKoopa(marioX + 32, marioY - 32, 1);
+		else
+			obj = new CParaKoopa(marioX - 32, marioY - 32, 1);
 
 		playScene->AddObject(obj);
 		break;
