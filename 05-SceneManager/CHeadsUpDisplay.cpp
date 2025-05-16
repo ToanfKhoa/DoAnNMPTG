@@ -7,6 +7,8 @@ void CHeadsUpDisplay::Render()
 	CSprites* s = CSprites::GetInstance();
 
 	numberCoin->Render();
+	numberPoint->Render();
+	numberTime->Render();
 	s->Get(this->spriteId)->DrawOnScreen(x, y);
 }
 

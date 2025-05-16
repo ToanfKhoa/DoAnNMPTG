@@ -34,7 +34,9 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
-		coin = 0;
+		coins = 0;
+		playTime = 300;
+		points = 0;
 
 		kickTimer == 0;
 		isKicking == false;
@@ -71,6 +73,20 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"time: %.2f\n", playTime);
+	DebugOut(L"coin: %.2f\n", coins);
+	DebugOut(L"point: %.2f\n", points);
+	//Remain Time
+	if(playTime > 0)
+	{
+		playTime -= (float) dt / 1000;
+		if (playTime <= 0)
+		{
+			SetState(MARIO_STATE_DIE);
+			DebugOut(L"Time is up\n");
+		}
+	}
+
 	//DebugOut(L"timerattack %d\n", attackTimer);
 	vx += ax * dt;
 	vy += ay * dt;
@@ -280,6 +296,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			AddPoints(100);
 		}
 	}
 	else // hit by Goomba
@@ -303,6 +320,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 		{
 			paragoomba->TurnIntoGoomba();
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			AddCoins(100);
 		}
 		else
 		{
@@ -310,6 +328,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 			{
 				paragoomba->SetState(GOOMBA_STATE_DIE);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				AddPoints(200);
 			}
 		}
 	}
@@ -325,7 +344,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
-	coin++;
+	AddCoins(1);
 }
 
 void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
@@ -336,6 +355,11 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 		if (question->GetState() == QUESTIONBLOCK_STATE_IDLE)
 		{
 			question->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
+			if (question->getItemType() == 0)
+			{
+				AddCoins(1);
+				AddPoints(100);
+			}
 		}
 	}
 }
@@ -388,6 +412,8 @@ void CMario::OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e)
 			SetLevel(MARIO_LEVEL_RACOON);
 
 		item->SetState(POWERUPITEM_STATE_EATEN);
+
+		AddPoints(1000);
 	}
 }
 
@@ -413,6 +439,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			koopa->SetState(KOOPA_STATE_SHELL_IDLE);
 
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+
+			AddPoints(100);
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
@@ -425,6 +453,8 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				koopa->SetState(KOOPA_STATE_SHELL_MOVING_RIGHT);
 			else
 				koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
+
+			AddPoints(200);
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
 		{
@@ -822,7 +852,7 @@ void CMario::Render()
 	
 	RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	DebugOutTitle(L"Coins: %d", coins);
 }
 
 void CMario::SetState(int state)

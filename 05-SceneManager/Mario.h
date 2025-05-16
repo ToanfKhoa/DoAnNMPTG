@@ -299,4 +299,6 @@ public:
 	int GetCoins() { return coins; };
 	int GetPlayTime() { return playTime; };
 	int GetPoints() { return points; };
+	void AddPoints(int p) { points += p; };
+	void AddCoins(int c) { coins += c; };
 };
