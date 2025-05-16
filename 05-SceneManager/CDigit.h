@@ -1,0 +1,28 @@
+#pragma once
+#include "GameObject.h"
+
+#define SPRITE_0 120010
+#define SPRITE_1 120011
+#define SPRITE_2 120012
+#define SPRITE_3 120013
+#define SPRITE_4 120014
+#define SPRITE_5 120015
+#define SPRITE_6 120016
+#define SPRITE_7 120017
+#define SPRITE_8 120018
+#define SPRITE_9 120019
+
+class CDigit : public CGameObject
+{
+protected:
+	int value;
+public:
+	CDigit(float x, float y):CGameObject(x, y){
+		this->value = 0;
+	}
+
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
+	void Render();
+	void SetValue(int value) { this->value = value; }
+};
+
