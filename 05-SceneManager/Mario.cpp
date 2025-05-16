@@ -702,7 +702,7 @@ int CMario::GetAniIdBig()
 			{
 				if (ax < 0)
 					aniId = ID_ANI_MARIO_BIG_BRACE_RIGHT;
-				else if (abs(vx) == MARIO_RUNNING_SPEED)
+				else if (runPower == MARIO_MAX_RUN_POWER)
 					aniId = ID_ANI_MARIO_BIG_RUNNING_RIGHT;
 				else
 					aniId = ID_ANI_MARIO_BIG_WALKING_RIGHT;
@@ -711,7 +711,7 @@ int CMario::GetAniIdBig()
 			{
 				if (ax > 0)
 					aniId = ID_ANI_MARIO_BIG_BRACE_LEFT;
-				else if (abs(vx) == MARIO_RUNNING_SPEED)
+				else if (runPower == MARIO_MAX_RUN_POWER)
 					aniId = ID_ANI_MARIO_BIG_RUNNING_LEFT;
 				else
 					aniId = ID_ANI_MARIO_BIG_WALKING_LEFT;
