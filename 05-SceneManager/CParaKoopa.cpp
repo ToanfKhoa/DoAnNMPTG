@@ -1,5 +1,6 @@
 #include "CParaKoopa.h"
 #include "debug.h"
+#include "PlayScene.h"
 
 void CParaKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -51,7 +52,10 @@ void CParaKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (isKoopa)
 	{
+		DebugOut(L"parakoopa collision with, state: %d\n", state);
 		CKoopa::OnCollisionWith(e);
+
+		return;
 	}
 
 	if (!e->obj->IsBlocking()) return;
@@ -63,8 +67,8 @@ void CParaKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0)
 	{
-		if (state == PARAKOOPA_STATE_WALKING_LEFT) SetState(KOOPA_STATE_WALKING_RIGHT);
-		else if (state == PARAKOOPA_STATE_WALKING_RIGHT) SetState(KOOPA_STATE_WALKING_LEFT);
+		if (state == PARAKOOPA_STATE_WALKING_LEFT) SetState(PARAKOOPA_STATE_WALKING_RIGHT);
+		else if (state == PARAKOOPA_STATE_WALKING_RIGHT) SetState(PARAKOOPA_STATE_WALKING_LEFT);
 	}
 }
 
@@ -80,7 +84,7 @@ void CParaKoopa::SetState(int nextState)
 {
 	if (isKoopa)
 	{
-		CKoopa::SetState(state);
+		CKoopa::SetState(nextState);
 		return;
 	}
 
@@ -102,6 +106,24 @@ void CParaKoopa::SetState(int nextState)
 void CParaKoopa::TurnIntoKoopa()
 {
 	isKoopa = true;
-	CKoopa::CKoopa(x, y, isGreen);
+
+	//koopa constructor
+	this->x = x;
+	this->y = y;
+	this->isGreen = isGreen;
+	ay = KOOPA_GRAVITY;
+	isFlipped = false;
+
+	if (isGreen == 0)
+	{
+		sensorBox = new CSensorBox(x, y, KOOPA_BBOX_WIDTH / 4, KOOPA_BBOX_HEIGHT / 4);
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		playScene->AddObject(sensorBox);
+	}
+	else
+		sensorBox = NULL;
+
+	SetState(KOOPA_STATE_WALKING_LEFT);
 }
 

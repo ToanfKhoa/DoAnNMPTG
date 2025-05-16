@@ -20,8 +20,16 @@ protected:
 	void Render();
 	boolean isKoopa;
 
-	int IsCollidable() { return 1; }
-	int IsOverlappable() { return 0; }
+	int IsCollidable() 
+	{ 
+		if (!isKoopa) return 1;
+		else CKoopa::IsCollidable(); 
+	}
+	int IsOverlappable() 
+	{ 
+		if (!isKoopa) return 0;
+		else CKoopa::IsOverlappable();
+	}
 
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 

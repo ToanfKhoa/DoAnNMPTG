@@ -392,6 +392,11 @@ void CMario::OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 {
 	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
+	if (paraKoopa->GetIsKoomba())
+	{
+		OnCollisionWithKoopa(e);
+		return;
+	}
 	// jump on top >> kill ParaGoomba and deflect a bit 
 	if (e->ny < 0)
 	{
