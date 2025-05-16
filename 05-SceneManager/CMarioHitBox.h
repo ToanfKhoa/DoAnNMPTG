@@ -9,7 +9,7 @@ protected:
 	BOOLEAN isActive;
 public:
 	CMarioHitBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT);
-	void Render() { RenderBoundingBox(); }
+	void Render() { /*RenderBoundingBox();*/ }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
