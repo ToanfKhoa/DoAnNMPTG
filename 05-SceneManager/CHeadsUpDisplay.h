@@ -6,6 +6,9 @@
 class CNumber;
 typedef CNumber* LPNUMBER;
 
+#define SPRITE_POWER_ACTIVE 120020
+#define SPRITE_FULL_POWER 120021
+
 class CHeadsUpDisplay :public CGameObject
 {
 protected:

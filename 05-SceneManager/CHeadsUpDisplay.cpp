@@ -7,6 +7,25 @@ void CHeadsUpDisplay::Render()
 	CSprites* s = CSprites::GetInstance();
 	s->Get(this->spriteId)->DrawOnScreen(x, y);
 
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	float powerCount = player->GetRunPower() / MARIO_MAX_RUN_POWER * 6;
+
+	DebugOut(L"Power count: %d\n", powerCount);
+	//Run power bar
+	if (powerCount > 0)
+	{
+		for (int i = 0; i <= powerCount; i++)
+		{
+			if (i == powerCount && powerCount == 6)
+				s->Get(SPRITE_FULL_POWER)->DrawOnScreen(x - 110 + i * 9, y - 16);
+			else
+				s->Get(SPRITE_POWER_ACTIVE)->DrawOnScreen(x - 110 + i * 9, y - 16);
+		}
+	}
+
+	// Draw the numbers
 	numberCoin->Render();
 	numberPoint->Render();
 	numberTime->Render();

@@ -301,4 +301,6 @@ public:
 	int GetPoints() { return points; };
 	void AddPoints(int p) { points += p; };
 	void AddCoins(int c) { coins += c; };
+
+	float GetRunPower() { return runPower; };
 };

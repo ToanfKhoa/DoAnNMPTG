@@ -153,7 +153,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	//Run power
-	if ((level == MARIO_LEVEL_RACOON && abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform) || ableToFly == true) //Running or is in flying time
+	if (abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform || ableToFly == true) //Running or is in flying time
 	{
 		//Increase and keep runPower at max value
 		if (runPower < MARIO_MAX_RUN_POWER)
