@@ -6,5 +6,7 @@
 64000	324	256	339	271	30
 65000	341	256	356	271	30
 
+65001	290	188	305	203	30
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

@@ -556,12 +556,12 @@ void CPlayScene::UpdateCameraPosition()
 
 	if (cx > END_OF_MAP) cx = END_OF_MAP;
 	if (cx < 0) cx = 0;
-	if (cy < END_OF_SKY) cy = END_OF_SKY;
+	/*if (cy < END_OF_SKY) cy = END_OF_SKY;
 	if (cy >= 0 || isCameraFollowingY==false)
 	{
 		isCameraFollowingY = false;
 		cy = 0;
-	}
+	}*/
 
 	DebugOut(L"camera cy: %f\n", cy);
 	CGame::GetInstance()->SetCamPos(cx, cy);
