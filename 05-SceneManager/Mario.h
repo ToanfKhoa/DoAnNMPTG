@@ -41,6 +41,7 @@
 
 #define MARIO_STATE_KICK			700
 
+#define MARIO_STATE_TELEPORT		800
 
 #pragma region ANIMATION_ID
 
@@ -196,6 +197,7 @@
 #define MARIO_FLY_TIME 6000
 #define MARIO_ATTACK_TIME 300
 #define MARIO_MAX_RUN_POWER 2000.0f //Max power = time to run
+#define MARIO_TELEPORT_TIME 5000
 
 typedef CMarioHitBox* LPHITBOX;
 class CMario : public CGameObject
@@ -234,6 +236,10 @@ class CMario : public CGameObject
 	DWORD attackTimer;
 	BOOLEAN isAttacking;
 
+	DWORD teleportTimer;
+	BOOLEAN isTeleporting;
+	int readyTeleport; //1 = mario will move down, -1 = mario will move up
+
 	float runPower;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -253,6 +259,7 @@ class CMario : public CGameObject
 
 	void OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e);
 	void OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e);
+	void OnOverlapWithPipePortal(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -304,4 +311,6 @@ public:
 	void AddCoins(int c) { coins += c; };
 
 	float GetRunPower() { return runPower; };
+
+	void SetReadyTeleport(int b) { this->readyTeleport = b; };
 };

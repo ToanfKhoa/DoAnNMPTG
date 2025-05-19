@@ -22,6 +22,7 @@
 #include "CExtraLifeMushroom.h"
 #include "CParaKoopa.h"
 #include "CPiranha.h"
+#include "CPipePortal.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -58,6 +59,10 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 		flyTimer = 0;
 		ableToFly = false;
 
+		teleportTimer = 0;
+		isTeleporting = false;
+		readyTeleport = 0;
+
 		runPower = 0;
 
 		hitBox = new CMarioHitBox(x, y, MARIO_HIT_BOX_WIDTH, MARIO_HIT_BOX_HEIGHT);
@@ -74,9 +79,6 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"time: %.2f\n", playTime);
-	DebugOut(L"coin: %.2f\n", coins);
-	DebugOut(L"point: %.2f\n", points);
 	//Remain Time
 	if(playTime > 0)
 	{
@@ -152,6 +154,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			flyTimer = 0;
 		}
 	}
+
+	//Teleport time
+	if (isTeleporting == true)
+	{
+		teleportTimer += dt;
+		if (teleportTimer >= MARIO_TELEPORT_TIME)
+		{
+			isTeleporting = false;
+			teleportTimer = 0;
+			readyTeleport = false;
+
+			state = MARIO_STATE_IDLE; //Exit the teleport state
+			SetState(MARIO_STATE_IDLE);
+		}
+	}
+
 
 	//Run power
 	if (abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform || ableToFly == true) //Running or is in flying time
@@ -279,6 +297,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithPowerUpItem(e);
 	else if (dynamic_cast<CExtraLifeMushroom*>(e->obj))
 		OnOverlapWithExtraLifeMushroom(e);
+	else if (dynamic_cast<CPipePortal*>(e->obj))
+		OnOverlapWithPipePortal(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -421,6 +441,26 @@ void CMario::OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e)
 		//1-up 
 
 		item->SetState(POWERUPITEM_STATE_EATEN);
+	}
+}
+
+void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
+{
+	CPipePortal* pipePortal = dynamic_cast<CPipePortal*>(e->obj);
+	float pipeX, pipeY;
+	pipePortal->GetPosition(pipeX, pipeY);
+	if ((readyTeleport == 1 && y < pipeY)
+		|| (readyTeleport == -1 && y > pipeY))
+	{
+		SetState(MARIO_STATE_TELEPORT);
+		isTeleporting = true;
+	}
+	if (teleportTimer >= MARIO_TELEPORT_TIME / 2 && x != pipePortal->GetDesX() && y != pipePortal->GetDesY())
+	{
+		DebugOut(L"desx %.3f\n", pipePortal->GetDesX());
+		DebugOut(L"desy %.3f\n", pipePortal->GetDesY());
+		this-> x = pipePortal->GetDesX();
+		this-> y = pipePortal->GetDesY();
 	}
 }
 
@@ -878,9 +918,15 @@ void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
 	if (this->state == MARIO_STATE_DIE) return; 
+	
+	// MARIO is teleporting, cannot be changed!
+	if (this->state == MARIO_STATE_TELEPORT) return; 
 
 	switch (state)
 	{
+	case MARIO_STATE_TELEPORT:
+		isTeleporting = true;
+		break;
 	case MARIO_STATE_KICK:
 		isKicking = true;
 	case MARIO_STATE_RUNNING_RIGHT:

@@ -4,8 +4,8 @@
 
 CPipePortal::CPipePortal(float x, float y, float des_x, float des_y)
 {
-	des_x = des_x;
-	des_y = des_y;
+	this->des_x = des_x;
+	this->des_y = des_y;
 }
 
 void CPipePortal::RenderBoundingBox()
