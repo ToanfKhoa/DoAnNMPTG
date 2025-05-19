@@ -4,8 +4,8 @@
 72000	3	86	38	101	10		#end
 
 #black pipe
-71001	433	320	462	335	10	#middle
-72002	432	336	463	351	10	#end
+71001	433	320	462	335	30	#middle
+72001	432	336	463	351	30	#end
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
