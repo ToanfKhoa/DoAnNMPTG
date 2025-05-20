@@ -165,6 +165,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CParaKoopa.cpp" />
     <ClCompile Include="CPipe.cpp" />
+    <ClCompile Include="CPipePortal.cpp" />
     <ClCompile Include="CPiranha.cpp" />
     <ClCompile Include="CPit.cpp" />
     <ClCompile Include="CQuestionBlock.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CParaKoopa.h" />
     <ClInclude Include="CPipe.h" />
+    <ClInclude Include="CPipePortal.h" />
     <ClInclude Include="CPiranha.h" />
     <ClInclude Include="CPit.h" />
     <ClInclude Include="CQuestionBlock.h" />

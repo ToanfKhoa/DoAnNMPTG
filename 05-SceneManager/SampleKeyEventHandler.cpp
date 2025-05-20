@@ -25,7 +25,11 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
+		mario->SetReadyTeleport(1);
 		mario->SetState(MARIO_STATE_SIT);
+		break;
+	case DIK_UP:
+		mario->SetReadyTeleport(-1);
 		break;
 	case DIK_S:
 		mario->SetState(MARIO_STATE_JUMP);

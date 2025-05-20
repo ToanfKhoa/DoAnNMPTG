@@ -25,6 +25,8 @@
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.3f
 
+#define MARIO_TELEPORT_SPEED	0.01f
+
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
 #define MARIO_STATE_WALKING_RIGHT	100
@@ -41,6 +43,7 @@
 
 #define MARIO_STATE_KICK			700
 
+#define MARIO_STATE_TELEPORT		800
 
 #pragma region ANIMATION_ID
 
@@ -83,6 +86,7 @@
 
 #define ID_ANI_MARIO_DIE 999
 
+#define ID_ANI_MARIO_BIG_TELEPORT 1030
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT 1100
 #define ID_ANI_MARIO_SMALL_IDLE_LEFT 1102
@@ -113,6 +117,8 @@
 
 #define ID_ANI_MARIO_SMALL_KICK_RIGHT	1610
 #define ID_ANI_MARIO_SMALL_KICK_LEFT	1611
+
+#define ID_ANI_MARIO_SMALL_TELEPORT	1620
 
 //RACOON MARIO
 #define ID_ANI_MARIO_RACOON_IDLE_RIGHT 1700
@@ -160,6 +166,8 @@
 #define ID_ANI_MARIO_RACOON_ATTACK_RIGHT 2321
 #define ID_ANI_MARIO_RACOON_ATTACK_LEFT 2322
 
+#define ID_ANI_MARIO_RACOON_TELEPORT 2330
+
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -196,6 +204,7 @@
 #define MARIO_FLY_TIME 6000
 #define MARIO_ATTACK_TIME 300
 #define MARIO_MAX_RUN_POWER 2000.0f //Max power = time to run
+#define MARIO_TELEPORT_TIME 4000
 
 typedef CMarioHitBox* LPHITBOX;
 class CMario : public CGameObject
@@ -234,6 +243,10 @@ class CMario : public CGameObject
 	DWORD attackTimer;
 	BOOLEAN isAttacking;
 
+	DWORD teleportTimer;
+	BOOLEAN isTeleporting;
+	int readyTeleport; //1 = mario will move down, -1 = mario will move up
+
 	float runPower;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -253,6 +266,7 @@ class CMario : public CGameObject
 
 	void OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e);
 	void OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e);
+	void OnOverlapWithPipePortal(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -304,4 +318,6 @@ public:
 	void AddCoins(int c) { coins += c; };
 
 	float GetRunPower() { return runPower; };
+
+	void SetReadyTeleport(int b) { this->readyTeleport = b; };
 };
