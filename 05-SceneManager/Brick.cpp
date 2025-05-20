@@ -1,6 +1,7 @@
 #include "Brick.h"
 #include "CBrokenBrickPiece.h"
 #include "CExtraLifeMushroom.h"
+#include "CPSwitch.h"
 #include "PlayScene.h"
 
 void CBrick::Render()
@@ -98,6 +99,19 @@ CBrick::CBrick(float x, float y, int itemType) : CGameObject(x, y)
 			playScene->AddObject(spawnedItem);
 		}
 	}
+	else if (itemType == 2)
+	{
+		this->spawnedItem = new CPSwitch(x, y);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(spawnedItem);
+		}
+	}
+	else
+	{
+		spawnedItem = NULL;
+	}
 }
 
 void CBrick::SetState(int state)
@@ -122,6 +136,11 @@ void CBrick::SetState(int state)
 		{
 			spawnedItem->SetPosition(x, y); 
 			spawnedItem->SetState(EXTRALIFEMUSHROOM_STATE_EMERGING);
+		}
+		else if (itemType == 2)
+		{
+			spawnedItem->SetPosition(x, y - BRICK_BBOX_HEIGHT / 2);
+			spawnedItem->SetState(PSWITCH_STATE_IDLE);
 		}
 
 		break;

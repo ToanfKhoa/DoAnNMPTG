@@ -2,6 +2,17 @@
 #include "PlayScene.h"
 #include "Coin.h"
 
+void CPSwitch::Render()
+{
+	CAnimations* animations = CAnimations::GetInstance();
+	if (state == PSWITCH_STATE_IDLE)
+		animations->Get(ID_ANI_PSWITCH_IDLE)->Render(x, y);
+	else if (state == PSWITCH_STATE_EFFECT || state == PSWITCH_STATE_USED)
+		animations->Get(ID_ANI_PSWITCH_USED)->Render(x, y);
+
+	//RenderBoundingBox();
+}
+
 void CPSwitch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (state == PSWITCH_STATE_EFFECT)
@@ -54,10 +65,11 @@ void CPSwitch::Switch()
 		if (brick != NULL)
 		{
 			brick->GetPosition(obj_x, obj_y);
-			if (obj_x <= x + PSWITCH_EFFECT_RANGE_X && obj_x >= x - PSWITCH_EFFECT_RANGE_X)
+			if (obj_x <= x + PSWITCH_EFFECT_RANGE_X && obj_x >= x - PSWITCH_EFFECT_RANGE_X && brick->GetState()==BRICK_STATE_IDLE)
 			{
 				brick->Delete();
 				CCoin* newCoin = new CCoin(obj_x, obj_y);
+				newCoin->SetStatic();
 				scene->AddObject(newCoin);
 			}
 		}
@@ -67,8 +79,8 @@ void CPSwitch::Switch()
 			if (obj_x <= x + PSWITCH_EFFECT_RANGE_X && obj_x >= x - PSWITCH_EFFECT_RANGE_X)
 			{
 				coin->Delete();
-				CCoin* newCoin = new CCoin(obj_x, obj_y);
-				scene->AddObject(newCoin);
+				CBrick* newBrick = new CBrick(obj_x, obj_y, 0);
+				scene->AddObject(newBrick);
 			}
 		}
 	}

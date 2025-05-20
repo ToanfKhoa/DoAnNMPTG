@@ -22,6 +22,7 @@
 #include "CExtraLifeMushroom.h"
 #include "CParaKoopa.h"
 #include "CPiranha.h"
+#include "CPSwitch.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -269,6 +270,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPit(e);
 	else if (dynamic_cast<CSpawnBox*>(e->obj))
 		OnCollisionWithSpawnBox(e);
+	else if (dynamic_cast<CPSwitch*>(e->obj))
+		OnCollisionWithPSwitch(e);
 }
 
 void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
@@ -545,6 +548,15 @@ void CMario::OnCollisionWithSpawnBox(LPCOLLISIONEVENT e)
 
 	spawnBox->Spawn();
 	spawnBox->SetIsActivated(true);
+}
+
+void CMario::OnCollisionWithPSwitch(LPCOLLISIONEVENT e)
+{
+	CPSwitch* pSwitch = dynamic_cast<CPSwitch*>(e->obj);
+	if (pSwitch->GetState() == PSWITCH_STATE_IDLE)
+	{
+		pSwitch->SetState(PSWITCH_STATE_EFFECT);
+	}
 }
 
 //

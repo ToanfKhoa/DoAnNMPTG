@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
-#define ID_ANI_PSWITCH_IDLE 
-#define ID_ANI_PSWITCH_USED 
+#define ID_ANI_PSWITCH_IDLE 13600
+#define ID_ANI_PSWITCH_USED 13601
 
 #define PSWITCH_BBOX_WIDTH 16
 #define PSWITCH_BBOX_HEIGHT 16
@@ -25,8 +25,10 @@ protected:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
+	int IsCollidable() { return state == PSWITCH_STATE_IDLE; };
+	int IsBlocking() { return state == PSWITCH_STATE_IDLE; }
 public:
-	CPSwitch(float x, float y) : CGameObject(x, y) {};
+	CPSwitch(float x, float y) : CGameObject(x, y) { SetState(PSWITCH_STATE_USED); };
 	void SetState(int state);
 	void Switch();
 };
