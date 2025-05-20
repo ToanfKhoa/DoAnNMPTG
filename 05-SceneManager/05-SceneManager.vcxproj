@@ -167,6 +167,7 @@
     <ClCompile Include="CPipe.cpp" />
     <ClCompile Include="CPiranha.cpp" />
     <ClCompile Include="CPit.cpp" />
+    <ClCompile Include="CPSwitch.cpp" />
     <ClCompile Include="CQuestionBlock.cpp" />
     <ClCompile Include="CPowerUpItem.cpp" />
     <ClCompile Include="CSensorBox.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="CPipe.h" />
     <ClInclude Include="CPiranha.h" />
     <ClInclude Include="CPit.h" />
+    <ClInclude Include="CPSwitch.h" />
     <ClInclude Include="CQuestionBlock.h" />
     <ClInclude Include="CPowerUpItem.h" />
     <ClInclude Include="CSensorBox.h" />
