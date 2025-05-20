@@ -159,11 +159,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isTeleporting == true)
 	{
 		teleportTimer += dt;
+		y += readyTeleport * MARIO_TELEPORT_SPEED * dt; //Move up or down
 		if (teleportTimer >= MARIO_TELEPORT_TIME)
 		{
 			isTeleporting = false;
 			teleportTimer = 0;
 			readyTeleport = false;
+			ay = MARIO_GRAVITY;
 
 			state = MARIO_STATE_IDLE; //Exit the teleport state
 			SetState(MARIO_STATE_IDLE);
@@ -454,6 +456,7 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 	{
 		SetState(MARIO_STATE_TELEPORT);
 		isTeleporting = true;
+		isSitting = false; //Avoid sitting while teleporting because they use same input key
 	}
 	if (teleportTimer >= MARIO_TELEPORT_TIME / 2 && x != pipePortal->GetDesX() && y != pipePortal->GetDesY())
 	{
@@ -593,7 +596,11 @@ void CMario::OnCollisionWithSpawnBox(LPCOLLISIONEVENT e)
 int CMario::GetAniIdSmall()
 {
 	int aniId = -1;
-	if (!isOnPlatform)
+	if (isTeleporting == true)
+	{
+		aniId = ID_ANI_MARIO_SMALL_TELEPORT;
+	}
+	else if (!isOnPlatform)
 	{
 		if (holdingObject != NULL)
 		{
@@ -673,7 +680,11 @@ int CMario::GetAniIdSmall()
 int CMario::GetAniIdBig()
 {
 	int aniId = -1;
-	if (isTransforming == true)
+	if (isTeleporting == true)
+	{
+		aniId = ID_ANI_MARIO_BIG_TELEPORT;
+	}
+	else if (isTransforming == true)
 	{
 		if (nx >= 0)
 			aniId = ID_ANI_MARIO_BIG_TRANSFORM_RIGHT;
@@ -768,7 +779,11 @@ int CMario::GetAniIdBig()
 int CMario::GetAniIdRacoon()
 {
 	int aniId = -1;
-	if (isTransforming == true)
+	if (isTeleporting == true)
+	{
+		aniId = ID_ANI_MARIO_RACOON_TELEPORT;
+	}
+	else if (isTransforming == true)
 	{
 		aniId = ID_ANI_MARIO_RACOON_TRANSFORM;
 	}
@@ -926,6 +941,7 @@ void CMario::SetState(int state)
 	{
 	case MARIO_STATE_TELEPORT:
 		isTeleporting = true;
+		vx = 0; vy = 0; ay = 0; ax = 0;
 		break;
 	case MARIO_STATE_KICK:
 		isKicking = true;
