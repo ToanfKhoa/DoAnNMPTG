@@ -15,8 +15,6 @@ CNumber::CNumber(float x, float y, int digitCount):CGameObject(x, y)
 
 void CNumber::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"x %.3f\n", x);
-	DebugOut(L"y %.3f\n", y);
 	CPlayScene* currentScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 
 	for (int i = 0; i < digitCount; i++)

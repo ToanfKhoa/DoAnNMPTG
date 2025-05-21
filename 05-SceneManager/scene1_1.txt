@@ -28,8 +28,8 @@ pswitch.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pipe portal, 56 = pswitch
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pswitch
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
@@ -305,6 +305,9 @@ pswitch.txt
 4	180	880	2	48	0
 4	228	896	1	48	0
 4	196	864	2	16	0
+
+55	2264	-116	108	850
+55	332	860	2321	158
 
 #Goomba
 2	250	178

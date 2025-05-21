@@ -27,7 +27,7 @@
 #include "CExtraLifeMushroom.h"
 #include "CParaKoopa.h"
 #include "CPSwitch.h"
-
+#include "CPipePortal.h"
 #include "CPiranha.h"
 #include "SampleKeyEventHandler.h"
 
@@ -334,6 +334,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 		break;
 	}
+
+	case OBJECT_TYPE_PIPE_PORTAL:
+	{
+		float des_x = (float)atoi(tokens[3].c_str());
+		float des_y = (float)atoi(tokens[4].c_str());
+		obj = new CPipePortal(x, y, des_x, des_y);
+		break;
+	}
+
 	case OBJECT_TYPE_PIT:
 	{
 		int width = atoi(tokens[3].c_str());
