@@ -25,7 +25,7 @@ class CBrick : public CGameObject {
 protected:
 	ULONGLONG bounce_start;
 	float y_start;
-	int itemType;	//0 = no item, 1 = ExtraLifeMushroom
+	int itemType;	//0 = no item, 1 = ExtraLifeMushroom, 2 = PSwitch
 	CGameObject* spawnedItem;
 
 	void Render();

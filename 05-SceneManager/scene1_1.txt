@@ -23,12 +23,13 @@ brokenbrickpiece.txt
 extralifemushroom.txt
 parakoopa.txt
 piranha.txt
+pswitch.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pipe portal, 56 = pswitch
 
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pipe portal
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
@@ -166,7 +167,7 @@ piranha.txt
 1	1984	146	0
 1	2000	146	0
 1	2016	146	0
-1	2032	146	0
+1	2032	146	2
 
 1	2096	178	0
 1	2112	178	0
@@ -256,10 +257,6 @@ piranha.txt
 #Piranha
 18	1800	172
 
-
-# MARIO
-0	2264	-150
-
 #Pipe
 11	365	178	30	16	3	71000	72000
 
@@ -323,6 +320,9 @@ piranha.txt
 #Platform Lakitu cloud
 5	1406	-14	16	16	4	54000	54000	54000
 5	1486	-30	16	16	13	54000	54000	54000
+
+# MARIO
+0	2032	146
 
 #HUD
 53	182	232	120000

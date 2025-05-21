@@ -262,6 +262,7 @@ class CMario : public CGameObject
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithPit(LPCOLLISIONEVENT e);
 	void OnCollisionWithSpawnBox(LPCOLLISIONEVENT e);
+	void OnCollisionWithPSwitch(LPCOLLISIONEVENT e);
 
 
 	void OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e);

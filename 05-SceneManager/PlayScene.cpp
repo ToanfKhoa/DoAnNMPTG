@@ -26,6 +26,7 @@
 #include "CHeadsUpDisplay.h"
 #include "CExtraLifeMushroom.h"
 #include "CParaKoopa.h"
+#include "CPSwitch.h"
 #include "CPipePortal.h"
 #include "CPiranha.h"
 #include "SampleKeyEventHandler.h"
@@ -182,6 +183,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIRANHA: obj = new CPiranha(x, y); break;
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
 	case OBJECT_TYPE_EXTRALIFEMUSHROOM: obj = new CExtraLifeMushroom(x, y); break;
+	case OBJECT_TYPE_PSWITCH: obj = new CPSwitch(x, y); break;
 	case OBJECT_TYPE_COINITEM: obj = new CCoinItem(x, y); break;
 	case OBJECT_TYPE_KOOPA:
 	{
