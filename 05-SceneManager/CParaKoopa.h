@@ -8,10 +8,14 @@
 #define PARAKOOPA_STATE_WALKING_LEFT 10
 #define PARAKOOPA_STATE_WALKING_RIGHT 11
 #define PARAKOOPA_STATE_BOUNCE 12
+#define PARAKOOPA_STATE_FLY_UP_DOWN 13
 
 #define ID_ANI_GREEN_PARAKOOPA_WALKING_LEFT 15020
 #define ID_ANI_GREEN_PARAKOOPA_WALKING_RIGHT 15021
 
+#define ID_ANI_RED_PARAKOOPA_WALKING_LEFT 15022
+
+#define FLY_UP_DOWN_OFFSET 100
 class CParaKoopa :public CKoopa
 {
 protected:
@@ -19,6 +23,7 @@ protected:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	boolean isKoopa;
+	float y_start;
 
 	int IsCollidable() 
 	{ 
