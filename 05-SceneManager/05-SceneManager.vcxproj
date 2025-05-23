@@ -158,6 +158,7 @@
     <ClCompile Include="CExtraLifeMushroom.cpp" />
     <ClCompile Include="CGround.cpp" />
     <ClCompile Include="CHeadsUpDisplay.cpp" />
+    <ClCompile Include="CItemRanDom.cpp" />
     <ClCompile Include="CKoopa.cpp" />
     <ClCompile Include="CMarioHitBox.cpp" />
     <ClCompile Include="CNumber.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="CExtraLifeMushroom.h" />
     <ClInclude Include="CGround.h" />
     <ClInclude Include="CHeadsUpDisplay.h" />
+    <ClInclude Include="CItemRanDom.h" />
     <ClInclude Include="CKoopa.h" />
     <ClInclude Include="CMarioHitBox.h" />
     <ClInclude Include="CNumber.h" />
