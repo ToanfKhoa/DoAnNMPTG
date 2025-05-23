@@ -1,0 +1,223 @@
+# list of object assets to load in this scene
+[ASSETS]
+mario.txt
+brick.txt
+coin.txt
+goomba.txt
+cloud.txt
+paragoomba.txt
+ground.txt
+questionblock.txt
+venus.txt
+bulletvenus.txt
+powerupitem.txt
+pipe.txt
+colorblock.txt
+coinitem.txt
+koopa.txt
+bigbush.txt
+decoration.txt
+woodblock.txt
+hud.txt
+brokenbrickpiece.txt
+extralifemushroom.txt
+parakoopa.txt
+piranha.txt
+pswitch.txt
+
+#
+[OBJECTS]
+# type	x	y	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pipe portal, 56 = pswitch
+
+
+# See OBJECT_TYPE constants in AssetIDs.h
+
+#	x	y	width	height	size	sprite_begin sprite_middle sprite_end
+
+
+#Colorblock
+#id, x, y, cell_width, cell_height, length_x, length_y, middle, topleft, topright, botleft, botright, left, right, top, bot
+13	8	431	16	16	10	5	100055	100051	100052	100053	100054	100053	100054	100050	100055
+
+13	1920	431	16	16	8	2	100065	100061	100062	100063	100064	100063	100064	100060	100065
+
+13	1968	399	16	16	3	2	100055	100051	100052	100053	100054	100053	100054	100050	100055
+
+13	2275	415	16	16	30	30	100042	100042	100042	100042	100042	100042	100042	100042	100042
+
+#BigBush
+#id, x, y, cell_width, cell_height, length, sprite_id_left, sprite_id_right, sprite_id_topleft, sprite_id_topright
+14	2127	415	16	16	3	101002	101003	101000	101001
+14	2142	415	16	16	2	101006	101003	101000	101001
+14	2112	415	16	16	1	101002	101003	101000	101001
+
+14	2368	415	16	16	6	101009	101010	101007	101008
+14	2352	415	16	16	1	101009	101010	101007	101008
+14	2384	415	16	16	4	101011	101010	101007	101008
+14	2400	415	16	16	2	101011	101010	101007	101008
+
+14	2544	415	16	16	3	101009	101010	101007	101008
+14	2528	415	16	16	1	101009	101010	101007	101008
+
+#Decoration small 
+15	72	351	5	16	0	102000
+15	2088	415	1	16	0	102000
+
+
+#Decoration eye cloud
+15	2136	301	1	0	0	102009
+
+#Decoration goal boundary
+15	2261	3	30	0	16	102001
+
+#Decoration card
+15	2445	342	1	0	0	102002
+15	2445	342	1	0	0	102003
+15	2445	342	1	0	0	102004
+15	2445	342	1	0	0	102005
+
+#Decoration card box
+15	2456	343	1	0	0	102006
+15	2456	343	1	0	0	102007
+15	2456	343	1	0	0	102008
+
+
+# Pit
+51	1000	500	10000	30
+
+
+#Brick
+1	232	367	0
+1	248	367	0
+1	264	367	0
+1	280	367	0
+
+1	392	351	0
+1	408	351	0
+1	424	351	0
+1	440	351	0
+1	456	351	0
+
+1	616	302	0
+1	632	302	0
+1	648	302	1
+1	664	302	0
+
+1	648	382	0
+1	664	382	0
+
+1	760	335	0
+
+1	760	367	0
+
+
+1	760	383	0
+1	776	383	0
+1	792	383	0
+1	808	383	0
+
+1	872	351	0
+1	872	367	0
+1	872	383	0
+1	872	399	0
+1	888	399	0
+1	904	399	0
+
+1	952	351	0
+1	952	367	0
+1	968	367	0
+
+1	968	415	0
+1	984	415	0
+1	1000	415	0
+1	1016	415	0
+
+1	1016	367	0
+1	1032	367	0
+1	1048	367	0
+1	1064	367	0
+1	1080	367	0
+
+1	1160	399	0
+1	1176	399	0
+1	1192	399	0
+1	1208	399	0
+1	1224	399	0
+
+1	1192	319	0
+1	1208	319	0
+1	1224	319	0
+1	1240	319	0
+1	1240	303	1
+
+1	1272	383	0
+1	1288	383	0
+
+1	1400	319	0
+1	1400	319	0
+1	1400	319	0
+1	1544	303	0
+1	1544	319	0
+
+1	1544	383	0
+1	1544	399	0
+1	1544	415	0
+1	1560	415	0
+1	1576	415	0
+1	1592	415	0
+
+1	1736	303	0
+1	1736	319	0
+1	1736	335	0
+
+1	1784	383	0
+1	1800	383	0
+1	1816	383	0
+
+#Map limit, a pipe
+11	2597	416	30	16	30	71000	71000
+
+#COIN
+4	344	319	3	16	0
+4	424	287	3	16	0
+
+4	776	319	3	16	0
+4	856	287	3	16	0
+
+4	1336	303	3	16	0
+
+4	1512	287	8	0	16
+
+4	1896	319	3	16	0
+
+#Ground
+7	2064	431	16	16	35	61000	62000	63000
+
+#WoodBlock
+17	2032	399
+17	2032	383
+17	2032	367
+17	2032	351
+17	2032	335
+17	2032	319
+17	2032	303
+17	2032	287
+17	2032	271
+17	2032	255
+
+
+#SpawnBox, 0 = goomba, 1 = paragoomba, 2 = green koopa, 3 = green parakoopa
+
+#Pipe
+11	1944	399	30	16	4	71000	72000
+11	2194	415	30	16	2	71000	72000
+
+#Koopa
+16	1992	360	0
+
+# MARIO
+0	2445	350
+
+#HUD
+53	182	232	120000
