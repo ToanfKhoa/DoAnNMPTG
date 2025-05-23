@@ -24,17 +24,17 @@ extralifemushroom.txt
 parakoopa.txt
 piranha.txt
 pswitch.txt
+woodbar.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pipe portal, 56 = pswitch
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pipe portal, 56 = pswitch, 57 = woodbar
 
 
 # See OBJECT_TYPE constants in AssetIDs.h
 
 #	x	y	width	height	size	sprite_begin sprite_middle sprite_end
-
 
 #Colorblock
 #id, x, y, cell_width, cell_height, length_x, length_y, middle, topleft, topright, botleft, botright, left, right, top, bot
@@ -218,6 +218,10 @@ pswitch.txt
 
 # MARIO
 0	2445	350
+
+
+#Wood Bar
+57	2445	340
 
 #HUD
 53	182	232	120000

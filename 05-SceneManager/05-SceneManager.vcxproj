@@ -175,6 +175,7 @@
     <ClCompile Include="CDecoration.cpp" />
     <ClCompile Include="CSpawnBox.cpp" />
     <ClCompile Include="CVenus.cpp" />
+    <ClCompile Include="CWoodBar.cpp" />
     <ClCompile Include="CWoodBlock.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="CDecoration.h" />
     <ClInclude Include="CSpawnBox.h" />
     <ClInclude Include="CVenus.h" />
+    <ClInclude Include="CWoodBar.h" />
     <ClInclude Include="CWoodBlock.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />

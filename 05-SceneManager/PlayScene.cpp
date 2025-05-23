@@ -30,6 +30,7 @@
 #include "CPipePortal.h"
 #include "CPiranha.h"
 #include "SampleKeyEventHandler.h"
+#include "CWoodBar.h"
 
 using namespace std;
 
@@ -323,6 +324,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_WOODBLOCK:
 	{
 		obj = new CWoodBlock(x, y);
+		break;
+	}
+
+	case OBJECT_TYPE_WOODBAR:
+	{
+		obj = new CWoodBar(x, y);
 		break;
 	}
 
