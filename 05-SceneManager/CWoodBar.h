@@ -2,9 +2,9 @@
 #include "GameObject.h"
 
 #define WOODBAR_HEIGHT 16
-#define WOODBAR_WIDTH 54
-#define WOODBAR_SPEED_X 0.01f
-#define WOODBAR_SPEED_Y 0.01f
+#define WOODBAR_WIDTH 50
+#define WOODBAR_SPEED_X 0.05f
+#define WOODBAR_GRAVITY 0.0002f
 
 #define ID_SPRITE_WOODBAR_START	20020
 #define ID_SPRITE_WOODBAR_MIDDLE 20021
@@ -14,6 +14,7 @@
 class CWoodBar : public CGameObject
 {
 protected:
+	float ay;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -22,7 +23,10 @@ protected:
 	virtual int IsBlocking() { return 2; } //Only blocking mario
 
 public:
-	CWoodBar(float x, float y) : CGameObject(x, y) { vx = -WOODBAR_SPEED_X; };
+	CWoodBar(float x, float y) : CGameObject(x, y) { vx = -WOODBAR_SPEED_X; ay = 0; };
 	void Fall();
+	float GetVy() {
+		return vy;
+	};
 };
 

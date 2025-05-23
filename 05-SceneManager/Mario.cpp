@@ -24,6 +24,7 @@
 #include "CPiranha.h"
 #include "CPSwitch.h"
 #include "CPipePortal.h"
+#include "CWoodBar.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -292,6 +293,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSpawnBox(e);
 	else if (dynamic_cast<CPSwitch*>(e->obj))
 		OnCollisionWithPSwitch(e);
+	else if (dynamic_cast<CWoodBar*>(e->obj))
+		OnCollisionWithWoodBar(e);
 }
 
 void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
@@ -600,6 +603,15 @@ void CMario::OnCollisionWithPSwitch(LPCOLLISIONEVENT e)
 	{
 		pSwitch->SetState(PSWITCH_STATE_EFFECT);
 	}
+}
+
+void CMario::OnCollisionWithWoodBar(LPCOLLISIONEVENT e)
+{
+	CWoodBar* woodBar = dynamic_cast<CWoodBar*>(e->obj);
+	
+	if(e->ny < 0)
+		woodBar->Fall();
+	DebugOut(L"collision woodbar");
 }
 
 //
