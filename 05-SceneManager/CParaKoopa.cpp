@@ -23,8 +23,21 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CKoopa::Update(dt, coObjects);
 		return;
 	}
+	DebugOut(L"parakoopa update, state: %d\n", state);
+
+	//Fly up and down
+	if (state == PARAKOOPA_STATE_FLY_UP_DOWN)
+	{
+		if (y > y_start + FLY_UP_DOWN_OFFSET)
+			vy = -PARAKOOPA_WALKING_SPEED;
+		
+		if(y < y_start - FLY_UP_DOWN_OFFSET)
+			vy = PARAKOOPA_WALKING_SPEED;
+	}
 
 	vy += ay * dt;
+
+	
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -40,10 +53,13 @@ void CParaKoopa::Render()
 	}
 
 	int aniId = ID_ANI_GREEN_PARAKOOPA_WALKING_LEFT;
-	if (state == PARAKOOPA_STATE_WALKING_RIGHT)
+	if (isGreen)
 	{
-		aniId = ID_ANI_GREEN_PARAKOOPA_WALKING_RIGHT;
+		if (state == PARAKOOPA_STATE_WALKING_RIGHT)
+			aniId = ID_ANI_GREEN_PARAKOOPA_WALKING_RIGHT;
 	}
+	else
+		aniId = ID_ANI_RED_PARAKOOPA_WALKING_LEFT;
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }
@@ -78,8 +94,19 @@ CParaKoopa::CParaKoopa(float x, float y, boolean isGreen): CKoopa(x,y,isGreen)
 {
 	this->ay = PARAKOOPA_GRAVITY;
 	this->vx = PARAKOOPA_WALKING_SPEED;
+
 	this->isKoopa = false;
-	SetState(PARAKOOPA_STATE_WALKING_LEFT);
+
+	y_start = y;
+
+	if (isGreen)
+		SetState(PARAKOOPA_STATE_WALKING_LEFT);
+	else
+	{
+		SetState(PARAKOOPA_STATE_FLY_UP_DOWN);
+		vy = PARAKOOPA_WALKING_SPEED;
+	}
+
 }
 
 void CParaKoopa::SetState(int nextState)
@@ -100,6 +127,11 @@ void CParaKoopa::SetState(int nextState)
 	case PARAKOOPA_STATE_WALKING_RIGHT:
 		vx = PARAKOOPA_WALKING_SPEED;
 		isFlipped = false; //koopa wakes up and returns to normal
+		break;
+
+	case PARAKOOPA_STATE_FLY_UP_DOWN:
+		vx = 0;
+		ay = 0;
 		break;
 	}
 	CGameObject::SetState(nextState); //need to update state later to check current state

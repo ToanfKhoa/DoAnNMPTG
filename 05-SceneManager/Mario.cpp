@@ -24,6 +24,7 @@
 #include "CPiranha.h"
 #include "CPSwitch.h"
 #include "CPipePortal.h"
+#include "CWoodBar.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -165,7 +166,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			isTeleporting = false;
 			teleportTimer = 0;
-			readyTeleport = false;
+			readyTeleport = 0;
 			ay = MARIO_GRAVITY;
 
 			state = MARIO_STATE_IDLE; //Exit the teleport state
@@ -292,6 +293,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithSpawnBox(e);
 	else if (dynamic_cast<CPSwitch*>(e->obj))
 		OnCollisionWithPSwitch(e);
+	else if (dynamic_cast<CWoodBar*>(e->obj))
+		OnCollisionWithWoodBar(e);
 }
 
 void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
@@ -467,6 +470,10 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 		DebugOut(L"desy %.3f\n", pipePortal->GetDesY());
 		this-> x = pipePortal->GetDesX();
 		this-> y = pipePortal->GetDesY();
+		if(pipePortal->getIsReversed() == 1)
+		{
+			readyTeleport *= -1;
+		}
 	}
 }
 
@@ -600,6 +607,15 @@ void CMario::OnCollisionWithPSwitch(LPCOLLISIONEVENT e)
 	{
 		pSwitch->SetState(PSWITCH_STATE_EFFECT);
 	}
+}
+
+void CMario::OnCollisionWithWoodBar(LPCOLLISIONEVENT e)
+{
+	CWoodBar* woodBar = dynamic_cast<CWoodBar*>(e->obj);
+	
+	if(e->ny < 0)
+		woodBar->Fall();
+	DebugOut(L"collision woodbar");
 }
 
 //

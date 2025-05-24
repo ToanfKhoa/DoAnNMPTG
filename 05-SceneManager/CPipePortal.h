@@ -7,9 +7,9 @@ class CPipePortal : public CGameObject
 {
 protected:
 	float des_x, des_y;	// target position to switch to 
-
+	int isReversed;
 public:
-	CPipePortal(float x, float y, float des_x, float des_y);
+	CPipePortal(float x, float y, float des_x, float des_y, int isReverse);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 
@@ -18,5 +18,6 @@ public:
 	float GetDesX() { return des_x; }
 	float GetDesY() { return des_y; }
 	int IsBlocking() { return 0; }
+	int getIsReversed () { return isReversed; }
 };
 

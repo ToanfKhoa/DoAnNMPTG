@@ -30,6 +30,7 @@
 #include "CPipePortal.h"
 #include "CPiranha.h"
 #include "SampleKeyEventHandler.h"
+#include "CWoodBar.h"
 
 using namespace std;
 
@@ -326,6 +327,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
+	case OBJECT_TYPE_WOODBAR:
+	{
+		obj = new CWoodBar(x, y);
+		break;
+	}
+
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atoi(tokens[3].c_str());
@@ -339,7 +346,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		float des_x = (float)atoi(tokens[3].c_str());
 		float des_y = (float)atoi(tokens[4].c_str());
-		obj = new CPipePortal(x, y, des_x, des_y);
+		int isReverse = (int)atoi(tokens[5].c_str());
+		obj = new CPipePortal(x, y, des_x, des_y, isReverse);
 		break;
 	}
 

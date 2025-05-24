@@ -1,5 +1,5 @@
 [SETTINGS]
-start	6
+start	7
 width	320
 height	240
 
@@ -11,6 +11,7 @@ height	240
 2	scene02.txt
 5	scene0005.txt
 6	scene1_1.txt
+7	scene1_4.txt
 
 # id	file 
 [TEXTURES]
