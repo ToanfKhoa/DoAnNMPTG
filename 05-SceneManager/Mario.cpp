@@ -166,7 +166,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			isTeleporting = false;
 			teleportTimer = 0;
-			readyTeleport = false;
+			readyTeleport = 0;
 			ay = MARIO_GRAVITY;
 
 			state = MARIO_STATE_IDLE; //Exit the teleport state
@@ -470,6 +470,10 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 		DebugOut(L"desy %.3f\n", pipePortal->GetDesY());
 		this-> x = pipePortal->GetDesX();
 		this-> y = pipePortal->GetDesY();
+		if(pipePortal->getIsReversed() == 1)
+		{
+			readyTeleport *= -1;
+		}
 	}
 }
 

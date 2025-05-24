@@ -2,10 +2,11 @@
 #include "Game.h"
 #include "Textures.h"
 
-CPipePortal::CPipePortal(float x, float y, float des_x, float des_y)
+CPipePortal::CPipePortal(float x, float y, float des_x, float des_y, int isReversed)
 {
 	this->des_x = des_x;
 	this->des_y = des_y;
+	this->isReversed = isReversed;
 }
 
 void CPipePortal::RenderBoundingBox()
@@ -32,7 +33,7 @@ void CPipePortal::RenderBoundingBox()
 
 void CPipePortal::Render()
 {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CPipePortal::GetBoundingBox(float& l, float& t, float& r, float& b)

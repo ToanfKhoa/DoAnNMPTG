@@ -346,7 +346,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		float des_x = (float)atoi(tokens[3].c_str());
 		float des_y = (float)atoi(tokens[4].c_str());
-		obj = new CPipePortal(x, y, des_x, des_y);
+		int isReverse = (int)atoi(tokens[5].c_str());
+		obj = new CPipePortal(x, y, des_x, des_y, isReverse);
 		break;
 	}
 
