@@ -165,6 +165,9 @@
     <ClCompile Include="CBoomerangBros.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CBoomerang.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -324,6 +327,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CBoomerangBros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBoomerang.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

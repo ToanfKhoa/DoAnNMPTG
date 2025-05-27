@@ -2,6 +2,7 @@
 #include "CBoomerangBros.h"
 #include "Game.h"
 #include "Mario.h"
+#include "CBoomerang.h"
 
 CBoomerangBros::CBoomerangBros(float x, float y) :CGameObject(x, y)
 {
@@ -78,20 +79,29 @@ void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//attack
 	if (attackTimer >= ATTACK_DURATION)
 	{
-		SetState(BOOMERANG_BROS_STATE_BOOMERANG_HOLDING); // Switch to holding state after attack duration
-		if(attackTimer >= (ATTACK_DURATION + HOLDING_TIME))
+		if (attackTimer >= (ATTACK_DURATION + HOLDING_TIME * 3))
+		{
+			SetState(BOOMERANG_BROS_STATE_BOOMERANG_HOLDING);
+			if (attackTimer >= (ATTACK_DURATION + HOLDING_TIME * 4))
+			{
+				SetState(BOOMERANG_BROS_STATE_WALKING); // Reset to walking state after full cycle
+				CBoomerang* boomerang = new CBoomerang(x, y, direction_x);
+				CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+				playScene->AddObject(boomerang);
+				attackTimer = 0;
+			}
+		}
+		else if(attackTimer >= (ATTACK_DURATION + HOLDING_TIME) && attackTimer < (ATTACK_DURATION + HOLDING_TIME * 2))
 		{
 			SetState(BOOMERANG_BROS_STATE_WALKING); // Switch back to walking state after holding duration
-
-			if(attackTimer >= (ATTACK_DURATION + HOLDING_TIME * 2))
-			{
-				SetState(BOOMERANG_BROS_STATE_BOOMERANG_HOLDING);
-				if (attackTimer >= (ATTACK_DURATION + HOLDING_TIME * 3))
-				{
-					SetState(BOOMERANG_BROS_STATE_WALKING); // Reset to walking state after full cycle
-					attackTimer = 0;
-				}
-			}
+			CBoomerang* boomerang = new CBoomerang(x, y, direction_x);
+			CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			playScene->AddObject(boomerang);
+			attackTimer = ATTACK_DURATION + HOLDING_TIME * 2;
+		}
+		else if (attackTimer >= ATTACK_DURATION && attackTimer < ATTACK_DURATION + HOLDING_TIME)
+		{
+			SetState(BOOMERANG_BROS_STATE_BOOMERANG_HOLDING); // Switch to holding state after attack duration
 		}
 	}
 	attackTimer += dt;

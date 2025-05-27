@@ -26,6 +26,7 @@ piranha.txt
 pswitch.txt
 woodbar.txt
 boomerangbros.txt
+boomerang.txt
 
 #
 [OBJECTS]
@@ -253,14 +254,14 @@ boomerangbros.txt
 19	1882	311	0
 
 #Boomerang bros
-20	2400	300
+20	2400	410
 
 #Pipe
 11	1944	399	30	16	4	71000	72000
 11	2194	415	30	16	2	71000	72000
 
 # MARIO
-0	2464	300
+0	2264	410
 
 #Wood Bar
 57	1000	260
