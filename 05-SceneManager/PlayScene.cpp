@@ -31,6 +31,7 @@
 #include "CPiranha.h"
 #include "SampleKeyEventHandler.h"
 #include "CWoodBar.h"
+#include "CItemRandom.h"
 
 using namespace std;
 
@@ -185,6 +186,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
 	case OBJECT_TYPE_EXTRALIFEMUSHROOM: obj = new CExtraLifeMushroom(x, y); break;
 	case OBJECT_TYPE_PSWITCH: obj = new CPSwitch(x, y); break;
+	case OBJECT_TYPE_ITEMRANDOM: obj = new CItemRandom(x, y); break;
 	case OBJECT_TYPE_COINITEM: obj = new CCoinItem(x, y); break;
 	case OBJECT_TYPE_KOOPA:
 	{
