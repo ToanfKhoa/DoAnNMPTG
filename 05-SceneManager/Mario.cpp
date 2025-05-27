@@ -25,6 +25,7 @@
 #include "CPSwitch.h"
 #include "CPipePortal.h"
 #include "CWoodBar.h"
+#include "CItemRandom.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -81,6 +82,10 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (this->state == MARIO_STATE_FINISH_RUN)
+	{
+		x += MARIO_WALKING_SPEED * dt;
+	}
 	//Remain Time
 	if(playTime > 0)
 	{
@@ -254,10 +259,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vy = 0;
 		if(e->ny > 0)
 			SetState(MARIO_STATE_RELEASE_JUMP); //Deflect downward when hitting a block above
-		if (e->ny < 0) isOnPlatform = true;
+		if (e->ny < 0)
+		{
+			isOnPlatform = true;
+			if (this->state == MARIO_STATE_FINISH) SetState(MARIO_STATE_FINISH_RUN); //mario run when finish level
+		}
 	}
 	else 
-	if (e->nx != 0 && e->obj->IsBlocking())
+	if (e->nx != 0 && e->obj->IsBlocking() )
 	{
 		vx = 0;
 	}
@@ -307,6 +316,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithExtraLifeMushroom(e);
 	else if (dynamic_cast<CPipePortal*>(e->obj))
 		OnOverlapWithPipePortal(e);
+	else if (dynamic_cast<CItemRandom*>(e->obj))
+		OnOverlapWithItemRandom(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -477,6 +488,32 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnOverlapWithItemRandom(LPCOLLISIONEVENT e)
+{
+	CItemRandom* itemRandom = dynamic_cast<CItemRandom*>(e->obj);
+
+	if (state == MARIO_STATE_DIE) return;
+
+	int state = itemRandom->GetState();
+	switch (state)
+	{
+		case ITEMRANDOM_STATE_MUSHROOM:
+			SetState(MARIO_STATE_FINISH);
+			itemRandom->SetState(ITEMRANDOM_STATE_MUSHROOM_FLY);
+			break;
+		case ITEMRANDOM_STATE_FLOWER:
+			SetState(MARIO_STATE_FINISH);
+			itemRandom->SetState(ITEMRANDOM_STATE_FLOWER_FLY);
+			break;
+		case ITEMRANDOM_STATE_STAR:
+			SetState(MARIO_STATE_FINISH);
+			itemRandom->SetState(ITEMRANDOM_STATE_STAR_FLY);
+			break;
+	default:
+		break;
+	}
+}
+
 void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 {
 	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
@@ -628,6 +665,14 @@ int CMario::GetAniIdSmall()
 	{
 		aniId = ID_ANI_MARIO_SMALL_TELEPORT;
 	}
+	else if (state == MARIO_STATE_FINISH)
+	{
+		aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT;
+	}
+	else if (state == MARIO_STATE_FINISH_RUN)
+	{
+		aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
+	}
 	else if (!isOnPlatform)
 	{
 		if (holdingObject != NULL)
@@ -711,6 +756,14 @@ int CMario::GetAniIdBig()
 	if (isTeleporting == true)
 	{
 		aniId = ID_ANI_MARIO_BIG_TELEPORT;
+	}
+	else if (state == MARIO_STATE_FINISH)
+	{
+		aniId = ID_ANI_MARIO_BIG_JUMP_WALK_RIGHT;
+	}
+	else if (state == MARIO_STATE_FINISH_RUN)
+	{
+		aniId = ID_ANI_MARIO_BIG_RUNNING_RIGHT;
 	}
 	else if (isTransforming == true)
 	{
@@ -810,6 +863,14 @@ int CMario::GetAniIdRacoon()
 	if (isTeleporting == true)
 	{
 		aniId = ID_ANI_MARIO_RACOON_TELEPORT;
+	}
+	else if (state == MARIO_STATE_FINISH)
+	{
+		aniId = ID_ANI_MARIO_RACOON_JUMP_WALK_RIGHT;
+	}
+	else if (state == MARIO_STATE_FINISH_RUN)
+	{
+		aniId = ID_ANI_MARIO_RACOON_RUNNING_RIGHT;
 	}
 	else if (isTransforming == true)
 	{
@@ -965,6 +1026,13 @@ void CMario::SetState(int state)
 	// MARIO is teleporting, cannot be changed!
 	if (this->state == MARIO_STATE_TELEPORT) return; 
 
+
+	// finish level, cannot be changed!
+	if (this->state == MARIO_STATE_FINISH || this->state == MARIO_STATE_FINISH_RUN)
+	{
+		if (state != MARIO_STATE_FINISH_RUN) return;
+	}
+
 	switch (state)
 	{
 	case MARIO_STATE_TELEPORT:
@@ -1062,6 +1130,16 @@ void CMario::SetState(int state)
 		vx = 0;
 		ax = 0;
 		ay = MARIO_GRAVITY;
+		break;
+	case MARIO_STATE_FINISH:
+		vx = 0;
+		ax = 0;
+		ay = MARIO_GRAVITY;
+		break;
+	case MARIO_STATE_FINISH_RUN:
+		nx = 1;
+		vx = 0;
+		ax = 0;
 		break;
 	}
 
