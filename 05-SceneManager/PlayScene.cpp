@@ -31,6 +31,7 @@
 #include "CPiranha.h"
 #include "SampleKeyEventHandler.h"
 #include "CWoodBar.h"
+#include "CBoomerangBros.h"
 
 using namespace std;
 
@@ -200,6 +201,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CParaKoopa(x, y, koopa_type); 
 		break;
 	}
+	case OBJECT_TYPE_BOOMERANG_BROS: obj = new CBoomerangBros(x, y); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
 

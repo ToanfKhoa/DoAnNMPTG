@@ -15,7 +15,7 @@ void CWoodBar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	x += vx * dt;
 	y += vy * dt;
-	DebugOut(L"WoodBar: %f, %f\n", x, y);
+	//DebugOut(L"WoodBar: %f, %f\n", x, y);
 }
 
 void CWoodBar::Render()

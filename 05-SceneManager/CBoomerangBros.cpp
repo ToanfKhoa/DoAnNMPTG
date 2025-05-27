@@ -1,14 +1,18 @@
 #include "CBoomerangBros.h"
 #include "CBoomerangBros.h"
+#include "Game.h"
+#include "Mario.h"
 
 CBoomerangBros::CBoomerangBros(float x, float y) :CGameObject(x, y)
 {
 	this->ay = BOOMERANG_BROS_GRAVITY;
-	vx = -BOOMERANG_BROS_WALKING_SPEED;
-	SetState(BOOMERANG_BROS_STATE_WALKING);
+	vx = -BOOMERANG_BROS_WALKING_SPEED; //Default moving to left
+
 	x_start = x;
 	direction_x = -1; // Default direction is left
-	isHolding = true; // Initially holding the boomerang
+
+	jumpTimer = 0;
+	attackTimer = 0;
 }
 
 void CBoomerangBros::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -21,7 +25,7 @@ void CBoomerangBros::GetBoundingBox(float& left, float& top, float& right, float
 
 void CBoomerangBros::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
+	//x += vx * dt;
 	y += vy * dt;
 };
 
@@ -38,18 +42,62 @@ void CBoomerangBros::OnCollisionWith(LPCOLLISIONEVENT e)
 void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	float player_x, player_y;
+	playScene->GetPlayer()->GetPosition(player_x, player_y);
 
-	if(x > x_start)
+	//Set direction
+	if(player_x > x)
 	{
-		direction_x = -1; // Change direction to left
+		direction_x = 1; // Player is to the right
+	}
+	else
+	{
+		direction_x = -1; // Player is to the left
+	}
+
+	//Moving 
+	if(x > x_start + MOVEMENT_OFFSET_X)
+	{
 		vx = -BOOMERANG_BROS_WALKING_SPEED;
 	}
-	else if(x < x_start - ID_MOVEMENT_OFFSET_X)
+	else if(x < x_start - MOVEMENT_OFFSET_X)
 	{
-		direction_x = 1; // Change direction to right
 		vx = BOOMERANG_BROS_WALKING_SPEED;
 	}
 
+	//Jump
+	if (jumpTimer >= JUMP_DURATION)
+	{
+		jumpTimer = 0;
+		vy = -BOOMERANG_BROS_JUMP_SPEED; // Reset jump timer and apply jump speed
+	}
+	else
+		jumpTimer += dt;
+
+	//attack
+	if (attackTimer >= ATTACK_DURATION)
+	{
+		SetState(BOOMERANG_BROS_STATE_BOOMERANG_HOLDING); // Switch to holding state after attack duration
+		if(attackTimer >= (ATTACK_DURATION + HOLDING_TIME))
+		{
+			SetState(BOOMERANG_BROS_STATE_WALKING); // Switch back to walking state after holding duration
+
+			if(attackTimer >= (ATTACK_DURATION + HOLDING_TIME * 2))
+			{
+				SetState(BOOMERANG_BROS_STATE_BOOMERANG_HOLDING);
+				if (attackTimer >= (ATTACK_DURATION + HOLDING_TIME * 3))
+				{
+					SetState(BOOMERANG_BROS_STATE_WALKING); // Reset to walking state after full cycle
+					attackTimer = 0;
+				}
+			}
+		}
+	}
+	attackTimer += dt;
+
+	DebugOut(L"state: %d\n", state);
+	DebugOut(L"attacktime: %d\n", attackTimer);
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -66,11 +114,11 @@ void CBoomerangBros::Render()
 	else if (state == BOOMERANG_BROS_STATE_BOOMERANG_HOLDING)
 	{
 		if (direction_x > 0)
-			aniId = ID_ANI_BOOMERANG_BROS_WALKING_RIGHT; // Holding boomerang while walking right
+			aniId = ID_ANI_BOOMERANG_BROS_HOLDING_RIGHT; // Holding boomerang while walking right
 		else
-			aniId = ID_ANI_BOOMERANG_BROS_WALKING_LEFT; // Holding boomerang while walking left
+			aniId = ID_ANI_BOOMERANG_BROS_HOLDING_LEFT; // Holding boomerang while walking left
 	}
-	else if (state == BOOMERANG_BROS_STATE_WALKING)
+	else
 	{
 		if (direction_x > 0)
 			aniId = ID_ANI_BOOMERANG_BROS_WALKING_RIGHT;
@@ -87,18 +135,11 @@ void CBoomerangBros::SetState(int state)
 	switch (state)
 	{
 	case BOOMERANG_BROS_STATE_WALKING:
-		vx = direction_x *BOOMERANG_BROS_WALKING_SPEED;
 		break;
 	case BOOMERANG_BROS_STATE_BOOMERANG_HOLDING:
-		isHolding = true;
-		break;
-	case BOOMERANG_BROS_STATE_JUMP:
-		vy = -BOOMERANG_BROS_BOUNCE_SPEED; // Set initial jump speed
-		ay = BOOMERANG_BROS_GRAVITY; // Apply gravity during the jump
 		break;
 	case BOOMERANG_BROS_STATE_BOUNCE_DEATH:
 		vy = -BOOMERANG_BROS_BOUNCE_SPEED;
-		ay = BOOMERANG_BROS_GRAVITY;
 		break;
 	}
 }

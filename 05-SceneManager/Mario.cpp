@@ -96,7 +96,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
-	DebugOut(L"mario x,y : %f %f\n", x, y);
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE)
 	{
@@ -466,8 +465,6 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 	}
 	if (teleportTimer >= MARIO_TELEPORT_TIME / 2 && x != pipePortal->GetDesX() && y != pipePortal->GetDesY())
 	{
-		DebugOut(L"desx %.3f\n", pipePortal->GetDesX());
-		DebugOut(L"desy %.3f\n", pipePortal->GetDesY());
 		this-> x = pipePortal->GetDesX();
 		this-> y = pipePortal->GetDesY();
 		if(pipePortal->getIsReversed() == 1)
