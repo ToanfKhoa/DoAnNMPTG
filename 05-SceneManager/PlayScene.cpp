@@ -186,7 +186,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_POWERUPITEM: obj = new CPowerUpItem(x, y); break;
 	case OBJECT_TYPE_EXTRALIFEMUSHROOM: obj = new CExtraLifeMushroom(x, y); break;
 	case OBJECT_TYPE_PSWITCH: obj = new CPSwitch(x, y); break;
-	case OBJECT_TYPE_ITEMRANDOM: obj = new CItemRandom(x, y); break;
+	case OBJECT_TYPE_ITEMRANDOM:
+	{
+		int nextScene_id = atoi(tokens[3].c_str());
+		obj = new CItemRandom(x, y, nextScene_id); 
+		break;
+	}
 	case OBJECT_TYPE_COINITEM: obj = new CCoinItem(x, y); break;
 	case OBJECT_TYPE_KOOPA:
 	{
@@ -577,12 +582,12 @@ void CPlayScene::UpdateCameraPosition()
 
 	if (cx > END_OF_MAP) cx = END_OF_MAP;
 	if (cx < 0) cx = 0;
-	/*if (cy < END_OF_SKY) cy = END_OF_SKY;
+	if (cy < END_OF_SKY) cy = END_OF_SKY;
 	if (cy >= 0 || isCameraFollowingY==false)
 	{
 		isCameraFollowingY = false;
 		cy = 0;
-	}*/
+	}
 
 	DebugOut(L"camera cy: %f\n", cy);
 	CGame::GetInstance()->SetCamPos(cx, cy);

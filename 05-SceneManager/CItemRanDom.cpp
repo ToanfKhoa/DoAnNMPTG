@@ -1,4 +1,5 @@
 #include "CItemRanDom.h"
+#include "Game.h"
 
 void CItemRandom::Render()
 {
@@ -35,6 +36,16 @@ void CItemRandom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += vy * dt;
 	CheckAndChangeState();
 
+	if(this->state == ITEMRANDOM_STATE_MUSHROOM_FLY ||
+	   this->state == ITEMRANDOM_STATE_FLOWER_FLY ||
+	   this->state == ITEMRANDOM_STATE_STAR_FLY)
+	{
+		if (GetTickCount64() - start_time > ITEMRANDOM_WAIT_TIME)
+		{
+			LoadNextScene();
+			return;
+		}
+	}
 	CGameObject::Update(dt);
 }
 
@@ -67,6 +78,12 @@ void CItemRandom::CheckAndChangeState()
 	}
 }
 
+void CItemRandom::LoadNextScene()
+{
+	CGame* game = CGame::GetInstance();
+	game->InitiateSwitchScene(nextScene_id);
+}
+
 void CItemRandom::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -82,6 +99,7 @@ void CItemRandom::SetState(int state)
 	case ITEMRANDOM_STATE_MUSHROOM_FLY:
 	case ITEMRANDOM_STATE_FLOWER_FLY:
 	case ITEMRANDOM_STATE_STAR_FLY:
+		start_time = GetTickCount64();
 		vy = ITEMRANDOM_FLY_SPEED;
 		break;
 	default:
