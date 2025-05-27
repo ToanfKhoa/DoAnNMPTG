@@ -45,6 +45,9 @@
 
 #define MARIO_STATE_TELEPORT		800
 
+#define MARIO_STATE_FINISH			900
+#define MARIO_STATE_FINISH_RUN		901
+
 #pragma region ANIMATION_ID
 
 // BIG MARIO
@@ -268,6 +271,7 @@ class CMario : public CGameObject
 	void OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e);
 	void OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e);
 	void OnOverlapWithPipePortal(LPCOLLISIONEVENT e);
+	void OnOverlapWithItemRandom(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

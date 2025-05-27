@@ -1,14 +1,55 @@
 #include "CItemRanDom.h"
+#include "Game.h"
 
-void CItemRanDom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CItemRandom::Render()
+{
+	int aniId;
+	switch (state)
+	{
+	case ITEMRANDOM_STATE_MUSHROOM:
+		aniId = ID_ANI_ITEMRANDOM_MUSHROOM;
+		break;
+	case ITEMRANDOM_STATE_FLOWER:
+		aniId = ID_ANI_ITEMRANDOM_FLOWER;
+		break;
+	case ITEMRANDOM_STATE_STAR:
+		aniId = ID_ANI_ITEMRANDOM_STAR;
+		break;
+	case ITEMRANDOM_STATE_MUSHROOM_FLY:
+		aniId = ID_ANI_ITEMRANDOM_MUSHROOM_FLY;
+		break;
+	case ITEMRANDOM_STATE_FLOWER_FLY:
+		aniId = ID_ANI_ITEMRANDOM_FLOWER_FLY;
+		break;
+	case ITEMRANDOM_STATE_STAR_FLY:
+		aniId = ID_ANI_ITEMRANDOM_STAR_FLY;
+		break;
+	default:
+		aniId = ID_ANI_ITEMRANDOM_MUSHROOM;
+	}
+
+	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+}
+
+void CItemRandom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	y += vy * dt;
 	CheckAndChangeState();
 
+	if(this->state == ITEMRANDOM_STATE_MUSHROOM_FLY ||
+	   this->state == ITEMRANDOM_STATE_FLOWER_FLY ||
+	   this->state == ITEMRANDOM_STATE_STAR_FLY)
+	{
+		if (GetTickCount64() - start_time > ITEMRANDOM_WAIT_TIME)
+		{
+			LoadNextScene();
+			return;
+		}
+	}
 	CGameObject::Update(dt);
 }
 
-void CItemRanDom::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CItemRandom::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x - ITEMRANDOM_BBOX_WIDTH / 2;
 	t = y - ITEMRANDOM_BBOX_HEIGHT / 2;
@@ -16,7 +57,7 @@ void CItemRanDom::GetBoundingBox(float& l, float& t, float& r, float& b)
 	b = t + ITEMRANDOM_BBOX_HEIGHT;
 }
 
-void CItemRanDom::CheckAndChangeState()
+void CItemRandom::CheckAndChangeState()
 {
 	if (GetTickCount64() - start_time > ITEMRANDOM_RANDOM_TIME)
 	{
@@ -37,7 +78,13 @@ void CItemRanDom::CheckAndChangeState()
 	}
 }
 
-void CItemRanDom::SetState(int state)
+void CItemRandom::LoadNextScene()
+{
+	CGame* game = CGame::GetInstance();
+	game->InitiateSwitchScene(nextScene_id);
+}
+
+void CItemRandom::SetState(int state)
 {
 	CGameObject::SetState(state);
 	switch (state)
@@ -52,6 +99,7 @@ void CItemRanDom::SetState(int state)
 	case ITEMRANDOM_STATE_MUSHROOM_FLY:
 	case ITEMRANDOM_STATE_FLOWER_FLY:
 	case ITEMRANDOM_STATE_STAR_FLY:
+		start_time = GetTickCount64();
 		vy = ITEMRANDOM_FLY_SPEED;
 		break;
 	default:

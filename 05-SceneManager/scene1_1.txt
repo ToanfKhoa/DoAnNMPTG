@@ -24,11 +24,12 @@ extralifemushroom.txt
 parakoopa.txt
 piranha.txt
 pswitch.txt
+itemrandom.txt
 
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pipe portal, 56 = pswitch
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = platform, 6 = ParaGoomba, 7 = Ground, 8 = Question Block (arg3: 1 powerup), 9 = Venus, 10 = PowerUpItem, 11 = Pipe, 12 = CoinItem, 13 = ColorBlock, 14 = BigBush, 15 = Decoration, 16 = Koopa, 17 = woodblock, 18 = piranha, 51 = pit, 52 = spawnbox (obj type: 0 goomba, 1 paragoomba), 53 = hud, 54 = extra life mushroom, 55 = pipe portal, 56 = pswitch, 58 = itemrandom
 
 
 # See OBJECT_TYPE constants in AssetIDs.h
@@ -138,10 +139,12 @@ pswitch.txt
 15	2711	116	1	0	0	102005
 
 #Decoration card box
-15	2703	108	1	0	0	102006
-15	2703	108	1	0	0	102007
-15	2703	108	1	0	0	102008
+#15	2703	108	1	0	0	102006
+#15	2703	108	1	0	0	102007
+#15	2703	108	1	0	0	102008
 
+#Item random
+58	2703	108	7
 
 # Pit
 51	1000	500	10000	30
@@ -322,7 +325,7 @@ pswitch.txt
 5	1486	-30	16	16	13	54000	54000	54000
 
 # MARIO
-0	2032	146
+0	2690	146
 
 #HUD
 53	182	232	120000
