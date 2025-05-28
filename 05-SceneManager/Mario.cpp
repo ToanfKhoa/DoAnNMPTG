@@ -28,6 +28,7 @@
 #include "CBoomerangBros.h"
 #include "CBoomerang.h"
 #include "CItemRandom.h"
+#include "CNumberPopUp.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -336,7 +337,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			AddPoints(100);
+			AddPoints(100, e->src_obj);
 		}
 	}
 	else // hit by Goomba
@@ -368,7 +369,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 			{
 				paragoomba->SetState(GOOMBA_STATE_DIE);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
-				AddPoints(200);
+				AddPoints(200, e->src_obj);
 			}
 		}
 	}
@@ -398,7 +399,7 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 			if (question->getItemType() == 0)
 			{
 				AddCoins(1);
-				AddPoints(100);
+				AddPoints(100, e->src_obj);;
 			}
 		}
 	}
@@ -453,7 +454,7 @@ void CMario::OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e)
 
 		item->SetState(POWERUPITEM_STATE_EATEN);
 
-		AddPoints(1000);
+		AddPoints(1000, e->src_obj);
 	}
 }
 
@@ -557,7 +558,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 
-			AddPoints(100);
+			AddPoints(100, e->src_obj);;
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
@@ -571,7 +572,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			else
 				koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
 
-			AddPoints(200);
+			AddPoints(200, e->src_obj);
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
 		{
@@ -675,7 +676,7 @@ void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
 		{
 			boomerangBros->SetState(BOOMERANG_BROS_STATE_BOUNCE_DEATH);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			AddPoints(100);
+			AddPoints(100, e->src_obj);;
 		}
 	}
 	else // hit by boomerangbros
@@ -1272,6 +1273,14 @@ void CMario::Attack()
 		return;
 	isAttacking = true; 
 	hitBox->SetIsActive(true); 
+}
+
+void CMario::AddPoints(int p, LPGAMEOBJECT desObj)
+{
+	points += p;
+	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY(), p);
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	playScene->AddObject(numberPopUp);
 }
 
 void CMario::SetLevel(int l)

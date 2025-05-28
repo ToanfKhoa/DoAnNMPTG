@@ -321,7 +321,7 @@ public:
 	int GetCoins() { return coins; };
 	int GetPlayTime() { return playTime; };
 	int GetPoints() { return points; };
-	void AddPoints(int p) { points += p; };
+	void AddPoints(int p, LPGAMEOBJECT desObj);
 	void AddCoins(int c) { coins += c; };
 
 	float GetRunPower() { return runPower; };
