@@ -7,6 +7,7 @@
 #include "Brick.h"
 #include "CParaKoopa.h"
 #include "CPiranha.h"
+#include "CBoomerangBros.h"
 
 CMarioHitBox::CMarioHitBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT)
 {
@@ -51,6 +52,8 @@ void CMarioHitBox::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithBrick(e);
 	else if (dynamic_cast<CQuestionBlock*>(e->obj))
 		OnOverlapWithQuestionBlock(e);
+	else if (dynamic_cast<CBoomerangBros*>(e->obj))
+		OnOverlapWithBoomerangBros(e);
 }
 
 void CMarioHitBox::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
@@ -129,6 +132,13 @@ void CMarioHitBox::OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e)
 	CQuestionBlock* questionBlock = dynamic_cast<CQuestionBlock*>(e->obj);
 	if (questionBlock->GetState() == QUESTIONBLOCK_STATE_IDLE)
 		questionBlock->SetState(QUESTIONBLOCK_STATE_BOUNCING_UP);
+}
+
+void CMarioHitBox::OnOverlapWithBoomerangBros(LPCOLLISIONEVENT e)
+{
+	CBoomerangBros* boomerangBros = dynamic_cast<CBoomerangBros*>(e->obj);
+	if(boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)
+		boomerangBros->SetState(BOOMERANG_BROS_STATE_BOUNCE_DEATH);
 }
 
 

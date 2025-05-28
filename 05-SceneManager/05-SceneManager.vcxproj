@@ -150,6 +150,8 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="CBigBush.cpp" />
+    <ClCompile Include="CBoomerang.cpp" />
+    <ClCompile Include="CBoomerangBros.cpp" />
     <ClCompile Include="CBrokenBrickPiece.cpp" />
     <ClCompile Include="CBulletVenus.cpp" />
     <ClCompile Include="CColorBlock.cpp" />
@@ -201,6 +203,8 @@
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="CBigBush.h" />
+    <ClInclude Include="CBoomerang.h" />
+    <ClInclude Include="CBoomerangBros.h" />
     <ClInclude Include="CBrokenBrickPiece.h" />
     <ClInclude Include="CBulletVenus.h" />
     <ClInclude Include="CColorBlock.h" />

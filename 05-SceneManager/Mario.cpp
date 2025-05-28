@@ -25,6 +25,8 @@
 #include "CPSwitch.h"
 #include "CPipePortal.h"
 #include "CWoodBar.h"
+#include "CBoomerangBros.h"
+#include "CBoomerang.h"
 #include "CItemRandom.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
@@ -101,7 +103,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
-	DebugOut(L"mario x,y : %f %f\n", x, y);
 	//Mario slowly decrease vx when stop moving
 	if (state == MARIO_STATE_IDLE)
 	{
@@ -304,6 +305,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPSwitch(e);
 	else if (dynamic_cast<CWoodBar*>(e->obj))
 		OnCollisionWithWoodBar(e);
+	else if (dynamic_cast<CBoomerangBros*>(e->obj))
+		OnCollisionWithBoomerangBros(e);
 }
 
 void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
@@ -316,6 +319,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithExtraLifeMushroom(e);
 	else if (dynamic_cast<CPipePortal*>(e->obj))
 		OnOverlapWithPipePortal(e);
+	else if (dynamic_cast<CBoomerang*> (e->obj))
+		OnOverlapWithBoomerang(e);
 	else if (dynamic_cast<CItemRandom*>(e->obj))
 		OnOverlapWithItemRandom(e);
 }
@@ -477,8 +482,6 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 	}
 	if (teleportTimer >= MARIO_TELEPORT_TIME / 2 && x != pipePortal->GetDesX() && y != pipePortal->GetDesY())
 	{
-		DebugOut(L"desx %.3f\n", pipePortal->GetDesX());
-		DebugOut(L"desy %.3f\n", pipePortal->GetDesY());
 		this-> x = pipePortal->GetDesX();
 		this-> y = pipePortal->GetDesY();
 		if(pipePortal->getIsReversed() == 1)
@@ -486,6 +489,11 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 			readyTeleport *= -1;
 		}
 	}
+}
+
+void CMario::OnOverlapWithBoomerang(LPCOLLISIONEVENT e)
+{
+	GetDamaged();
 }
 
 void CMario::OnOverlapWithItemRandom(LPCOLLISIONEVENT e)
@@ -653,6 +661,30 @@ void CMario::OnCollisionWithWoodBar(LPCOLLISIONEVENT e)
 	if(e->ny < 0)
 		woodBar->Fall();
 	DebugOut(L"collision woodbar");
+}
+
+void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
+{
+	DebugOutTitle(L"Collision with Boomerang Bros\n");
+	CBoomerangBros* boomerangBros = dynamic_cast<CBoomerangBros*>(e->obj);
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	if (e->ny < 0)
+	{
+		if (boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)
+		{
+			boomerangBros->SetState(BOOMERANG_BROS_STATE_BOUNCE_DEATH);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			AddPoints(100);
+		}
+	}
+	else // hit by boomerangbros
+	{
+		if (boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)
+		{
+			GetDamaged();
+		}
+	}
 }
 
 //

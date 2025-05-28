@@ -23,7 +23,6 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CKoopa::Update(dt, coObjects);
 		return;
 	}
-	DebugOut(L"parakoopa update, state: %d\n", state);
 
 	//Fly up and down
 	if (state == PARAKOOPA_STATE_FLY_UP_DOWN)
