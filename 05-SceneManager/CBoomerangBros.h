@@ -4,7 +4,7 @@
 #define BOOMERANG_BROS_GRAVITY 0.0009f
 #define BOOMERANG_BROS_WALKING_SPEED 0.025f
 #define BOOMERANG_BROS_JUMP_SPEED 0.2f
-#define BOOMERANG_BROS_BOUNCE_SPEED 0.3f
+#define BOOMERANG_BROS_BOUNCE_SPEED 0.1f
 
 #define BOOMERANG_BROS_BBOX_WIDTH 16
 #define BOOMERANG_BROS_BBOX_HEIGHT 20
@@ -45,7 +45,11 @@ protected:
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnCollisionWith(LPCOLLISIONEVENT e);
+
+	virtual int IsOverlappable() { return 1; };
+	virtual void OnOverlapWith(LPCOLLISIONEVENT e);
+	void OnOverlapWithBoomerang(LPCOLLISIONEVENT e);
 
 public:
 	CBoomerangBros(float x, float y);

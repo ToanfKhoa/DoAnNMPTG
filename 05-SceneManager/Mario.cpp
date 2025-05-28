@@ -25,6 +25,8 @@
 #include "CPSwitch.h"
 #include "CPipePortal.h"
 #include "CWoodBar.h"
+#include "CBoomerangBros.h"
+#include "CBoomerang.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -294,6 +296,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPSwitch(e);
 	else if (dynamic_cast<CWoodBar*>(e->obj))
 		OnCollisionWithWoodBar(e);
+	else if (dynamic_cast<CBoomerangBros*>(e->obj))
+		OnCollisionWithBoomerangBros(e);
 }
 
 void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
@@ -306,6 +310,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithExtraLifeMushroom(e);
 	else if (dynamic_cast<CPipePortal*>(e->obj))
 		OnOverlapWithPipePortal(e);
+	else if (dynamic_cast<CBoomerang*> (e->obj))
+		OnOverlapWithBoomerang(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -474,6 +480,11 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnOverlapWithBoomerang(LPCOLLISIONEVENT e)
+{
+	GetDamaged();
+}
+
 void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 {
 	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
@@ -613,6 +624,30 @@ void CMario::OnCollisionWithWoodBar(LPCOLLISIONEVENT e)
 	if(e->ny < 0)
 		woodBar->Fall();
 	DebugOut(L"collision woodbar");
+}
+
+void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
+{
+	DebugOutTitle(L"Collision with Boomerang Bros\n");
+	CBoomerangBros* boomerangBros = dynamic_cast<CBoomerangBros*>(e->obj);
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	if (e->ny < 0)
+	{
+		if (boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)
+		{
+			boomerangBros->SetState(BOOMERANG_BROS_STATE_BOUNCE_DEATH);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			AddPoints(100);
+		}
+	}
+	else // hit by boomerangbros
+	{
+		if (boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)
+		{
+			GetDamaged();
+		}
+	}
 }
 
 //

@@ -22,6 +22,7 @@ public:
 	void OnOverlapWithKoopa(LPCOLLISIONEVENT e);
 	void OnOverlapWithBrick(LPCOLLISIONEVENT e);
 	void OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e);
+	void OnOverlapWithBoomerangBros(LPCOLLISIONEVENT e);
 
 	int IsBlocking() { return 0; }
 	int IsCollidable() { return 1; }

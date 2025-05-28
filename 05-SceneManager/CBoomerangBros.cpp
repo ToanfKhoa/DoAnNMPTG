@@ -1,8 +1,7 @@
-#include "CBoomerangBros.h"
+#include "CBoomerang.h"
 #include "CBoomerangBros.h"
 #include "Game.h"
 #include "Mario.h"
-#include "CBoomerang.h"
 
 CBoomerangBros::CBoomerangBros(float x, float y) :CGameObject(x, y)
 {
@@ -13,7 +12,7 @@ CBoomerangBros::CBoomerangBros(float x, float y) :CGameObject(x, y)
 	direction_x = -1; // Default direction is left
 
 	jumpTimer = 0;
-	attackTimer = 0;
+	attackTimer = ATTACK_DURATION;
 }
 
 void CBoomerangBros::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -32,12 +31,15 @@ void CBoomerangBros::OnNoCollision(DWORD dt)
 
 void CBoomerangBros::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-
-	if (e->ny != 0)
+	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
 	}
+	else
+		if (e->nx != 0 && e->obj->IsBlocking())
+		{
+			vx = 0;
+		}
 }
 
 void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -77,7 +79,7 @@ void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		jumpTimer += dt;
 
 	//attack
-	if (attackTimer >= ATTACK_DURATION)
+	if (attackTimer >= ATTACK_DURATION && state != BOOMERANG_BROS_STATE_BOUNCE_DEATH)
 	{
 		if (attackTimer >= (ATTACK_DURATION + HOLDING_TIME * 3))
 		{
@@ -141,7 +143,11 @@ void CBoomerangBros::Render()
 
 void CBoomerangBros::SetState(int state)
 {
-	CGameObject::SetState(state);
+	if(this->state == BOOMERANG_BROS_STATE_BOUNCE_DEATH)
+	{
+		return;
+	}
+
 	switch (state)
 	{
 	case BOOMERANG_BROS_STATE_WALKING:
@@ -152,4 +158,20 @@ void CBoomerangBros::SetState(int state)
 		vy = -BOOMERANG_BROS_BOUNCE_SPEED;
 		break;
 	}
+	CGameObject::SetState(state);
+}
+
+void CBoomerangBros::OnOverlapWith(LPCOLLISIONEVENT e)
+{
+	if (dynamic_cast<CBoomerang*>(e->obj))
+	{
+		OnOverlapWithBoomerang(e);
+	}
+}
+
+void CBoomerangBros::OnOverlapWithBoomerang(LPCOLLISIONEVENT e)
+{
+	CBoomerang* boomerang = dynamic_cast<CBoomerang*>(e->obj);
+	if (boomerang->GetDirection() == 0)
+		boomerang->Delete();
 }

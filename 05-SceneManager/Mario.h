@@ -264,10 +264,12 @@ class CMario : public CGameObject
 	void OnCollisionWithSpawnBox(LPCOLLISIONEVENT e);
 	void OnCollisionWithPSwitch(LPCOLLISIONEVENT e);
 	void OnCollisionWithWoodBar(LPCOLLISIONEVENT e);
+	void OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e);
 
 	void OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e);
 	void OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e);
 	void OnOverlapWithPipePortal(LPCOLLISIONEVENT e);
+	void OnOverlapWithBoomerang(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

@@ -18,12 +18,13 @@ class CBoomerang : public CGameObject
 protected:
 	float ax, ay;
 	DWORD timer;
-	int direction_x; // Direction of the boomerang, 1 for right, -1 for left
+	int direction_x; // Direction of the boomerang, 1 for right, -1 for left, 0 mean it has returned
 public:
 	CBoomerang(float x, float y, int direction_x);
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int IsBlocking() { return 0; }
+	int GetDirection() { return direction_x; }
 };
 
