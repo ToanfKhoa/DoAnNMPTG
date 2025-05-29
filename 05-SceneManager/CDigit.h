@@ -16,13 +16,17 @@ class CDigit : public CGameObject
 {
 protected:
 	int value;
+	bool isOnScreen;
 public:
 	CDigit(float x, float y):CGameObject(x, y){
 		this->value = 0;
+		isOnScreen = true;
 	}
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	void Render();
 	void SetValue(int value) { this->value = value; }
+	void SetIsOnScreen(bool b) { isOnScreen = b; }
+	int GetValue() { return value; }
 };
 

@@ -85,6 +85,8 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"mario x %.3f\n", x);
+	DebugOut(L"mario y %.3f\n", y);
 	if (this->state == MARIO_STATE_FINISH_RUN)
 	{
 		x += MARIO_WALKING_SPEED * dt;
@@ -337,7 +339,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			AddPoints(100, e->src_obj);
+			AddPoints(100, e->obj);
 		}
 	}
 	else // hit by Goomba
@@ -399,7 +401,7 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 			if (question->getItemType() == 0)
 			{
 				AddCoins(1);
-				AddPoints(100, e->src_obj);;
+				AddPoints(100, e->obj);;
 			}
 		}
 	}
@@ -558,7 +560,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 
-			AddPoints(100, e->src_obj);;
+			AddPoints(100, e->obj);;
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
@@ -676,7 +678,7 @@ void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
 		{
 			boomerangBros->SetState(BOOMERANG_BROS_STATE_BOUNCE_DEATH);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			AddPoints(100, e->src_obj);;
+			AddPoints(100, e->obj);;
 		}
 	}
 	else // hit by boomerangbros
@@ -1278,7 +1280,16 @@ void CMario::Attack()
 void CMario::AddPoints(int p, LPGAMEOBJECT desObj)
 {
 	points += p;
-	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY(), p);
+	
+	int pp = p;
+	int digitCount = 0;
+	while (pp != 0)
+	{
+		pp = pp / 10;
+		digitCount++;
+	}
+	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY(), digitCount, p);
+	numberPopUp->SetValue(p);
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->AddObject(numberPopUp);
 }
