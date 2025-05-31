@@ -288,6 +288,10 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 
 	if(goomba->GetState() != GOOMBA_STATE_BOUNCE_DEATH)
 		goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
@@ -306,6 +310,10 @@ void CKoopa::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 
 	if(paragoomba->GetState() != GOOMBA_STATE_BOUNCE_DEATH)
 		paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
@@ -332,6 +340,10 @@ void CKoopa::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 	}
 
 	venus->SetState(VENUS_STATE_DIE);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
@@ -344,6 +356,11 @@ void CKoopa::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 	}
 	
 	paraKoopa->TurnIntoKoopa();
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
+
 	paraKoopa->SetState(KOOPA_STATE_DIE);
 }
 void CKoopa::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
@@ -357,6 +374,11 @@ void CKoopa::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
 	}
 
 	piranha->SetState(PIRANHA_STATE_DIE);
+
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
@@ -378,6 +400,10 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	{
 		koopa->SetState(KOOPA_STATE_DIE);
 	}
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -406,6 +432,9 @@ void CKoopa::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
 
 	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
 
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
@@ -423,6 +452,10 @@ void CKoopa::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
 		paragoomba->TurnIntoGoomba();
 	}
 	paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnOverlapWithVenus(LPCOLLISIONEVENT e)
@@ -435,6 +468,10 @@ void CKoopa::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
 	venus->SetState(VENUS_STATE_DIE);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
@@ -454,6 +491,10 @@ void CKoopa::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
 
 	paraKoopa->TurnIntoKoopa();
 	paraKoopa->SetState(KOOPA_STATE_DIE);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
@@ -467,6 +508,10 @@ void CKoopa::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
 	}
 
 	piranha->SetState(PIRANHA_STATE_DIE);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
@@ -489,6 +534,10 @@ void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
 	{
 		koopa->SetState(KOOPA_STATE_DIE);
 	}
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CKoopa::OnOverlapWithBrick(LPCOLLISIONEVENT e)

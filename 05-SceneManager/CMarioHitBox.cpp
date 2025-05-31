@@ -62,6 +62,10 @@ void CMarioHitBox::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
 	if (goomba->GetState() == GOOMBA_STATE_DIE || goomba->GetState() == GOOMBA_STATE_BOUNCE_DEATH) return;
 
 	goomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+	
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CMarioHitBox::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
@@ -71,10 +75,19 @@ void CMarioHitBox::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
 	if (paragoomba->GetIsGoomba() == false)
 	{
 		paragoomba->TurnIntoGoomba();
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddComboPoints(e->obj);
 	}
 
 	if (paragoomba->GetState() != GOOMBA_STATE_BOUNCE_DEATH)
+	{
 		paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddComboPoints(e->obj);
+	}
+	
 }
 
 void CMarioHitBox::OnOverlapWithVenus(LPCOLLISIONEVENT e)
@@ -82,6 +95,10 @@ void CMarioHitBox::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
 	venus->SetState(VENUS_STATE_DIE);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CMarioHitBox::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
@@ -102,6 +119,10 @@ void CMarioHitBox::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
 	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
 
 	piranha->SetState(PIRANHA_STATE_DIE);
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->AddComboPoints(e->obj);
 }
 
 void CMarioHitBox::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
@@ -137,8 +158,14 @@ void CMarioHitBox::OnOverlapWithQuestionBlock(LPCOLLISIONEVENT e)
 void CMarioHitBox::OnOverlapWithBoomerangBros(LPCOLLISIONEVENT e)
 {
 	CBoomerangBros* boomerangBros = dynamic_cast<CBoomerangBros*>(e->obj);
-	if(boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)
+	if (boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)
+	{
 		boomerangBros->SetState(BOOMERANG_BROS_STATE_BOUNCE_DEATH);
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddComboPoints(e->obj);
+	}
 }
 
 

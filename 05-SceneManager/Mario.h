@@ -209,6 +209,10 @@
 #define MARIO_MAX_RUN_POWER 2000.0f //Max power = time to run
 #define MARIO_TELEPORT_TIME 4000
 
+#define MARIO_MIN_COMBO_SCORE 100
+#define MARIO_MAX_COMBO_SCORE 8000
+#define MARIO_COMBO_TIME 1000
+
 typedef CMarioHitBox* LPHITBOX;
 class CMario : public CGameObject
 {
@@ -225,6 +229,7 @@ class CMario : public CGameObject
 	int coins; 
 	float playTime;
 	int points;
+	int comboScore;
 
 	DWORD kickTimer;
 	BOOLEAN isKicking;
@@ -248,6 +253,10 @@ class CMario : public CGameObject
 
 	DWORD teleportTimer;
 	BOOLEAN isTeleporting;
+
+	DWORD comboTimer;
+	BOOLEAN isCombo;
+
 	int readyTeleport; //1 = mario will move down, -1 = mario will move up
 
 	float runPower;
@@ -322,6 +331,7 @@ public:
 	int GetPlayTime() { return playTime; };
 	int GetPoints() { return points; };
 	void AddPoints(int p, LPGAMEOBJECT desObj);
+	void AddComboPoints(LPGAMEOBJECT desObj);
 	void AddCoins(int c) { coins += c; };
 
 	float GetRunPower() { return runPower; };
