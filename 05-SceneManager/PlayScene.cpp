@@ -497,7 +497,15 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return; 
 
 	// Update camera to follow mario
-	UpdateCameraPosition();
+	if (isCameraAutoMoving)
+	{	
+		DebugOut(L"[INFO] Camera is auto moving\n");
+		CameraMoving(dt);
+	}
+	else
+	{
+		UpdateCameraPosition();
+	}
 
 	PurgeDeletedObjects();
 }
@@ -575,7 +583,7 @@ void CPlayScene::UpdateCameraPosition()
 
 	//y direction
 	CMario* mario = dynamic_cast<CMario*>(player);
-	if (mario->IsFullRunPower() && cy < centerY - DEADZONE_Y)
+	if (mario->IsFullRunPower() && cy < centerY - DEADZONE_Y && isUnderGround==false)
 	{
 		DebugOut(L"du dieu kien");
 		isCameraFollowingY = true;
@@ -583,14 +591,41 @@ void CPlayScene::UpdateCameraPosition()
 	if (isCameraFollowingY)	cy += DEADZONE_Y;
 
 	if (cx > END_OF_MAP) cx = END_OF_MAP;
-	if (cx < 0) cx = 0;
+	if (cx < camera_min_x) cx = camera_min_x;
 	if (cy < END_OF_SKY) cy = END_OF_SKY;
-	if (cy >= 0 || isCameraFollowingY==false)
-	{
-		isCameraFollowingY = false;
-		cy = 0;
-	}
 
+	if (!isUnderGround)
+	{
+		if (cy >= camera_min_y || isCameraFollowingY == false)
+		{
+			isCameraFollowingY = false;
+			cy = camera_min_y;
+		}
+	}
+	else
+	{
+		cy = 816;
+	}
+	
+	//DebugOut(L"camera cy: %f\n", cy);
+	CGame::GetInstance()->SetCamPos(cx, cy);
+}
+
+void CPlayScene::CameraMoving(DWORD dt)
+{
+	float cx, cy;
+
+	CGame* game = CGame::GetInstance();
+	game->GetCamPos(cx, cy);
+
+	if (cx > 2500) cx = 2500;
+	else
+	{
+		cx += CAMERA_SPEED * dt;
+	}
+	cy = 237;
+
+	DebugOut(L"camera moving cx: %f\n", cx);
 	CGame::GetInstance()->SetCamPos(cx, cy);
 }
 

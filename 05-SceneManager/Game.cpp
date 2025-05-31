@@ -541,7 +541,26 @@ void CGame::SwitchScene()
 	current_scene = next_scene;
 	LPSCENE s = scenes[next_scene];
 	this->SetKeyHandler(s->GetKeyEventHandler());
+
 	s->Load();
+
+	//set camera position
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(s);
+	if(next_scene == 6) //level 1-1
+	{
+		playScene->SetCameraMinY(0);
+		playScene->SetCameraMinY(0);
+		playScene->SetIsUnderGround(false);
+		playScene->SetCameraAutoMoving(false);
+	}
+	else //level 1-4 goal
+	{
+		SetCamPos(2048, 237); 
+		playScene->SetCameraMinX(2056);
+		playScene->SetCameraMinY(237);
+		playScene->SetIsUnderGround(false);
+		playScene->SetCameraAutoMoving(true);
+	}
 }
 
 void CGame::InitiateSwitchScene(int scene_id)
