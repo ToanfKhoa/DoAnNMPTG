@@ -623,7 +623,6 @@ void CPlayScene::CameraMoving(DWORD dt)
 	{
 		cx += CAMERA_SPEED * dt;
 	}
-
 	cy = 237;
 
 	DebugOut(L"camera moving cx: %f\n", cx);

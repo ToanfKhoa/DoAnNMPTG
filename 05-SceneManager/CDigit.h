@@ -12,17 +12,27 @@
 #define SPRITE_8 120018
 #define SPRITE_9 120019
 
+#define SPRITE_0_POP_UP 120022
+#define SPRITE_1_POP_UP 120023
+#define SPRITE_2_POP_UP 120024
+#define SPRITE_4_POP_UP 120025
+#define SPRITE_8_POP_UP 120026
+
 class CDigit : public CGameObject
 {
 protected:
 	int value;
+	bool isOnScreen;
 public:
 	CDigit(float x, float y):CGameObject(x, y){
 		this->value = 0;
+		isOnScreen = true;
 	}
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	void Render();
 	void SetValue(int value) { this->value = value; }
+	void SetIsOnScreen(bool b) { isOnScreen = b; }
+	int GetValue() { return value; }
 };
 

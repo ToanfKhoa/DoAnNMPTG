@@ -164,6 +164,7 @@
     <ClCompile Include="CKoopa.cpp" />
     <ClCompile Include="CMarioHitBox.cpp" />
     <ClCompile Include="CNumber.cpp" />
+    <ClCompile Include="CNumberPopUp.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CParaKoopa.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="CKoopa.h" />
     <ClInclude Include="CMarioHitBox.h" />
     <ClInclude Include="CNumber.h" />
+    <ClInclude Include="CNumberPopUp.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CParaKoopa.h" />
