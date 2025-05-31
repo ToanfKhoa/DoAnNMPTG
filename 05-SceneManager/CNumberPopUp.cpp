@@ -11,13 +11,21 @@ CNumberPopUp::CNumberPopUp(float x, float y, int digitCount, int value)	: CNumbe
 	for (int i = 0; i < digitCount; i++)
 	{
 		CDigit* digit = dynamic_cast<CDigit*>(digits[i]);
+		digit->SetPosition(x - i * DIGIT_POP_UP_SPACING, y);
 		digit->SetIsOnScreen(false);
 	}
 }
 
 void CNumberPopUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//y += vy * dt; // Update vertical position based on velocity
+	y += vy * dt; // Update vertical position based on velocity
+	DebugOut(L"y of numberpopup: %.3f \n", y);
+	for (int i = 0; i < digitCount; i++)
+	{
+		digits[i]->SetPosition(x - i * DIGIT_POP_UP_SPACING, y);
+		DebugOut(L"y of digitpopup: %.3f \n", y);
+	}
+
 	//CNumber::Update(dt, coObjects);
 
 	CPlayScene* currentScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
@@ -44,9 +52,5 @@ void CNumberPopUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CNumberPopUp::Render()
 {
-	//CNumber::Render();
-	for (int i = 0; i < digits.size(); i++)
-	{
-		digits[i]->Render();
-	}
+	CNumber::Render();
 }

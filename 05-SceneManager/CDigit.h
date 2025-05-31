@@ -12,6 +12,12 @@
 #define SPRITE_8 120018
 #define SPRITE_9 120019
 
+#define SPRITE_0_POP_UP 120022
+#define SPRITE_1_POP_UP 120023
+#define SPRITE_2_POP_UP 120024
+#define SPRITE_4_POP_UP 120025
+#define SPRITE_8_POP_UP 120026
+
 class CDigit : public CGameObject
 {
 protected:

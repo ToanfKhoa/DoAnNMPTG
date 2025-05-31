@@ -22,3 +22,4 @@ height	240
 30	textures\background.png
 40	textures\enemies2.png
 50	textures\hud.png
+60	textures\popup.png
