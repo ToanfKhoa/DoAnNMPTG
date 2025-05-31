@@ -1,11 +1,14 @@
 #include "CDigit.h"
+#include "debug.h"
 
 void CDigit::Render()
 {
 	CSprites* s = CSprites::GetInstance();
 
-	switch (value) 
+	if (isOnScreen == true)
 	{
+		switch (value)
+		{
 		case 0:
 			s->Get(SPRITE_0)->DrawOnScreen(x, y);
 			break;
@@ -36,5 +39,27 @@ void CDigit::Render()
 		case 9:
 			s->Get(SPRITE_9)->DrawOnScreen(x, y);
 			break;
+		}
+	}
+	else
+	{
+		switch (value)
+		{
+		case 0:
+			s->Get(SPRITE_0_POP_UP)->Draw(x, y);
+			break;
+		case 1:
+			s->Get(SPRITE_1_POP_UP)->Draw(x, y);
+			break;
+		case 2:
+			s->Get(SPRITE_2_POP_UP)->Draw(x, y);
+			break;
+		case 4:
+			s->Get(SPRITE_4_POP_UP)->Draw(x, y);
+			break;
+		case 8:
+			s->Get(SPRITE_8_POP_UP)->Draw(x, y);
+			break;
+		}
 	}
 }

@@ -9,7 +9,8 @@
 #define ID_TEX_MISC 20
 #define ID_TEX_BACKGROUND 30
 #define ID_TEX_ENEMY2 40
-
+#define ID_TEX_HUD 50
+#define ID_POP_UP 60
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1

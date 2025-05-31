@@ -28,6 +28,7 @@
 #include "CBoomerangBros.h"
 #include "CBoomerang.h"
 #include "CItemRandom.h"
+#include "CNumberPopUp.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -68,6 +69,10 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 		isTeleporting = false;
 		readyTeleport = 0;
 
+		comboTimer = 0;
+		isCombo = false;
+		comboScore = 100;
+
 		runPower = 0;
 
 		hitBox = new CMarioHitBox(x, y, MARIO_HIT_BOX_WIDTH, MARIO_HIT_BOX_HEIGHT);
@@ -84,6 +89,8 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"comboscore %d\n", comboScore);
+	DebugOut(L"combotime %d\n", comboTimer);
 	if (this->state == MARIO_STATE_FINISH_RUN)
 	{
 		x += MARIO_WALKING_SPEED * dt;
@@ -180,6 +187,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	//Combo time
+	if(comboTimer > dt)
+		comboTimer = max(0, comboTimer - dt); //limit timer at 0
+	else
+	{
+		comboTimer = 0;
+		isCombo = false;
+		comboScore = MARIO_MIN_COMBO_SCORE;
+	}
 
 	//Run power
 	if (abs(vx) == MARIO_RUNNING_SPEED && isOnPlatform || ableToFly == true) //Running or is in flying time
@@ -336,7 +352,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			AddPoints(100);
+			AddComboPoints(e->obj);
 		}
 	}
 	else // hit by Goomba
@@ -361,6 +377,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 			paragoomba->TurnIntoGoomba();
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			AddCoins(100);
+			AddComboPoints(e->obj);
 		}
 		else
 		{
@@ -368,7 +385,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 			{
 				paragoomba->SetState(GOOMBA_STATE_DIE);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
-				AddPoints(200);
+				AddComboPoints(e->obj);
 			}
 		}
 	}
@@ -398,7 +415,7 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 			if (question->getItemType() == 0)
 			{
 				AddCoins(1);
-				AddPoints(100);
+				AddPoints(100, e->obj);;
 			}
 		}
 	}
@@ -453,7 +470,7 @@ void CMario::OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e)
 
 		item->SetState(POWERUPITEM_STATE_EATEN);
 
-		AddPoints(1000);
+		AddPoints(1000, e->obj);
 	}
 }
 
@@ -534,6 +551,7 @@ void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 	if (e->ny < 0)
 	{
 		paraKoopa->TurnIntoKoopa();
+		AddComboPoints(e->obj);
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 	}
 	else //Hit not on top
@@ -557,7 +575,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 
-			AddPoints(100);
+			AddComboPoints(e->obj);
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 		{
@@ -571,7 +589,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			else
 				koopa->SetState(KOOPA_STATE_SHELL_MOVING_LEFT);
 
-			AddPoints(200);
+			AddComboPoints(e->obj);
 		}
 		else if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT)
 		{
@@ -675,7 +693,7 @@ void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
 		{
 			boomerangBros->SetState(BOOMERANG_BROS_STATE_BOUNCE_DEATH);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			AddPoints(100);
+			AddComboPoints(e->obj);;
 		}
 	}
 	else // hit by boomerangbros
@@ -1272,6 +1290,54 @@ void CMario::Attack()
 		return;
 	isAttacking = true; 
 	hitBox->SetIsActive(true); 
+}
+
+void CMario::AddPoints(int p, LPGAMEOBJECT desObj)
+{
+	points += p;
+	
+	int pp = p;
+	int digitCount = 0;
+	while (pp != 0)
+	{
+		pp = pp / 10;
+		digitCount++;
+	}
+	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY(), digitCount, p);
+	numberPopUp->SetValue(p);
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	playScene->AddObject(numberPopUp);
+}
+
+void CMario::AddComboPoints(LPGAMEOBJECT desObj)
+{
+	if (isCombo == false)
+	{
+		isCombo = true;
+		comboTimer = MARIO_COMBO_TIME;
+	}
+	else
+	{
+		comboTimer = MARIO_COMBO_TIME;
+		if (comboScore == 800)
+			comboScore = 1000;
+		else if (comboScore < MARIO_MAX_COMBO_SCORE)
+			comboScore *= 2; //Score double in combo time
+	}
+
+	points += comboScore;
+
+	int pp = comboScore;
+	int digitCount = 0;
+	while (pp != 0)
+	{
+		pp = pp / 10;
+		digitCount++;
+	}
+	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY(), digitCount, comboScore);
+	numberPopUp->SetValue(comboScore);
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	playScene->AddObject(numberPopUp);
 }
 
 void CMario::SetLevel(int l)

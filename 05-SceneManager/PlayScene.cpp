@@ -591,7 +591,6 @@ void CPlayScene::UpdateCameraPosition()
 		cy = 0;
 	}
 
-	DebugOut(L"camera cy: %f\n", cy);
 	CGame::GetInstance()->SetCamPos(cx, cy);
 }
 

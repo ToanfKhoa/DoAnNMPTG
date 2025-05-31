@@ -8,7 +8,8 @@ CNumber::CNumber(float x, float y, int digitCount):CGameObject(x, y)
 	this->value = 0;
 	for (int i = 0; i < digitCount; i++)
 	{
-		CGameObject* digit = new CDigit(x - i * DIGIT_SPACING, y);
+		CDigit* digit = new CDigit(x - i * DIGIT_SPACING, y);
+		digit->SetIsOnScreen(true);
 		digits.push_back(digit);
 	}
 }
