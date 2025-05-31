@@ -243,6 +243,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 		hitBox->SetPosition(x, y + MARIO_RACOON_BBOX_HEIGHT / 4);
+
+	//camera auto moving
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	if (playScene->GetIsCameraAutoMoving())
+	{
+		float cx, cy;
+		CGame::GetInstance()->GetCamPos(cx, cy);
+		if (this->x < cx + 8) this->x = cx + 8;
+
+		DebugOut(L"Camera %f, Mario %f\n", cx, this->x);
+	}
 	
 }
 
@@ -488,6 +499,9 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 		{
 			readyTeleport *= -1;
 		}
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		playScene->SetIsUnderGround(!playScene->GetIsUnderGround());
 	}
 }
 
