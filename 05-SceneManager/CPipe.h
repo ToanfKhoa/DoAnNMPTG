@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+#include "AssetIDs.h"
+
 class CPipe : public CGameObject
 {
 protected:
@@ -18,6 +20,7 @@ public:
 		this->cellHeight = cell_height;
 		this->spriteIdMiddle = sprite_id_middle;
 		this->spriteIdEnd = sprite_id_end;
+		this->layer = PIPE_LAYER; 
 	}
 
 	void Render();

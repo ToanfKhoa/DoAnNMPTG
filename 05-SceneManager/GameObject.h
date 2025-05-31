@@ -30,9 +30,12 @@ protected:
 
 	bool isDeleted; 
 
+	int layer = 0; //default
+
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	void SetLayer(int layer) { this->layer = layer; }
 
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
@@ -40,6 +43,7 @@ public:
 	float GetX() { return this->x; }
 	float GetY() { return this->y; }
 	int GetState() { return this->state; }
+	int GetLayer() { return this->layer; }
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }
 

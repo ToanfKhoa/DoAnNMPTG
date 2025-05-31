@@ -1,12 +1,14 @@
 #include "CPipePortal.h"
 #include "Game.h"
 #include "Textures.h"
+#include "AssetIDs.h"
 
 CPipePortal::CPipePortal(float x, float y, float des_x, float des_y, int isReversed)
 {
 	this->des_x = des_x;
 	this->des_y = des_y;
 	this->isReversed = isReversed;
+	this->layer = PIPEPORTAL_LAYER; 
 }
 
 void CPipePortal::RenderBoundingBox()
