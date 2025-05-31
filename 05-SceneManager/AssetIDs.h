@@ -44,6 +44,11 @@
 #define OBJECT_TYPE_WOODBAR 57
 #define OBJECT_TYPE_ITEMRANDOM 58
 
+//Layer
+#define MARIO_LAYER 5
+#define PIPEPORTAL_LAYER 6
+#define PIPE_LAYER 6
+
 #pragma region MARIO 
 
 #define ID_SPRITE_MARIO 10000

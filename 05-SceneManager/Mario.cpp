@@ -29,6 +29,7 @@
 #include "CBoomerang.h"
 #include "CItemRandom.h"
 #include "CNumberPopUp.h"
+#include "AssetIDs.h"
 
 CMario::CMario(float x, float y) : CGameObject(x, y)
 {
@@ -37,6 +38,7 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 		ax = 0.0f;
 		ay = MARIO_GRAVITY;
 		nx = 1;
+		layer = MARIO_LAYER;
 
 		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;

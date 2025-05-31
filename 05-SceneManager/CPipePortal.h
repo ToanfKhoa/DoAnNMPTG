@@ -3,6 +3,7 @@
 
 #define BBOX_WIDTH	20
 #define BBOX_HEIGHT	20
+
 class CPipePortal : public CGameObject
 {
 protected:

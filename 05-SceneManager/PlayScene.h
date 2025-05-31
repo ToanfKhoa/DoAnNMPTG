@@ -50,7 +50,13 @@ public:
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 
-	void AddObject(LPGAMEOBJECT obj) { objects.push_back(obj); }
+	void AddObject(LPGAMEOBJECT obj) 
+	{ 
+		objects.push_back(obj);
+		std::sort(objects.begin(), objects.end(), [](CGameObject* a, CGameObject* b) {
+			return a->GetLayer() < b->GetLayer();
+			});
+	}
 
 	void StartTimeStop();
 	void UpdateCameraPosition();

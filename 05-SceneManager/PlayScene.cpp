@@ -394,7 +394,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	obj->SetPosition(x, y);
 
 
-	objects.push_back(obj);
+	//objects.push_back(obj);
+	//add and sort layer
+	AddObject(obj);
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
