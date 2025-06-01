@@ -35,7 +35,6 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		direction_x = 0; //Use direction_x to mark that boomerang has returned
 		ay = 0;
 	}
-	DebugOut(L"Boomerang::Update - x: %f, y: %f, vx: %f, vy: %f\n", x, y, vx, vy);
 }
 
 void CBoomerang::GetBoundingBox(float& l, float& t, float& r, float& b)

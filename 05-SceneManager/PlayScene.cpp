@@ -501,7 +501,6 @@ void CPlayScene::Update(DWORD dt)
 	// Update camera to follow mario
 	if (isCameraAutoMoving)
 	{	
-		DebugOut(L"[INFO] Camera is auto moving\n");
 		CameraMoving(dt);
 	}
 	else
@@ -627,7 +626,6 @@ void CPlayScene::CameraMoving(DWORD dt)
 	}
 	cy = 237;
 
-	DebugOut(L"camera moving cx: %f\n", cx);
 	CGame::GetInstance()->SetCamPos(cx, cy);
 }
 

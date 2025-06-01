@@ -266,7 +266,6 @@ boomerang.txt
 #Wood Bar
 #offset 50
 57	442	335
-
 57	784	367
 57	850	319
 57	910	415

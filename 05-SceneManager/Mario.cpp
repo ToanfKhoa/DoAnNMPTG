@@ -91,8 +91,8 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"comboscore %d\n", comboScore);
-	DebugOut(L"combotime %d\n", comboTimer);
+	DebugOut(L"vy mario %.3f \n", vy);
+	DebugOut(L"ay mario %.3f \n", ay);
 	if (this->state == MARIO_STATE_FINISH_RUN)
 	{
 		x += MARIO_WALKING_SPEED * dt;
@@ -118,7 +118,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (abs(vx) > MARIO_MIN_SPEED)
 			vx *= MARIO_FRICTION;
 		else
-			vx = 0; //Mario completely stop 
+			vx = 0; //Mario completely stop
 	}
 
 	//Limit the max speed, check to prevent vx from reversing direction when maxVx changes suddenly
@@ -277,9 +277,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::OnNoCollision(DWORD dt)
 {
+	//Reset gravity when walk out of woodbar, not reset when wagging and jump
+	if ((!isJumping && !isWagging && ay == MARIO_ON_WOODBAR_GRAVITY))
+	{
+		DebugOut(L"reset gravity \n");
+		vy = 0;
+		ay = MARIO_GRAVITY;
+	}
+
 	x += vx * dt;
 	y += vy * dt;
-	isOnPlatform = false;
+	isOnPlatform = false;	
 }
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -292,6 +300,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (e->ny < 0)
 		{
 			isOnPlatform = true;
+			//ay = MARIO_GRAVITY;
 			if (this->state == MARIO_STATE_FINISH) SetState(MARIO_STATE_FINISH_RUN); //mario run when finish level
 		}
 	}
@@ -692,9 +701,13 @@ void CMario::OnCollisionWithWoodBar(LPCOLLISIONEVENT e)
 {
 	CWoodBar* woodBar = dynamic_cast<CWoodBar*>(e->obj);
 	
-	if(e->ny < 0)
+	if (e->ny < 0)
+	{
 		woodBar->Fall();
-	DebugOut(L"collision woodbar");
+		ay = MARIO_ON_WOODBAR_GRAVITY; //Big gravity to make sure mario always stands on platform even it's falling
+	}
+
+	DebugOut(L"woodbar vy %.3f \n", woodBar->GetVy());
 }
 
 void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
@@ -702,7 +715,6 @@ void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
 	DebugOutTitle(L"Collision with Boomerang Bros\n");
 	CBoomerangBros* boomerangBros = dynamic_cast<CBoomerangBros*>(e->obj);
 	// jump on top >> kill Goomba and deflect a bit 
-	if (e->ny < 0)
 	if (e->ny < 0)
 	{
 		if (boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)

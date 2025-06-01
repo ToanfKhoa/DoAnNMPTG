@@ -20,7 +20,7 @@ protected:
 	virtual void Render();
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return 2; } //Only blocking mario
+	virtual int IsBlocking() { return 1; };
 
 public:
 	CWoodBar(float x, float y) : CGameObject(x, y) { vx = -WOODBAR_SPEED_X; ay = 0; };
@@ -28,5 +28,8 @@ public:
 	float GetVy() {
 		return vy;
 	};
+	float GetVx() {
+		return vx;
+	}
 };
 
