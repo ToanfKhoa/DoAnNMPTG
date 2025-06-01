@@ -555,7 +555,7 @@ void CGame::SwitchScene()
 	}
 	else //level 1-4 goal
 	{
-		SetCamPos(2048, 237); 
+		SetCamPos(0, 0); 
 		playScene->SetCameraMinX(2056);
 		playScene->SetCameraMinY(237);
 		playScene->SetIsUnderGround(false);
