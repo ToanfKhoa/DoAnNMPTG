@@ -3,12 +3,20 @@
 #include "CExtraLifeMushroom.h"
 #include "CPSwitch.h"
 #include "PlayScene.h"
+#include "CCoinItem.h"
 
 void CBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 
-	if(state == BRICK_STATE_IDLE || itemType==0) animations->Get(ID_ANI_BRICK_IDLE)->Render(x, y); //brick is idle, mario small
+	if (state == BRICK_STATE_IDLE || itemType == 0)
+	{
+		animations->Get(ID_ANI_BRICK_IDLE)->Render(x, y); //brick is idle, mario small
+	}
+	else if (itemType != 0 && state != BRICK_STATE_USED)
+	{
+		animations->Get(ID_ANI_BRICK_IDLE)->Render(x, y);
+	}
 	else 
 		animations->Get(ID_ANI_BRICK_USED)->Render(x, y); //brick's item was used
 		
@@ -57,10 +65,15 @@ void CBrick::Bouncing()
 		{
 			y = y_start;
 
-			if (itemType != 0) 
+			if (itemType != 0 && itemCount <= 0)
+			{
 				SetState(BRICK_STATE_USED);
-			else 
+			}
+			else
+			{
+				itemCount--;
 				SetState(BRICK_STATE_IDLE);
+			}
 		}
 	}
 }
@@ -108,6 +121,16 @@ CBrick::CBrick(float x, float y, int itemType) : CGameObject(x, y)
 			playScene->AddObject(spawnedItem);
 		}
 	}
+	else if (itemType == 3)
+	{
+		this->spawnedItem = new CCoinItem(x, y);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(spawnedItem);
+		}
+		itemCount = 6; //brick will spawn 7 coins
+	}
 	else
 	{
 		spawnedItem = NULL;
@@ -142,6 +165,20 @@ void CBrick::SetState(int state)
 			spawnedItem->SetPosition(x, y - BRICK_BBOX_HEIGHT / 2);
 			spawnedItem->SetState(PSWITCH_STATE_IDLE);
 		}
+		else if (itemType == 3)
+		{
+			spawnedItem->SetPosition(x, y - BRICK_BBOX_HEIGHT / 2);
+			spawnedItem->SetState(COINITEM_STATE_BOUNCING_UP);
+
+			this->spawnedItem = new CCoinItem(x, y);
+			CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			if (playScene != NULL)
+			{
+				playScene->AddObject(spawnedItem);
+			}
+		}
+		else
+			spawnedItem = NULL;
 
 		break;
 	case BRICK_STATE_BROKEN:

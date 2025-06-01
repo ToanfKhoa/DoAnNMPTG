@@ -269,8 +269,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float cx, cy;
 		CGame::GetInstance()->GetCamPos(cx, cy);
 		if (this->x < cx + 8) this->x = cx + 8;
-
-		DebugOut(L"Camera %f, Mario %f\n", cx, this->x);
+		float backBufferWidth = CGame::GetInstance()->GetBackBufferWidth();
+		if (this->x > cx + backBufferWidth - 8) this->x =  cx + backBufferWidth - 8;
 	}
 	
 }
