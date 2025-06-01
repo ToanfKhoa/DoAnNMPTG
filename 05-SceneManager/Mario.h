@@ -258,6 +258,8 @@ class CMario : public CGameObject
 	DWORD comboTimer;
 	BOOLEAN isCombo;
 
+	BOOLEAN isPushed;
+
 	int readyTeleport; //1 = mario will move down, -1 = mario will move up
 
 	float runPower;
@@ -284,6 +286,7 @@ class CMario : public CGameObject
 	void OnOverlapWithPipePortal(LPCOLLISIONEVENT e);
 	void OnOverlapWithBoomerang(LPCOLLISIONEVENT e);
 	void OnOverlapWithItemRandom(LPCOLLISIONEVENT e);
+	void OnOverlapWithWoodBar(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

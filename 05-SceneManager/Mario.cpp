@@ -77,6 +77,8 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 		runPower = 0;
 
+		isPushed = false;
+
 		hitBox = new CMarioHitBox(x, y, MARIO_HIT_BOX_WIDTH, MARIO_HIT_BOX_HEIGHT);
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		if (playScene != NULL)
@@ -91,12 +93,17 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"vy mario %.3f \n", vy);
-	DebugOut(L"ay mario %.3f \n", ay);
+	//Pushed by woodbar
+	if (isPushed)
+		x += -WOODBAR_SPEED_X * dt;
+	isPushed = false;
+
+	//Finish level
 	if (this->state == MARIO_STATE_FINISH_RUN)
 	{
 		x += MARIO_WALKING_SPEED * dt;
 	}
+
 	//Remain Time
 	if(playTime > 0)
 	{
@@ -277,10 +284,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::OnNoCollision(DWORD dt)
 {
-	//Reset gravity when walk out of woodbar, not reset when wagging and jump
-	if ((!isJumping && !isWagging && ay == MARIO_ON_WOODBAR_GRAVITY))
+	//Reset gravity when walk out of woodbar
+	if (ay == MARIO_ON_WOODBAR_GRAVITY)
 	{
-		DebugOut(L"reset gravity \n");
 		vy = 0;
 		ay = MARIO_GRAVITY;
 	}
@@ -288,6 +294,7 @@ void CMario::OnNoCollision(DWORD dt)
 	x += vx * dt;
 	y += vy * dt;
 	isOnPlatform = false;	
+	isPushed = false;
 }
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -307,7 +314,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else 
 	if (e->nx != 0 && e->obj->IsBlocking() )
 	{
-		vx = 0;
+		//Block and push if collision with woodbar
+		if (dynamic_cast<CWoodBar*>(e->obj) && e->nx < 0)
+		{
+			isPushed = true;
+			vx = 0;
+		}
+		else
+			vx = 0;
 	}
 
 	//Be aware: The derived class needs to be detected before the base class
@@ -361,6 +375,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithBoomerang(e);
 	else if (dynamic_cast<CItemRandom*>(e->obj))
 		OnOverlapWithItemRandom(e);
+	else if (dynamic_cast<CWoodBar*>(e->obj))
+		OnOverlapWithWoodBar(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -562,6 +578,11 @@ void CMario::OnOverlapWithItemRandom(LPCOLLISIONEVENT e)
 	default:
 		break;
 	}
+}
+
+void CMario::OnOverlapWithWoodBar(LPCOLLISIONEVENT e)
+{
+	isPushed = true; //Just for more accurate collision
 }
 
 void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
