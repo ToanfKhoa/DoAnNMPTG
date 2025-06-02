@@ -261,7 +261,7 @@ boomerang.txt
 11	2194	415	30	16	2	71000	72000
 
 # MARIO
-0	28	237
+0	28	300
 
 #Wood Bar
 #offset 50

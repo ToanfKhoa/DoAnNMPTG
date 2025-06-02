@@ -27,6 +27,7 @@ protected:
 	float y_start;
 	int itemType;	//0 = no item, 1 = ExtraLifeMushroom, 2 = PSwitch
 	CGameObject* spawnedItem;
+	int itemCount = 0;
 
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

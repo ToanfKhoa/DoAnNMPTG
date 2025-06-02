@@ -92,7 +92,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		if (nx > 0)
 			obj = new CBrick(marioX + 32, marioY, 0);
 		else
-			obj = new CBrick(marioX - 32, marioY, 0);
+			obj = new CBrick(marioX - 32, marioY, 3);
 
 		playScene->AddObject(obj);
 		break;
