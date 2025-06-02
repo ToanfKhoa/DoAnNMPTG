@@ -89,6 +89,7 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 		{
 			DebugOut(L"[ERROR] Scene is NULL\n");
 		}
+		SetState(MARIO_STATE_WALKING_RIGHT);
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -275,9 +276,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		float cx, cy;
 		CGame::GetInstance()->GetCamPos(cx, cy);
-		if (this->x < cx + 8) this->x = cx + 8;
+		if (this->x < cx + 8)
+		{
+			this->vx = MARIO_WALKING_SPEED / 2;
+			this->nx = 1; //turn to right to prevent bug
+		}
 		float backBufferWidth = CGame::GetInstance()->GetBackBufferWidth();
-		if (this->x > cx + backBufferWidth - 8) this->x =  cx + backBufferWidth - 8;
+		if (this->x > cx + backBufferWidth - 8) this->vx =  0;
 	}
 	
 }
@@ -314,6 +319,21 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else 
 	if (e->nx != 0 && e->obj->IsBlocking() )
 	{
+		vx = 0;
+
+		//crushed by camera
+		if (nx > 0)
+		{
+			CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			if (playScene->GetIsCameraAutoMoving())
+			{
+				float cx, cy;
+				CGame::GetInstance()->GetCamPos(cx, cy);
+				if (this->x <= cx + 8) SetState(MARIO_STATE_DIE);
+			}
+		}
+		
+	}
 		//Block and push if collision with woodbar
 		if (dynamic_cast<CWoodBar*>(e->obj) && e->nx < 0)
 		{
