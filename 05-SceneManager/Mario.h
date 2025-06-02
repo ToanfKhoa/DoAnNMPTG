@@ -8,7 +8,7 @@
 #include "Game.h"
 #include "debug.h"
 
-#define MARIO_WALKING_SPEED		0.08f
+#define MARIO_WALKING_SPEED		0.09f
 #define MARIO_RUNNING_SPEED		0.12f
 #define MARIO_RUNNING_SPEED_RENDER 2.0f
 
@@ -35,7 +35,7 @@
 
 #define MARIO_STATE_JUMP			300
 #define MARIO_STATE_RELEASE_JUMP    301
-
+#define MARIO_STATE_AFTER_WAGGING   302
 #define MARIO_STATE_RUNNING_RIGHT	400
 #define MARIO_STATE_RUNNING_LEFT	500
 
@@ -204,7 +204,7 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_KICK_TIME 300
 #define MARIO_JUMP_TIME 400
-#define MARIO_WAG_TIME 100
+#define MARIO_WAG_TIME 300
 #define MARIO_FLY_TIME 6000
 #define MARIO_ATTACK_TIME 300
 #define MARIO_MAX_RUN_POWER 2000.0f //Max power = time to run
@@ -240,6 +240,7 @@ class CMario : public CGameObject
 
 	DWORD wagTimer;
 	BOOLEAN isWagging;
+	BOOLEAN isWaggingAnimation;
 
 	BOOLEAN isTransforming;
 
