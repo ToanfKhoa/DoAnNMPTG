@@ -94,11 +94,14 @@ void CMarioHitBox::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 {
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
-	venus->SetState(VENUS_STATE_DIE);
+	if (venus->GetState() != VENUS_STATE_DIE)
+	{
+		venus->SetState(VENUS_STATE_DIE);
 
-	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
-	player->AddComboPoints(e->obj);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddComboPoints(e->obj);
+	}
 }
 
 void CMarioHitBox::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
@@ -118,11 +121,14 @@ void CMarioHitBox::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
 {
 	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
 
-	piranha->SetState(PIRANHA_STATE_DIE);
+	if (piranha->GetState() != PIRANHA_STATE_DIE)
+	{
+		piranha->SetState(PIRANHA_STATE_DIE);
 
-	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
-	player->AddComboPoints(e->obj);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddComboPoints(e->obj);
+	}
 }
 
 void CMarioHitBox::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
