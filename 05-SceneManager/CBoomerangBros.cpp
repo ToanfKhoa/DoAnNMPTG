@@ -108,8 +108,6 @@ void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	attackTimer += dt;
 
-	DebugOut(L"state: %d\n", state);
-	DebugOut(L"attacktime: %d\n", attackTimer);
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

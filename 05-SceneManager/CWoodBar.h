@@ -3,7 +3,7 @@
 
 #define WOODBAR_HEIGHT 16
 #define WOODBAR_WIDTH 50
-#define WOODBAR_SPEED_X 0.05f
+#define WOODBAR_SPEED_X 0.03f
 #define WOODBAR_GRAVITY 0.0002f
 
 #define ID_SPRITE_WOODBAR_START	20020
@@ -20,7 +20,7 @@ protected:
 	virtual void Render();
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return 2; } //Only blocking mario
+	virtual int IsBlocking() { return 1; };
 
 public:
 	CWoodBar(float x, float y) : CGameObject(x, y) { vx = -WOODBAR_SPEED_X; ay = 0; };
@@ -28,5 +28,8 @@ public:
 	float GetVy() {
 		return vy;
 	};
+	float GetVx() {
+		return vx;
+	}
 };
 

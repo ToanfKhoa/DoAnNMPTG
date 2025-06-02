@@ -77,6 +77,8 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 		runPower = 0;
 
+		isPushed = false;
+
 		hitBox = new CMarioHitBox(x, y, MARIO_HIT_BOX_WIDTH, MARIO_HIT_BOX_HEIGHT);
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		if (playScene != NULL)
@@ -91,12 +93,17 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"comboscore %d\n", comboScore);
-	DebugOut(L"combotime %d\n", comboTimer);
+	//Pushed by woodbar
+	if (isPushed)
+		x += -WOODBAR_SPEED_X * dt;
+	isPushed = false;
+
+	//Finish level
 	if (this->state == MARIO_STATE_FINISH_RUN)
 	{
 		x += MARIO_WALKING_SPEED * dt;
 	}
+
 	//Remain Time
 	if(playTime > 0)
 	{
@@ -118,7 +125,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (abs(vx) > MARIO_MIN_SPEED)
 			vx *= MARIO_FRICTION;
 		else
-			vx = 0; //Mario completely stop 
+			vx = 0; //Mario completely stop
 	}
 
 	//Limit the max speed, check to prevent vx from reversing direction when maxVx changes suddenly
@@ -277,9 +284,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::OnNoCollision(DWORD dt)
 {
+	//Reset gravity when walk out of woodbar
+	if (ay == MARIO_ON_WOODBAR_GRAVITY)
+	{
+		vy = 0;
+		ay = MARIO_GRAVITY;
+	}
+
 	x += vx * dt;
 	y += vy * dt;
-	isOnPlatform = false;
+	isOnPlatform = false;	
+	isPushed = false;
 }
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -292,13 +307,21 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (e->ny < 0)
 		{
 			isOnPlatform = true;
+			//ay = MARIO_GRAVITY;
 			if (this->state == MARIO_STATE_FINISH) SetState(MARIO_STATE_FINISH_RUN); //mario run when finish level
 		}
 	}
 	else 
 	if (e->nx != 0 && e->obj->IsBlocking() )
 	{
-		vx = 0;
+		//Block and push if collision with woodbar
+		if (dynamic_cast<CWoodBar*>(e->obj) && e->nx < 0)
+		{
+			isPushed = true;
+			vx = 0;
+		}
+		else
+			vx = 0;
 	}
 
 	//Be aware: The derived class needs to be detected before the base class
@@ -352,6 +375,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnOverlapWithBoomerang(e);
 	else if (dynamic_cast<CItemRandom*>(e->obj))
 		OnOverlapWithItemRandom(e);
+	else if (dynamic_cast<CWoodBar*>(e->obj))
+		OnOverlapWithWoodBar(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -555,6 +580,11 @@ void CMario::OnOverlapWithItemRandom(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnOverlapWithWoodBar(LPCOLLISIONEVENT e)
+{
+	isPushed = true; //Just for more accurate collision
+}
+
 void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 {
 	CParaKoopa* paraKoopa = dynamic_cast<CParaKoopa*>(e->obj);
@@ -692,9 +722,13 @@ void CMario::OnCollisionWithWoodBar(LPCOLLISIONEVENT e)
 {
 	CWoodBar* woodBar = dynamic_cast<CWoodBar*>(e->obj);
 	
-	if(e->ny < 0)
+	if (e->ny < 0)
+	{
 		woodBar->Fall();
-	DebugOut(L"collision woodbar");
+		ay = MARIO_ON_WOODBAR_GRAVITY; //Big gravity to make sure mario always stands on platform even it's falling
+	}
+
+	DebugOut(L"woodbar vy %.3f \n", woodBar->GetVy());
 }
 
 void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
@@ -702,7 +736,6 @@ void CMario::OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e)
 	DebugOutTitle(L"Collision with Boomerang Bros\n");
 	CBoomerangBros* boomerangBros = dynamic_cast<CBoomerangBros*>(e->obj);
 	// jump on top >> kill Goomba and deflect a bit 
-	if (e->ny < 0)
 	if (e->ny < 0)
 	{
 		if (boomerangBros->GetState() != BOOMERANG_BROS_STATE_BOUNCE_DEATH)

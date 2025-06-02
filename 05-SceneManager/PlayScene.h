@@ -8,7 +8,7 @@
 #include "Goomba.h"
 //#include "Koopas.h"
 
-#define CAMERA_SPEED 0.02f
+#define CAMERA_SPEED 0.04f
 
 class CPlayScene: public CScene
 {
