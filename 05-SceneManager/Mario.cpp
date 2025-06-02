@@ -56,13 +56,12 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 
 		wagTimer = 0;
 		isWagging = false;
+		isWaggingAnimation = false;
 
 		isTransforming = false;
 
 		holdingObject = NULL;
 		ableToHold = false;
-
-		isWagging = false;
 
 		flyTimer = 0;
 		ableToFly = false;
@@ -158,14 +157,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 	}
 
-	//Limit wagging time of Mario
+	//Limit wagging time of Mario, animation is shorter than floating time
 	if (isWagging == true)
 	{
 		wagTimer += dt;
-		if (wagTimer >= MARIO_WAG_TIME)
+		if (wagTimer >= MARIO_WAG_TIME / 3)
 		{
-			isWagging = false;
-			wagTimer = 0;
+			isWaggingAnimation = false;
+			if (wagTimer >= MARIO_WAG_TIME)
+			{
+				isWagging = false;
+				SetState(MARIO_STATE_AFTER_WAGGING);
+				wagTimer = 0;
+			}
 		}
 	}
 
@@ -223,6 +227,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		isTransforming = false;
 	}
+
+	//Always reset isOnplatform, it's only true when hitting ground
+	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
@@ -333,7 +340,6 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			}
 		}
 		
-	}
 		//Block and push if collision with woodbar
 		if (dynamic_cast<CWoodBar*>(e->obj) && e->nx < 0)
 		{
@@ -1012,7 +1018,7 @@ int CMario::GetAniIdRacoon()
 			else
 				aniId = ID_ANI_MARIO_RACOON_HOLDING_JUMP_LEFT;
 		}
-		else if (isWagging)
+		else if (isWaggingAnimation)
 		{
 			if (ableToFly)
 			{
@@ -1200,13 +1206,16 @@ void CMario::SetState(int state)
 		}
 		else if (level == MARIO_LEVEL_RACOON && ableToFly == true) //Wag tail to keep flying
 		{
+			DebugOut(L"wagging to fly \n");
 			isWagging = true;
+			isWaggingAnimation = true;
 			ay = 0;
 			vy = -MARIO_JUMP_SPEED_Y;
 		}
 		else if (level == MARIO_LEVEL_RACOON && vy > 0) //Wag tail in Raccoon form while falling
 		{
 			isWagging = true;
+			isWaggingAnimation = true;
 			vy = MARIO_JUMP_SPEED_Y / 1000;
 			ay = MARIO_GRAVITY / 2;
 		}
@@ -1218,6 +1227,10 @@ void CMario::SetState(int state)
 		jumpTimer = 0;
 		isJumping = false;
 		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+		break;
+
+	case MARIO_STATE_AFTER_WAGGING:
+		ay = MARIO_GRAVITY;
 		break;
 
 	case MARIO_STATE_SIT:
