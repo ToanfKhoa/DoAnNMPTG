@@ -698,7 +698,8 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithPit(LPCOLLISIONEVENT e)
 {
-	SetState(MARIO_STATE_DIE);
+	if(ay != MARIO_ON_WOODBAR_GRAVITY) //Prevent Mario from dying when standing on woodbar
+		SetState(MARIO_STATE_DIE);
 }
 
 void CMario::OnCollisionWithSpawnBox(LPCOLLISIONEVENT e)
