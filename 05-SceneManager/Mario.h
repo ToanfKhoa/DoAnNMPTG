@@ -283,6 +283,7 @@ class CMario : public CGameObject
 	void OnCollisionWithBoomerangBros(LPCOLLISIONEVENT e);
 
 	void OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e);
+	void OnOverlapWithCoin(LPCOLLISIONEVENT e);
 	void OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e);
 	void OnOverlapWithPipePortal(LPCOLLISIONEVENT e);
 	void OnOverlapWithBoomerang(LPCOLLISIONEVENT e);

@@ -25,7 +25,7 @@ void CBoomerangBros::GetBoundingBox(float& left, float& top, float& right, float
 
 void CBoomerangBros::OnNoCollision(DWORD dt)
 {
-	//x += vx * dt;
+	x += vx * dt;
 	y += vy * dt;
 };
 
@@ -35,15 +35,11 @@ void CBoomerangBros::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vy = 0;
 	}
-	else
-		if (e->nx != 0 && e->obj->IsBlocking())
-		{
-			vx = 0;
-		}
 }
 
 void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"vx boomerang bros %.3f \n", vx);
 	vy += ay * dt;
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	float player_x, player_y;
@@ -62,10 +58,12 @@ void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//Moving 
 	if(x > x_start + MOVEMENT_OFFSET_X)
 	{
+		DebugOut(L"move left \n");
 		vx = -BOOMERANG_BROS_WALKING_SPEED;
 	}
 	else if(x < x_start - MOVEMENT_OFFSET_X)
 	{
+		DebugOut(L"move right \n");
 		vx = BOOMERANG_BROS_WALKING_SPEED;
 	}
 

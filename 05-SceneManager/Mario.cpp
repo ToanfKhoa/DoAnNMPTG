@@ -358,8 +358,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithParaGoomba(e);
 	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
-	else if (dynamic_cast<CCoin*>(e->obj))
-		OnCollisionWithCoin(e);
+	/*else if (dynamic_cast<CCoin*>(e->obj))
+		OnCollisionWithCoin(e);*/
 	else if (dynamic_cast<CQuestionBlock*>(e->obj))
 		OnCollisionWithQuestionBlock(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
@@ -396,6 +396,8 @@ void CMario::OnOverlapWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBulletVenus(e);
 	else if (dynamic_cast<CPowerUpItem*>(e->obj))
 		OnOverlapWithPowerUpItem(e);
+	else if (dynamic_cast<CCoin*>(e->obj))
+		OnOverlapWithCoin(e);
 	else if (dynamic_cast<CExtraLifeMushroom*>(e->obj))
 		OnOverlapWithExtraLifeMushroom(e);
 	else if (dynamic_cast<CPipePortal*>(e->obj))
@@ -539,6 +541,12 @@ void CMario::OnOverlapWithPowerUpItem(LPCOLLISIONEVENT e)
 
 		AddPoints(1000, e->obj);
 	}
+}
+
+void CMario::OnOverlapWithCoin(LPCOLLISIONEVENT e)
+{
+	e->obj->Delete();
+	AddCoins(1);
 }
 
 void CMario::OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e)

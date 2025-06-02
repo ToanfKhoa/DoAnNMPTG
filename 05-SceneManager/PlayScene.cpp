@@ -501,7 +501,7 @@ void CPlayScene::Update(DWORD dt)
 
 	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
-	DebugOut(L"Cameraaaaaa to %f, %f\n", cx, cy);
+	//DebugOut(L"Cameraaaaaa to %f, %f\n", cx, cy);
 	// Update camera to follow mario
 	if (isCameraAutoMoving)
 	{	

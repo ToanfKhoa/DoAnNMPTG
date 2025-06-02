@@ -15,7 +15,7 @@
 
 #define ID_ANI_RED_PARAKOOPA_WALKING_LEFT 15022
 
-#define FLY_UP_DOWN_OFFSET 100
+#define FLY_UP_DOWN_OFFSET 80
 class CParaKoopa :public CKoopa
 {
 protected:
