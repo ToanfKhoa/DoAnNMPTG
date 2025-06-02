@@ -548,6 +548,7 @@ void CGame::SwitchScene()
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(s);
 	if(next_scene == 6) //level 1-1
 	{
+		playScene->SetEndOfMap(2524);
 		playScene->SetCameraMinY(0);
 		playScene->SetCameraMinY(0);
 		playScene->SetIsUnderGround(false);
@@ -556,9 +557,10 @@ void CGame::SwitchScene()
 	else //level 1-4 goal
 	{
 		SetCamPos(0, 0); 
+		playScene->SetEndOfMap(2302);
 		playScene->SetCameraMinX(2056);
 		playScene->SetCameraMinY(237);
-		playScene->SetIsUnderGround(false);
+		playScene->SetIsUnderGround(true);//will false when mario teleport
 		playScene->SetCameraAutoMoving(true);
 	}
 }

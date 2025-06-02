@@ -185,6 +185,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		teleportTimer += dt;
 		y += readyTeleport * MARIO_TELEPORT_SPEED * dt; //Move up or down
+
 		if (teleportTimer >= MARIO_TELEPORT_TIME)
 		{
 			isTeleporting = false;
@@ -332,8 +333,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 				if (this->x <= cx + 8) SetState(MARIO_STATE_DIE);
 			}
 		}
-		
-	}
+
 		//Block and push if collision with woodbar
 		if (dynamic_cast<CWoodBar*>(e->obj) && e->nx < 0)
 		{
@@ -343,6 +343,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		else
 			vx = 0;
 	}
+		
 
 	//Be aware: The derived class needs to be detected before the base class
 	if (dynamic_cast<CParaGoomba*>(e->obj))
@@ -566,6 +567,7 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		playScene->SetIsUnderGround(!playScene->GetIsUnderGround());
+		playScene->SetCameraAutoMoving(false);	//stop moving camera
 	}
 }
 

@@ -56,7 +56,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 #define TIME_STOP_DURATION 1000
 
-#define END_OF_MAP 2524
+#define END_OF_MAP_LEVEL_1 2524
+#define END_OF_MAP_LEVEL_4 2302
 #define END_OF_SKY -188
 
 #define DEADZONE_X 16
@@ -498,6 +499,9 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
+	float cx, cy;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	DebugOut(L"Cameraaaaaa to %f, %f\n", cx, cy);
 	// Update camera to follow mario
 	if (isCameraAutoMoving)
 	{	
@@ -591,7 +595,7 @@ void CPlayScene::UpdateCameraPosition()
 	};
 	if (isCameraFollowingY)	cy += DEADZONE_Y;
 
-	if (cx > END_OF_MAP) cx = END_OF_MAP;
+	if (cx > end_of_map) cx = end_of_map;
 	if (cx < camera_min_x) cx = camera_min_x;
 	if (cy < END_OF_SKY) cy = END_OF_SKY;
 
@@ -619,7 +623,11 @@ void CPlayScene::CameraMoving(DWORD dt)
 	CGame* game = CGame::GetInstance();
 	game->GetCamPos(cx, cy);
 
-	if (cx > 2500) cx = 2500;
+	if (cx >= 1763)
+	{
+		cx = 1763;
+		//isCameraAutoMoving = false;
+	}
 	else
 	{
 		cx += CAMERA_SPEED * dt;

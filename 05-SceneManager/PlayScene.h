@@ -24,6 +24,7 @@ protected:
 	bool isUnderGround = false;
 	float camera_min_x = 0.0f; 
 	float camera_min_y = 0.0f;
+	float end_of_map = 0;
 	bool isCameraAutoMoving = false;
 
 	void _ParseSection_SPRITES(string line);
@@ -67,6 +68,7 @@ public:
 	void SetCameraMinY(float y) { camera_min_y = y; }
 	void SetCameraAutoMoving(bool isAutoMoving) { isCameraAutoMoving = isAutoMoving; }
 	bool GetIsCameraAutoMoving() { return isCameraAutoMoving; }
+	void SetEndOfMap(float end_of_map) { this->end_of_map = end_of_map; }
 };
 
 typedef CPlayScene* LPPLAYSCENE;
