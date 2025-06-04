@@ -1234,7 +1234,7 @@ void CMario::SetState(int state)
 			isWagging = true;
 			isWaggingAnimation = true;
 			vy = MARIO_JUMP_SPEED_Y / 1000;
-			ay = MARIO_GRAVITY / 2;
+			ay = MARIO_GRAVITY / 5;
 		}
 
 		break;

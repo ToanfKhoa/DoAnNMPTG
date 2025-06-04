@@ -45,5 +45,6 @@ public:
 	virtual void SetState(int state);
 	void UpAndDown(DWORD dt);
 	void TrackPlayerNearby();
+	BOOLEAN IsHiding();
 };
 

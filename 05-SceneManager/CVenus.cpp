@@ -36,6 +36,7 @@ void CVenus::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CVenus::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	IsHiding();
 	x += vx * dt;
 	y += vy * dt;
 
@@ -230,7 +231,7 @@ void CVenus::TrackPlayerNearby()
 	else if (dx < 0 && dy >= 0)    // bot right
 		SetDirection(-1, 1);
 
-	if ((abs(player_x - this->x) <= VENUS_FIRE_DISTANCE_MIN + MARIO_BIG_BBOX_WIDTH/2) || (abs(player_x - this->x) >= VENUS_FIRE_DISTANCE_MAX))
+	if ((abs(player_x - this->x) <= VENUS_FIRE_DISTANCE_MIN + MARIO_BIG_BBOX_WIDTH/2) || (abs(player_x - this->x) >= VENUS_FIRE_DISTANCE_MAX) || (abs(player_y - this->y) >= VENUS_FIRE_DISTANCE_MAX))
 	{
 		isPlayerInRange = false;
 	}
@@ -238,4 +239,12 @@ void CVenus::TrackPlayerNearby()
 	{
 		isPlayerInRange = true;
 	}
+}
+
+BOOLEAN CVenus::IsHiding()
+{
+	if (y >= y_start - VENUS_MOVING_OFFSET / 2)
+		return true;
+	else
+		return false;
 }
