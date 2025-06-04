@@ -25,13 +25,13 @@ void CAnimation::Render(float x, float y)
 	else
 	{
 		DWORD t = frames[currentFrame]->GetTime();
-		if (now - lastFrameTime > t)
+		if (now - lastFrameTime >= t)
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
+			if (currentFrame == frames.size())
+				currentFrame = 0;
 		}
-
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(x, y);
@@ -58,5 +58,10 @@ void CAnimation::RenderWithSpeed(float x, float y, float speed)
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(x, y);
+}
+
+void CAnimation::ResetAnimation()
+{
+	currentFrame = -1;
 }
 
