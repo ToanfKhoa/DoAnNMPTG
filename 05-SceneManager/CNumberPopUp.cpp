@@ -1,6 +1,7 @@
 #include "CNumberPopUp.h"
 #include "debug.h"
 #include "PlayScene.h"
+#include "AssetIDs.h"
 
 CNumberPopUp::CNumberPopUp(float x, float y, int digitCount, int value)	: CNumber(x, y, digitCount)
 {
@@ -20,6 +21,7 @@ CNumberPopUp::CNumberPopUp(float x, float y, int digitCount, int value)	: CNumbe
 			digit->SetValue(digitValue);
 		}
 	}
+	this->layer = POPUPNUMBER_LAYER;
 }
 
 void CNumberPopUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

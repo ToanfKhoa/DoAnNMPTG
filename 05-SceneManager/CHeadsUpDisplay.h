@@ -3,6 +3,8 @@
 #include "CNumber.h"
 #include "Game.h"
 #include "PlayScene.h"
+#include "AssetIDs.h"
+
 class CNumber;
 typedef CNumber* LPNUMBER;
 
@@ -25,6 +27,7 @@ public:
 		numberCoin = new CNumber(x - 10, y - 16, 2);
 		numberTime = new CNumber(x - 10, y - 8, 3);
 		numberPoint = new CNumber(x - 62, y - 8, 7);
+		this->layer = HUD_LAYER;
 	}
 
 	void Render();

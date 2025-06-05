@@ -355,7 +355,10 @@ void CKoopa::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 		return;
 	}
-	
+	if (state == KOOPA_STATE_BEING_HELD)
+	{
+		SetState(KOOPA_STATE_DIE);
+	}
 	paraKoopa->TurnIntoKoopa();
 
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());

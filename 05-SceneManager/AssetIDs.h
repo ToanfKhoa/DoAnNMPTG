@@ -45,9 +45,13 @@
 #define OBJECT_TYPE_ITEMRANDOM 58
 
 //Layer
-#define MARIO_LAYER 5
+#define DIGIT_LAYER 11
+#define HUD_LAYER 10
 #define PIPEPORTAL_LAYER 6
 #define PIPE_LAYER 6
+#define MARIO_LAYER 5
+#define POPUPNUMBER_LAYER 4
+#define SUPERLEAF_LAYER 1
 
 #pragma region MARIO 
 

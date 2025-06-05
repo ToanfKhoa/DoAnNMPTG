@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "AssetIDs.h"
 
 #define SPRITE_0 120010
 #define SPRITE_1 120011
@@ -27,6 +28,7 @@ public:
 	CDigit(float x, float y):CGameObject(x, y){
 		this->value = 0;
 		isOnScreen = true;
+		this->layer = DIGIT_LAYER;
 	}
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
