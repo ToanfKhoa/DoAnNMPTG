@@ -191,13 +191,13 @@ void CVenus::Fire()
 	// Venus only fires 1 in 8 directions
 	float fixed_angle_deg;
 	if (angle_deg >= 0.0f && angle_deg < 22.5f)
-		fixed_angle_deg = 22.5f; 
-	else if (angle_deg >= 22.5f && angle_deg < 90.0f)
+		fixed_angle_deg = 18.0f; 
+	else if (angle_deg >= 18.0f && angle_deg < 90.0f)
 		fixed_angle_deg = 45.0f;
-	else if (angle_deg >= 90.0f && angle_deg < 157.5f)
+	else if (angle_deg >= 90.0f && angle_deg < 162.0f)
 		fixed_angle_deg = 135.0f; 
-	else if (angle_deg >= 157.5f && angle_deg < 180.0f)
-		fixed_angle_deg = 157.5f; 
+	else if (angle_deg >= 162.0f && angle_deg < 180.0f)
+		fixed_angle_deg = 162.0f; 
 	else if (angle_deg >= 180.0f && angle_deg < 202.5f)
 		fixed_angle_deg = 202.5f;
 	else if (angle_deg >= 202.5f && angle_deg < 270.0f)

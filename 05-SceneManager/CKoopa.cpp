@@ -474,11 +474,14 @@ void CKoopa::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
-	venus->SetState(VENUS_STATE_DIE);
+	if (venus->GetState() != VENUS_STATE_DIE)
+	{
+		venus->SetState(VENUS_STATE_DIE);
 
-	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
-	player->AddComboPoints(e->obj);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddComboPoints(e->obj);
+	}
 }
 
 void CKoopa::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
@@ -497,11 +500,15 @@ void CKoopa::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
 	}
 
 	paraKoopa->TurnIntoKoopa();
-	paraKoopa->SetState(KOOPA_STATE_DIE);
 
-	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
-	player->AddComboPoints(e->obj);
+	if (paraKoopa->GetState() != KOOPA_STATE_DIE)
+	{
+		paraKoopa->SetState(KOOPA_STATE_DIE);
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddComboPoints(e->obj);
+	}
 }
 
 void CKoopa::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
@@ -514,11 +521,14 @@ void CKoopa::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
 		SetState(KOOPA_STATE_DIE);
 	}
 
-	piranha->SetState(PIRANHA_STATE_DIE);
+	if (piranha->GetState() != PIRANHA_STATE_DIE)
+	{
+		piranha->SetState(PIRANHA_STATE_DIE);
 
-	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
-	player->AddComboPoints(e->obj);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddComboPoints(e->obj);
+	}
 }
 
 void CKoopa::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
