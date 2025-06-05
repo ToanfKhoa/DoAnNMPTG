@@ -10,6 +10,7 @@
 #include "CWoodBlock.h"
 #include "CParaKoopa.h"
 #include "CPiranha.h"
+#include "CEffect.h"
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -404,6 +405,9 @@ void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
 	player->AddComboPoints(e->obj);
+
+	CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+	playScene->AddObject(effect);
 }
 
 void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)

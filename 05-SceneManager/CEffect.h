@@ -11,6 +11,7 @@ protected:
 public:
 	CEffect(float x, float y) : CGameObject(x, y) { timer = 0; };
 	void Render();
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 };
 

@@ -8,6 +8,7 @@
 #include "CParaKoopa.h"
 #include "CPiranha.h"
 #include "CBoomerangBros.h"
+#include "CEffect.h"
 
 CMarioHitBox::CMarioHitBox(float x, float y, int BBOX_WIDTH, int BBOX_HEIGHT)
 {
@@ -66,6 +67,9 @@ void CMarioHitBox::OnOverlapWithGoomba(LPCOLLISIONEVENT e)
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
 	player->AddComboPoints(e->obj);
+
+	CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+	playScene->AddObject(effect);
 }
 
 void CMarioHitBox::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
@@ -78,14 +82,14 @@ void CMarioHitBox::OnOverlapWithParaGoomba(LPCOLLISIONEVENT e)
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
 		player->AddComboPoints(e->obj);
+
+		CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+		playScene->AddObject(effect);
 	}
 
 	if (paragoomba->GetState() != GOOMBA_STATE_BOUNCE_DEATH)
 	{
 		paragoomba->SetState(GOOMBA_STATE_BOUNCE_DEATH);
-		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
-		player->AddComboPoints(e->obj);
 	}
 	
 }
@@ -101,6 +105,9 @@ void CMarioHitBox::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
 		player->AddComboPoints(e->obj);
+
+		CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+		playScene->AddObject(effect);
 	}
 }
 
@@ -114,6 +121,11 @@ void CMarioHitBox::OnOverlapWithParaKoopa(LPCOLLISIONEVENT e)
 	}
 
 	paraKoopa->TurnIntoKoopa();
+
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+	playScene->AddObject(effect);
+
 	paraKoopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
 }
 
@@ -128,6 +140,9 @@ void CMarioHitBox::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
 		player->AddComboPoints(e->obj);
+
+		CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+		playScene->AddObject(effect);
 	}
 }
 
@@ -140,10 +155,18 @@ void CMarioHitBox::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
 	if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
 		koopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+		playScene->AddObject(effect);
 	}
 	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 	{
 		koopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+		playScene->AddObject(effect);
 	}
 }
 
@@ -171,6 +194,9 @@ void CMarioHitBox::OnOverlapWithBoomerangBros(LPCOLLISIONEVENT e)
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
 		player->AddComboPoints(e->obj);
+
+		CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+		playScene->AddObject(effect);
 	}
 }
 
