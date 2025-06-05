@@ -11,6 +11,7 @@ protected:
 		spriteIdBotLeft, spriteIdBotRight,
 		spriteIdLeft, spriteIdRight,
 		spriteIdTop, spriteIdBot;
+	int hasShadow;
 
 public:
 	CColorBlock(float x, float y,
@@ -20,7 +21,7 @@ public:
 		int sprite_id_topleft, int sprite_id_topright,
 		int sprite_id_botleft, int sprite_id_botright,
 		int sprite_id_left, int sprite_id_right,
-		int sprite_id_top, int sprite_id_bot) :CGameObject(x, y)
+		int sprite_id_top, int sprite_id_bot, int hasShadow) :CGameObject(x, y)
 	{
 		this->length_x = length_x;
 		this->length_y = length_y;
@@ -35,6 +36,8 @@ public:
 		this->spriteIdRight = sprite_id_right;
 		this->spriteIdTop = sprite_id_top;
 		this->spriteIdBot = sprite_id_bot;
+
+		this->hasShadow = hasShadow;
 	}
 
 	void Render();

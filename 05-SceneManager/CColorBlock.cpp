@@ -23,11 +23,22 @@ void CColorBlock::Render()
 			else if (j == length_y - 1) s->Get(this->spriteIdTop)->Draw(xx, yy);
 			else s->Get(this->spriteIdMiddle)->Draw(xx, yy);
 
-			//shadow of the box
-			if (i == length_x - 1 && j == length_y - 1)
-				s->Get(ID_SPRITE_SHADOW_TOP)->Draw(xx + this->cellWidth, yy);
-			else if (i == length_x - 1)
-				s->Get(ID_SPRITE_SHADOW_RIGHT)->Draw(xx + this->cellWidth, yy);
+			if (hasShadow == 1)
+			{
+				//shadow of the box
+				if (i == length_x - 1 && j == length_y - 1)
+					s->Get(ID_SPRITE_SHADOW_TOP)->Draw(xx + this->cellWidth, yy);
+				else if (i == length_x - 1)
+					s->Get(ID_SPRITE_SHADOW_RIGHT)->Draw(xx + this->cellWidth, yy);
+				
+				if (i == length_x - 1 && j == 0)
+					s->Get(ID_SPRITE_SHADOW_CORNER)->Draw(xx + this->cellHeight, yy + this->cellHeight);
+
+				if (i == 0 && j == 0)
+					s->Get(ID_SPRITE_SHADOW_LEFT)->Draw(xx, yy + this->cellHeight);
+				else if (j == 0)
+					s->Get(ID_SPRITE_SHADOW_BOT)->Draw(xx, yy + this->cellHeight);
+			}
 
 			yy -= this->cellHeight;
 		}

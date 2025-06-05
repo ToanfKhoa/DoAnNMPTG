@@ -279,6 +279,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_id_right = atoi(tokens[13].c_str());
 		int sprite_id_top = atoi(tokens[14].c_str());
 		int sprite_id_bot = atoi(tokens[15].c_str());
+		int hasShadow = atoi(tokens[16].c_str());
 
 		obj = new CColorBlock(
 			x, y,
@@ -288,7 +289,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			sprite_id_topleft, sprite_id_topright,
 			sprite_id_botleft, sprite_id_botright,
 			sprite_id_left, sprite_id_right,
-			sprite_id_top, sprite_id_bot
+			sprite_id_top, sprite_id_bot,
+			hasShadow
 		);
 
 		break;
