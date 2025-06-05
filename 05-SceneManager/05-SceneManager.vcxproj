@@ -157,6 +157,7 @@
     <ClCompile Include="CColorBlock.cpp" />
     <ClCompile Include="CCoinItem.cpp" />
     <ClCompile Include="CDigit.cpp" />
+    <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CExtraLifeMushroom.cpp" />
     <ClCompile Include="CGround.cpp" />
     <ClCompile Include="CHeadsUpDisplay.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="CColorBlock.h" />
     <ClInclude Include="CCoinItem.h" />
     <ClInclude Include="CDigit.h" />
+    <ClInclude Include="CEffect.h" />
     <ClInclude Include="CExtraLifeMushroom.h" />
     <ClInclude Include="CGround.h" />
     <ClInclude Include="CHeadsUpDisplay.h" />
