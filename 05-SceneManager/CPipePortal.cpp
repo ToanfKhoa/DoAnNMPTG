@@ -35,7 +35,7 @@ void CPipePortal::RenderBoundingBox()
 
 void CPipePortal::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CPipePortal::GetBoundingBox(float& l, float& t, float& r, float& b)
