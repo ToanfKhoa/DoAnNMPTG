@@ -39,7 +39,6 @@ void CBoomerangBros::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"vx boomerang bros %.3f \n", vx);
 	vy += ay * dt;
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	float player_x, player_y;
@@ -58,12 +57,10 @@ void CBoomerangBros::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//Moving 
 	if(x > x_start + MOVEMENT_OFFSET_X)
 	{
-		DebugOut(L"move left \n");
 		vx = -BOOMERANG_BROS_WALKING_SPEED;
 	}
 	else if(x < x_start - MOVEMENT_OFFSET_X)
 	{
-		DebugOut(L"move right \n");
 		vx = BOOMERANG_BROS_WALKING_SPEED;
 	}
 

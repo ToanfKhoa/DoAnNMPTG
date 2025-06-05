@@ -6,6 +6,7 @@ CPiranha::CPiranha(float x, float y) :CGameObject(x, y)
 {
 	SetState(PIRANHA_STATE_HIDE);
 	isPlayerInRange = false;
+	dieTimer = 0;
 	timer = 0;
 	y_start = y;
 }
@@ -128,3 +129,10 @@ void CPiranha::TrackPlayerNearby()
 	}
 }
 
+BOOLEAN CPiranha::IsHiding()
+{
+	if (y >= y_start - PIRANHA_MOVING_OFFSET / 2)
+		return true;
+	else
+		return false;
+}

@@ -94,7 +94,7 @@ void CMarioHitBox::OnOverlapWithVenus(LPCOLLISIONEVENT e)
 {
 	CVenus* venus = dynamic_cast<CVenus*>(e->obj);
 
-	if (venus->GetState() != VENUS_STATE_DIE)
+	if (venus->GetState() != VENUS_STATE_DIE && venus->IsHiding() == false)
 	{
 		venus->SetState(VENUS_STATE_DIE);
 
@@ -121,7 +121,7 @@ void CMarioHitBox::OnOverlapWithPiranha(LPCOLLISIONEVENT e)
 {
 	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
 
-	if (piranha->GetState() != PIRANHA_STATE_DIE)
+	if (piranha->GetState() != PIRANHA_STATE_DIE && piranha->IsHiding() == false)
 	{
 		piranha->SetState(PIRANHA_STATE_DIE);
 

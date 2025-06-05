@@ -61,4 +61,5 @@ public:
 	void Fire();
 	void TrackPlayerNearby();
 	void SetDirection(int x, int y) { this->direction_x = x; this->direction_y = y; }
+	BOOLEAN IsHiding();
 };

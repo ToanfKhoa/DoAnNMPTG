@@ -270,6 +270,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (attackTimer >= MARIO_ATTACK_TIME)
 		{
+			//Reset animation to avoid frame from being miss
+			CAnimations* animation = CAnimations::GetInstance();
+			animation->Get(ID_ANI_MARIO_RACOON_ATTACK_LEFT)->ResetAnimation();  
+			animation->Get(ID_ANI_MARIO_RACOON_ATTACK_RIGHT)->ResetAnimation();
+
 			isAttacking = false;
 			hitBox->SetIsActive(false);
 			attackTimer = 0;
@@ -1229,7 +1234,7 @@ void CMario::SetState(int state)
 			isWagging = true;
 			isWaggingAnimation = true;
 			vy = MARIO_JUMP_SPEED_Y / 1000;
-			ay = MARIO_GRAVITY / 2;
+			ay = MARIO_GRAVITY / 5;
 		}
 
 		break;
