@@ -61,6 +61,10 @@ void CItemRandom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		if (GetTickCount64() - start_time > ITEMRANDOM_SPAWN_TEXT_TIME + 500 && isSpawnText==1)
 		{
+			CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+			player->AddCard(state == ITEMRANDOM_STATE_MUSHROOM_FLY ? 1 : state == ITEMRANDOM_STATE_FLOWER_FLY ? 2 : 3);
+
 			isSpawnText = 2;
 			SpawnText(x - 36, y_start - 38, YOU_GOT);
 			SpawnText(x + 43, y_start - 38, state == ITEMRANDOM_STATE_MUSHROOM_FLY ? CARD_MUSHROOM :
@@ -82,6 +86,7 @@ void CItemRandom::CheckAndChangeState()
 {
 	if (GetTickCount64() - start_time > ITEMRANDOM_RANDOM_TIME)
 	{
+
 		switch (state)
 		{
 		case ITEMRANDOM_STATE_MUSHROOM:
@@ -130,6 +135,7 @@ void CItemRandom::SetState(int state)
 		start_time = GetTickCount64();
 		vy = ITEMRANDOM_FLY_SPEED;
 		break;
+
 	default:
 		break;
 	}

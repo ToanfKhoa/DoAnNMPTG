@@ -31,6 +31,27 @@ void CHeadsUpDisplay::Render()
 	numberCoin->Render();
 	numberPoint->Render();
 	numberTime->Render();
+
+	// Draw the card items
+	vector<int> cards = player->GetCards();
+	for(int i = 0; i < cards.size(); i++)
+	{
+		DebugOut(L"render card\n");
+		switch (cards[i])
+		{
+		case 1:
+			s->Get(SPRITE_CARD_MUSHROOM)->DrawOnScreen(x + 24 + i * 16, y - 12);
+			break;
+		case 2:
+			s->Get(SPRITE_CARD_FLOWER)->DrawOnScreen(x + 24 + i * 16, y - 12);
+			break;
+		case 3:
+			s->Get(SPRITE_CARD_STAR)->DrawOnScreen(x + 24 + i * 16, y - 12);
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void CHeadsUpDisplay::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

@@ -11,6 +11,10 @@ typedef CNumber* LPNUMBER;
 #define SPRITE_POWER_ACTIVE 120020
 #define SPRITE_FULL_POWER 120021
 
+#define SPRITE_CARD_MUSHROOM 120027
+#define SPRITE_CARD_FLOWER 120028
+#define SPRITE_CARD_STAR 120029
+
 class CHeadsUpDisplay :public CGameObject
 {
 protected:
