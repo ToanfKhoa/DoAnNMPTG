@@ -232,6 +232,7 @@ class CMario : public CGameObject
 	float playTime;
 	int points;
 	int comboScore;
+	vector<int> cards; //0 = nothing, 1 = supermushroom, 2 = flower , 3 = star
 
 	DWORD kickTimer;
 	BOOLEAN isKicking;
@@ -337,6 +338,7 @@ public:
 	int GetCoins() { return coins; };
 	int GetPlayTime() { return playTime; };
 	int GetPoints() { return points; };
+	vector<int> GetCards() { return cards; };
 	void AddPoints(int p, LPGAMEOBJECT desObj);
 	void AddComboPoints(LPGAMEOBJECT desObj);
 	void AddCoins(int c) { coins += c; };
@@ -344,4 +346,14 @@ public:
 	float GetRunPower() { return runPower; };
 
 	void SetReadyTeleport(int b) { this->readyTeleport = b; };
+
+	void AddCard(int card) 
+	{ 
+		DebugOut(L"add card");
+		if (card < 0 && card>3) return;
+		if (cards.size() < 3)
+			cards.push_back(card);
+		else
+			DebugOut(L"full card");
+	};
 };

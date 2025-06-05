@@ -508,7 +508,7 @@ void CGame::Load(LPCWSTR gameFile)
 	SwitchScene();
 }
 
-void CGame::ReLoad()
+void CGame::ReLoad(int nextScene_id)
 {
 	if (scenes[current_scene] != NULL)
 	{
@@ -517,8 +517,27 @@ void CGame::ReLoad()
 		CSprites::GetInstance()->Clear();
 		CAnimations::GetInstance()->Clear();
 
-		this->SetKeyHandler(scenes[current_scene]->GetKeyEventHandler());
-		scenes[current_scene]->Load();
+		this->SetKeyHandler(scenes[nextScene_id]->GetKeyEventHandler());
+		scenes[nextScene_id]->Load();
+
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(scenes[current_scene]);
+		if (next_scene == 6) //level 1-1
+		{
+			playScene->SetEndOfMap(2524);
+			playScene->SetCameraMinY(0);
+			playScene->SetCameraMinY(0);
+			playScene->SetIsUnderGround(false);
+			playScene->SetCameraAutoMoving(false);
+		}
+		else //level 1-4 goal
+		{
+			SetCamPos(0, 0);
+			playScene->SetEndOfMap(2302);
+			playScene->SetCameraMinX(2056);
+			playScene->SetCameraMinY(237);
+			playScene->SetIsUnderGround(true);//will false when mario teleport
+			playScene->SetCameraAutoMoving(true);
+		}
 	}
 	else
 	{

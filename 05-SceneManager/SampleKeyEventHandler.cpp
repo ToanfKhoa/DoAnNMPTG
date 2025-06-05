@@ -109,7 +109,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_DIE);
 		break;
 	case DIK_R: // reset
-		CGame::GetInstance()->ReLoad();
+		CGame::GetInstance()->ReLoad(6);
+		break;
+	case DIK_T:
+		CGame::GetInstance()->ReLoad(7);
 		break;
 	case DIK_A:
 		mario->SetAbleToHold(true);

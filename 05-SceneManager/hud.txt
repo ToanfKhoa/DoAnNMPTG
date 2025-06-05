@@ -27,4 +27,11 @@
 #FULL POWER ACTIVE
 120021	11	32	26	39	50
 
+#Card Mushroom
+120027	187	33	210	60	50
+#Card Flower
+120028	211	33	234	60	50
+#Card Star
+120029	235	33	258	60	50
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
