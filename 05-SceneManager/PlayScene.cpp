@@ -54,7 +54,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 #define MAX_SCENE_LINE 1024
 
-#define TIME_STOP_DURATION 1000
+#define TIME_STOP_DURATION 500
 
 #define END_OF_MAP_LEVEL_1 2524
 #define END_OF_MAP_LEVEL_4 2302

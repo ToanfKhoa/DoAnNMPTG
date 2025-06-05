@@ -25,6 +25,7 @@ parakoopa.txt
 piranha.txt
 pswitch.txt
 itemrandom.txt
+effect.txt
 
 #
 [OBJECTS]

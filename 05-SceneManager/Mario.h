@@ -214,6 +214,7 @@
 #define MARIO_MAX_COMBO_SCORE 8000
 #define MARIO_COMBO_TIME 1000
 
+#define POP_UP_OFFSET 16
 typedef CMarioHitBox* LPHITBOX;
 class CMario : public CGameObject
 {

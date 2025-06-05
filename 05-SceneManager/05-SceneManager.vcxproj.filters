@@ -168,6 +168,12 @@
     <ClCompile Include="CBoomerang.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CNumberPopUp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -330,6 +336,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CBoomerang.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CNumberPopUp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

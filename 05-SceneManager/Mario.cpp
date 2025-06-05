@@ -161,7 +161,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isWagging == true)
 	{
 		wagTimer += dt;
-		if (wagTimer >= MARIO_WAG_TIME / 3)
+		if (wagTimer >= MARIO_WAG_TIME / 4)
 		{
 			isWaggingAnimation = false;
 			if (wagTimer >= MARIO_WAG_TIME)
@@ -1403,7 +1403,7 @@ void CMario::AddPoints(int p, LPGAMEOBJECT desObj)
 		pp = pp / 10;
 		digitCount++;
 	}
-	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY(), digitCount, p);
+	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY() - POP_UP_OFFSET, digitCount, p);
 	numberPopUp->SetValue(p);
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->AddObject(numberPopUp);
@@ -1434,7 +1434,7 @@ void CMario::AddComboPoints(LPGAMEOBJECT desObj)
 		pp = pp / 10;
 		digitCount++;
 	}
-	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY(), digitCount, comboScore);
+	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY() - POP_UP_OFFSET, digitCount, comboScore);
 	numberPopUp->SetValue(comboScore);
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->AddObject(numberPopUp);
