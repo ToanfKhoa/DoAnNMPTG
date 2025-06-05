@@ -154,19 +154,25 @@ void CMarioHitBox::OnOverlapWithKoopa(LPCOLLISIONEVENT e)
 
 	if (koopa->GetState() == KOOPA_STATE_SHELL_MOVING_LEFT || koopa->GetState() == KOOPA_STATE_SHELL_MOVING_RIGHT)
 	{
-		koopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
+		if (koopa->GetState() != KOOPA_STATE_SHELL_BOUNCE)
+		{
+			CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+			playScene->AddObject(effect);
+		}
 
-		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-		CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
-		playScene->AddObject(effect);
+		koopa->SetState(KOOPA_STATE_SHELL_BOUNCE);	
 	}
 	else if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || koopa->GetState() == KOOPA_STATE_SHELL_IDLE)
 	{
-		koopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
+		if (koopa->GetState() != KOOPA_STATE_SHELL_BOUNCE)
+		{
+			CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
+			playScene->AddObject(effect);
+		}
 
-		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-		CEffect* effect = new CEffect(e->obj->GetX(), e->obj->GetY());
-		playScene->AddObject(effect);
+		koopa->SetState(KOOPA_STATE_SHELL_BOUNCE);
 	}
 }
 

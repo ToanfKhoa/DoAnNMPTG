@@ -13,6 +13,12 @@ CNumberPopUp::CNumberPopUp(float x, float y, int digitCount, int value)	: CNumbe
 		CDigit* digit = dynamic_cast<CDigit*>(digits[i]);
 		digit->SetPosition(x - i * DIGIT_POP_UP_SPACING, y);
 		digit->SetIsOnScreen(false);
+
+		int digitValue = (value / (int)pow(10, i)) % 10;
+		if (digit)
+		{
+			digit->SetValue(digitValue);
+		}
 	}
 }
 
