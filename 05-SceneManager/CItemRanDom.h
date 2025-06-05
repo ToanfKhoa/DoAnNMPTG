@@ -14,6 +14,7 @@
 #define ITEMRANDOM_FLY_SPEED -0.1f
 #define ITEMRANDOM_RANDOM_TIME 120
 #define ITEMRANDOM_WAIT_TIME 5000
+#define ITEMRANDOM_SPAWN_TEXT_TIME 2000
 
 #define ITEMRANDOM_STATE_MUSHROOM 0
 #define ITEMRANDOM_STATE_FLOWER 100
@@ -27,6 +28,8 @@ class CItemRandom : public CGameObject
 protected:
 	ULONGLONG start_time;
 	int nextScene_id;
+	int isSpawnText = 0;
+	float y_start;
 
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -35,10 +38,12 @@ protected:
 
 	void CheckAndChangeState();
 	void LoadNextScene();
+	void SpawnText(float x, float y, int spriteId);
 public:
 	CItemRandom(float x, float y, int nextScene_id) : CGameObject(x, y)
 	{
 		this->nextScene_id = nextScene_id;
+		this->y_start = y;
 		SetState(ITEMRANDOM_STATE_MUSHROOM);
 	}
 	void SetState(int state);

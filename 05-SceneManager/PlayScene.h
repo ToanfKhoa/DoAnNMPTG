@@ -58,6 +58,12 @@ public:
 			return a->GetLayer() < b->GetLayer();
 			});
 	}
+	void SortObjects()
+	{
+		std::sort(objects.begin(), objects.end(), [](CGameObject* a, CGameObject* b) {
+			return a->GetLayer() < b->GetLayer();
+			});
+	}
 
 	void StartTimeStop();
 	void UpdateCameraPosition();

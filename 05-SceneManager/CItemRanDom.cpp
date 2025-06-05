@@ -1,5 +1,14 @@
 #include "CItemRanDom.h"
 #include "Game.h"
+#include "CDecoration.h"
+#include "PlayScene.h"
+
+#define COURSE_CLEAR 102014
+#define YOU_GOT 102015
+
+#define CARD_MUSHROOM 102016
+#define CARD_FLOWER 102017
+#define CARD_STAR 102018
 
 void CItemRandom::Render()
 {
@@ -45,6 +54,18 @@ void CItemRandom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LoadNextScene();
 			return;
 		}
+		if (GetTickCount64() - start_time > ITEMRANDOM_SPAWN_TEXT_TIME && isSpawnText==0)
+		{
+			isSpawnText = 1;
+			SpawnText(x - 20, y_start - 64, COURSE_CLEAR);
+		}
+		if (GetTickCount64() - start_time > ITEMRANDOM_SPAWN_TEXT_TIME + 500 && isSpawnText==1)
+		{
+			isSpawnText = 2;
+			SpawnText(x - 36, y_start - 38, YOU_GOT);
+			SpawnText(x + 43, y_start - 38, state == ITEMRANDOM_STATE_MUSHROOM_FLY ? CARD_MUSHROOM :
+				state == ITEMRANDOM_STATE_FLOWER_FLY ? CARD_FLOWER : CARD_STAR);
+		}
 	}
 	CGameObject::Update(dt);
 }
@@ -82,6 +103,13 @@ void CItemRandom::LoadNextScene()
 {
 	CGame* game = CGame::GetInstance();
 	game->InitiateSwitchScene(nextScene_id);
+}
+
+void CItemRandom::SpawnText( float obj_x, float obj_y, int spriteId)
+{
+	CDecoration* text = new CDecoration(obj_x, obj_y, spriteId);
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	scene->AddObject(text);
 }
 
 void CItemRandom::SetState(int state)
