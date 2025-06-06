@@ -8,7 +8,7 @@
 #define SPRITE_EYE_CLOUD_MIDDLE	102010
 #define SPRITE_EYE_CLOUD_RIGHTHALF	102011
 
-#define ID_SPRITE_ITEMRANDOM_MUSHROOM_WHITE	841001
+#define ID_SPRITE_ITEMRANDOM_MUSHROOM_WHITE	84101
 #define ID_SPRITE_ITEMRANDOM_FLOWER_WHITE 84103
 #define ID_SPRITE_ITEMRANDOM_STAR_WHITE	84105
 
@@ -23,7 +23,8 @@ public:
 		
 		if (spriteId == SPRITE_EYE_CLOUD_FULL || spriteId == SPRITE_EYE_CLOUD_MIDDLE || spriteId == SPRITE_EYE_CLOUD_RIGHTHALF)
 			this->layer = -10;
-		else if (spriteId == SPRITE_BLUR_EYE_CLOUD)
+		else if (spriteId == SPRITE_BLUR_EYE_CLOUD 
+			|| spriteId == ID_SPRITE_ITEMRANDOM_MUSHROOM_WHITE || spriteId == ID_SPRITE_ITEMRANDOM_FLOWER_WHITE || spriteId == ID_SPRITE_ITEMRANDOM_STAR_WHITE)
 			this->layer = -11;
 
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
