@@ -22,6 +22,7 @@ protected:
 	LPNUMBER numberCoin;
 	LPNUMBER numberPoint;
 	LPNUMBER numberTime;
+	LPNUMBER numberLives;
 
 public:
 	CHeadsUpDisplay(float x, float y, int spriteId) : CGameObject(x, y)
@@ -31,6 +32,7 @@ public:
 		numberCoin = new CNumber(x - 10, y - 16, 2);
 		numberTime = new CNumber(x - 10, y - 8, 3);
 		numberPoint = new CNumber(x - 62, y - 8, 7);
+		numberLives = new CNumber(x - 140, y - 8, 1);
 		this->layer = HUD_LAYER;
 	}
 

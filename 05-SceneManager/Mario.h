@@ -232,6 +232,7 @@ class CMario : public CGameObject
 	int coins; 
 	float playTime;
 	int points;
+	int lives;
 	int comboScore;
 	vector<int> cards; //0 = nothing, 1 = supermushroom, 2 = flower , 3 = star
 
@@ -344,7 +345,9 @@ public:
 	void SetCoins(int c) { coins = c; };
 	int GetPlayTime() { return playTime; };
 	int GetPoints() { return points; };
-	void SetPoints(int p) { points = p; };
+	int GetLives() { return lives; };
+	int SetPoints(int p) { return lives; }
+	void AddLives(int l) { lives += l; }
 	vector<int> GetCards() { return cards; };
 	void AddPoints(int p, LPGAMEOBJECT desObj);
 	void AddComboPoints(LPGAMEOBJECT desObj);

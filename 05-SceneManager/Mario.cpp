@@ -47,6 +47,7 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 		coins = 0;
 		playTime = 300;
 		points = 0;
+		lives = 3;
 
 		kickTimer == 0;
 		isKicking == false;
@@ -586,6 +587,8 @@ void CMario::OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e)
 	if (item->GetState() != EXTRALIFEMUSHROOM_STATE_IDLE && item->GetState() != EXTRALIFEMUSHROOM_STATE_EATEN)
 	{
 		item->SetState(POWERUPITEM_STATE_EATEN);
+
+		AddLives(1);
 
 		CNumberPopUp* numberPopUp = new CNumberPopUp(e->obj->GetX(), e->obj->GetY() - POP_UP_OFFSET / 4, 1, -1); //-1 is level up pop up
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());

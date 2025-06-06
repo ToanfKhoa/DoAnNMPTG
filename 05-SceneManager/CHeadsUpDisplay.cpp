@@ -31,6 +31,7 @@ void CHeadsUpDisplay::Render()
 	numberCoin->Render();
 	numberPoint->Render();
 	numberTime->Render();
+	numberLives->Render();
 
 	// Draw the card items
 	vector<int> cards = player->GetCards();
@@ -68,4 +69,7 @@ void CHeadsUpDisplay::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	numberPoint->SetValue(player->GetPoints());
 	numberPoint->Update(dt, coObjects);
+
+	numberLives->SetValue(player->GetLives());
+	numberLives->Update(dt, coObjects);
 }
