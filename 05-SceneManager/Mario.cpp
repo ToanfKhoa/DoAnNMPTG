@@ -489,7 +489,6 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e)
 			if (question->getItemType() == 0)
 			{
 				AddCoins(1);
-				AddPoints(100, e->obj);;
 			}
 		}
 	}
@@ -1213,7 +1212,7 @@ void CMario::SetState(int state)
 			ay = 0;
 
 			//Start Fly time if has enough power
-			if (runPower == MARIO_MAX_RUN_POWER && ableToFly == false)
+			if (runPower == MARIO_MAX_RUN_POWER && ableToFly == false && level == MARIO_LEVEL_RACOON)
 				ableToFly = true;
 
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
@@ -1403,7 +1402,7 @@ void CMario::AddPoints(int p, LPGAMEOBJECT desObj)
 		pp = pp / 10;
 		digitCount++;
 	}
-	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX(), desObj->GetY() - POP_UP_OFFSET, digitCount, p);
+	CNumberPopUp* numberPopUp = new CNumberPopUp(desObj->GetX() + digitCount, desObj->GetY() - POP_UP_OFFSET / 4, digitCount, p);
 	numberPopUp->SetValue(p);
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->AddObject(numberPopUp);

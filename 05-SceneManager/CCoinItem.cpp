@@ -1,4 +1,5 @@
 #include "CCoinItem.h"
+#include "PlayScene.h"
 
 void CCoinItem::Render()
 {
@@ -24,6 +25,10 @@ void CCoinItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if (y >= y_start - COINITEM_BOUNCE_DELETE_HEIGHT && state == COINITEM_STATE_BOUNCING_DOWN)
 	{
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		player->AddPoints(100, this);
+
 		isDeleted = true;
 	}
 
