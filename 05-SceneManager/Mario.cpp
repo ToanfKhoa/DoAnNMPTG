@@ -233,7 +233,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//Mario will transform while stop scenetime, transform stop when scene countinue to update
 	if (isTransforming == true)
 	{
-		isTransforming = false;
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene->GetIsStoped() == false)
+		{
+			isTransforming = false;
+		}
 	}
 
 	//Always reset isOnplatform, it's only true when hitting ground

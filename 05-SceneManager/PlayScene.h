@@ -76,6 +76,7 @@ public:
 	bool GetIsCameraAutoMoving() { return isCameraAutoMoving; }
 	bool GetIsCameraFollowingY() { return isCameraFollowingY; }
 	void SetEndOfMap(float end_of_map) { this->end_of_map = end_of_map; }
+	bool GetIsStoped() { return isTimeStopped; }
 };
 
 typedef CPlayScene* LPPLAYSCENE;
