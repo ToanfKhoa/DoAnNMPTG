@@ -45,6 +45,9 @@ void CDigit::Render()
 	{
 		switch (value)
 		{
+		case -1:
+			s->Get(SPRITE_LEVEL_UP_POP_UP)->Draw(x, y);
+			break;
 		case 0:
 			s->Get(SPRITE_0_POP_UP)->Draw(x, y);
 			break;

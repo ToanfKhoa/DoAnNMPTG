@@ -19,6 +19,8 @@
 #define SPRITE_4_POP_UP 120025
 #define SPRITE_8_POP_UP 120026
 
+#define SPRITE_LEVEL_UP_POP_UP 120030
+
 class CDigit : public CGameObject
 {
 protected:

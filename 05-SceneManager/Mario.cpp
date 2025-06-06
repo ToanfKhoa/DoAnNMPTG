@@ -571,9 +571,11 @@ void CMario::OnOverlapWithExtraLifeMushroom(LPCOLLISIONEVENT e)
 	CExtraLifeMushroom* item = dynamic_cast<CExtraLifeMushroom*>(e->obj);
 	if (item->GetState() != EXTRALIFEMUSHROOM_STATE_IDLE && item->GetState() != EXTRALIFEMUSHROOM_STATE_EATEN)
 	{
-		//1-up 
-
 		item->SetState(POWERUPITEM_STATE_EATEN);
+
+		CNumberPopUp* numberPopUp = new CNumberPopUp(e->obj->GetX(), e->obj->GetY() - POP_UP_OFFSET / 4, 1, -1); //-1 is level up pop up
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		playScene->AddObject(numberPopUp);
 	}
 }
 
