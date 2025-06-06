@@ -20,7 +20,7 @@ void CWoodBar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CWoodBar::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 	CSprites* sprites = CSprites::GetInstance();
 

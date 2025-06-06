@@ -7,5 +7,8 @@
 71001	433	320	462	335	30	#middle
 72001	432	336	463	351	30	#end
 
+#BLANK SPRITE
+71002	1	1	6	6	10
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

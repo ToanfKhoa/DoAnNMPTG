@@ -346,6 +346,7 @@ public:
 	int GetPlayTime() { return playTime; };
 	int GetPoints() { return points; };
 	int GetLives() { return lives; };
+	void SetLives(int l) { lives = l; }
 	int SetPoints(int p) { return lives; }
 	void AddLives(int l) { lives += l; }
 	vector<int> GetCards() { return cards; };

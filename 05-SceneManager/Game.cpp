@@ -557,6 +557,7 @@ void CGame::SwitchScene()
 	int coins = 0;
 	int points = 0;
 	vector<int> cards;
+	int lives = 3;
 	if (scenes[current_scene] != NULL)
 	{
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(scenes[current_scene]);
@@ -565,6 +566,7 @@ void CGame::SwitchScene()
 		level = player->GetLevel();
 		points = player->GetPoints();
 		cards = player->GetCards();
+		lives = player->GetLives();
 
 		scenes[current_scene]->Unload();
 	}
@@ -602,6 +604,7 @@ void CGame::SwitchScene()
 	player->SetCoins(coins);
 	player->SetPoints(points);
 	player->SetCards(cards);
+	player->SetLives(lives);
 }
 
 void CGame::InitiateSwitchScene(int scene_id)

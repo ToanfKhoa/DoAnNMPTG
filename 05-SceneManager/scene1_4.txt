@@ -74,6 +74,8 @@ itemrandom.txt
 15	935	240	1	0	0	102013
 15	968	186	1	0	0	102013
 
+#Decoration eye cloud
+15	1140	180	1	0	0	102009
 
 
 #Colorblock
@@ -103,9 +105,6 @@ itemrandom.txt
 #Decoration small bush
 15	72	351	5	16	0	102000
 15	2088	415	1	16	0	102000
-
-#Decoration eye cloud
-15	2136	301	1	0	0	102009
 
 #Decoration goal boundary
 15	2260	-250	100	0	16	102001
@@ -214,7 +213,7 @@ itemrandom.txt
 
 #Map limit, a pipe
 11	2597	416	30	16	100	71000	71000
-11	2038	416	30	16	100	71000	71000
+11	2054	416	16	16	100	71002	71002
 
 #COIN
 4	344	319	3	16	0
