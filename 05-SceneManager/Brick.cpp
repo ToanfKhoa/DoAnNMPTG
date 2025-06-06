@@ -209,7 +209,7 @@ void CBrick::SetState(int state)
 				powerUp->SetIsSuperLeaf(true);
 			}
 
-			spawnedItem->SetPosition(x, y - BRICK_BBOX_HEIGHT / 1.5);
+			spawnedItem->SetPosition(x + 2, y - BRICK_BBOX_HEIGHT / 1.5);
 			spawnedItem->SetState(POWERUPITEM_STATE_EMERGING);
 		}
 		else

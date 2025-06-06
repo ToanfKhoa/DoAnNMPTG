@@ -242,17 +242,17 @@ itemrandom.txt
 17	2032	255
 
 
-#SpawnBox, 0 = goomba, 1 = paragoomba, 2 = green koopa, 3 = green parakoopa
+#SpawnBox, 0 = goomba, 1 = paragoomba, 2 = green koopa, 3 = green parakoopa, 4 = red koopa
+52	700	323	10	1000	1032	350	4
 
 #Pipe Portal
 55	1944	350	2194	395	1
 
 #Koopa
 16	1992	360	0
-16	1000	400	0
 
 #Parakoopa
-19	1882	325	0
+19	1882	370	0
 
 #Boomerang bros
 20	2400	410

@@ -37,6 +37,7 @@ void CSpawnBox::Spawn()
 		case 1: obj = new CParaGoomba(spawnObjectX, spawnObjectY); break;
 		case 2: obj = new CKoopa(spawnObjectX, spawnObjectY, 1); break;
 		case 3: obj = new CParaKoopa(spawnObjectX, spawnObjectY, 1); break;
+		case 4: obj = new CKoopa(spawnObjectX, spawnObjectY, 0); break;
 	}
 
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
