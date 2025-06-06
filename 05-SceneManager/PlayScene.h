@@ -74,6 +74,7 @@ public:
 	void SetCameraMinY(float y) { camera_min_y = y; }
 	void SetCameraAutoMoving(bool isAutoMoving) { isCameraAutoMoving = isAutoMoving; }
 	bool GetIsCameraAutoMoving() { return isCameraAutoMoving; }
+	bool GetIsCameraFollowingY() { return isCameraFollowingY; }
 	void SetEndOfMap(float end_of_map) { this->end_of_map = end_of_map; }
 };
 

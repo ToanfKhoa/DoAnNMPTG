@@ -301,6 +301,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float backBufferWidth = CGame::GetInstance()->GetBackBufferWidth();
 		if (this->x > cx + backBufferWidth - 8) this->vx =  0;
 	}
+	else
+	{
+		if (playScene->GetIsCameraFollowingY())
+		{
+			float cx, cy;
+			CGame::GetInstance()->GetCamPos(cx, cy);
+			if (this->y < cy)
+			{
+				this->y = cy;
+			}
+		}
+	}
 	
 	//Check if game over and restart
 	if (isGameOver)

@@ -153,6 +153,11 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 {
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (mario == NULL)
+	{
+		DebugOut(L"mario NULL");
+		return;
+	}
 
 	if (game->IsKeyDown(DIK_DOWN)) //Stop receiving other keys input while sitting
 		return; 

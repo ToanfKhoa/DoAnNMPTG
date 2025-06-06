@@ -517,8 +517,10 @@ void CGame::ReLoad(int nextScene_id)
 		CSprites::GetInstance()->Clear();
 		CAnimations::GetInstance()->Clear();
 
-		this->SetKeyHandler(scenes[nextScene_id]->GetKeyEventHandler());
-		scenes[nextScene_id]->Load();
+		next_scene = nextScene_id;
+		current_scene = next_scene;
+		this->SetKeyHandler(scenes[next_scene]->GetKeyEventHandler());
+		scenes[next_scene]->Load();
 
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(scenes[current_scene]);
 		if (next_scene == 6) //level 1-1
@@ -551,8 +553,21 @@ void CGame::SwitchScene()
 
 	DebugOut(L"[INFO] Switching to scene %d\n", next_scene);
 
-	if (scenes[current_scene]!=NULL)
+	int level = 1;
+	int coins = 0;
+	int points = 0;
+	vector<int> cards;
+	if (scenes[current_scene] != NULL)
+	{
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(scenes[current_scene]);
+		CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+		coins = player->GetCoins();
+		level = player->GetLevel();
+		points = player->GetPoints();
+		cards = player->GetCards();
+
 		scenes[current_scene]->Unload();
+	}
 
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
@@ -582,6 +597,11 @@ void CGame::SwitchScene()
 		playScene->SetIsUnderGround(true);//will false when mario teleport
 		playScene->SetCameraAutoMoving(true);
 	}
+	CMario* player = dynamic_cast<CMario*>(playScene->GetPlayer());
+	player->SetLevel(level);
+	player->SetCoins(coins);
+	player->SetPoints(points);
+	player->SetCards(cards);
 }
 
 void CGame::InitiateSwitchScene(int scene_id)

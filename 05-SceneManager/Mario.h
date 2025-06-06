@@ -341,8 +341,10 @@ public:
 	bool IsFullRunPower() { return runPower == MARIO_MAX_RUN_POWER; }
 
 	int GetCoins() { return coins; };
+	void SetCoins(int c) { coins = c; };
 	int GetPlayTime() { return playTime; };
 	int GetPoints() { return points; };
+	void SetPoints(int p) { points = p; };
 	vector<int> GetCards() { return cards; };
 	void AddPoints(int p, LPGAMEOBJECT desObj);
 	void AddComboPoints(LPGAMEOBJECT desObj);
@@ -363,4 +365,10 @@ public:
 	};
 
 	BOOLEAN GetIsRestarted() { return isRestarted; }
+	void SetCards(vector<int> c) 
+	{ 
+		cards.clear();
+		for (int i = 0; i < c.size(); i++)
+			cards.push_back(c[i]);
+	};
 };
