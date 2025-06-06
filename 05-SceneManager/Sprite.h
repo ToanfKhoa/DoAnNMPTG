@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Texture.h"
+#define PARALLAX_FACTOR 0.5f
 
 class CSprite
 {
@@ -18,6 +19,7 @@ public:
 	CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex);
 
 	void Draw(float x, float y);
+	void DrawWithParallax(float x, float y, int layer);
 	void DrawOnScreen(float x, float y);
 };
 

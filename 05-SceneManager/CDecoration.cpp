@@ -4,5 +4,5 @@
 void CDecoration::Render()
 {
 	CSprites* s = CSprites::GetInstance();
-	s->Get(this->spriteId)->Draw(x, y);
+	s->Get(this->spriteId)->DrawWithParallax(x, y, layer);
 }
