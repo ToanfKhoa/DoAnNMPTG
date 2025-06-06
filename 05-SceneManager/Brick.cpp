@@ -4,6 +4,7 @@
 #include "CPSwitch.h"
 #include "PlayScene.h"
 #include "CCoinItem.h"
+#include "CPowerUpitem.h"
 
 void CBrick::Render()
 {
@@ -131,6 +132,15 @@ CBrick::CBrick(float x, float y, int itemType) : CGameObject(x, y)
 		}
 		itemCount = 6; //brick will spawn 7 coins
 	}
+	else if (itemType == 4)
+	{
+		this->spawnedItem = new CPowerUpItem(x, y);
+		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (playScene != NULL)
+		{
+			playScene->AddObject(spawnedItem);
+		}
+	}
 	else
 	{
 		spawnedItem = NULL;
@@ -176,6 +186,31 @@ void CBrick::SetState(int state)
 			{
 				playScene->AddObject(spawnedItem);
 			}
+		}
+		else if (itemType == 4)
+		{
+			CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			CMario* player = dynamic_cast<CMario*>(playScene);
+			int marioLevel = (dynamic_cast<CMario*>(playScene->GetPlayer()))->GetLevel();
+
+			CPowerUpItem* powerUp = dynamic_cast<CPowerUpItem*>(spawnedItem);
+			if (powerUp == NULL)
+			{
+				DebugOut(L"[ERROR] CQuestionBlock::SetState: spawnedItem is NULL\n");
+				return;
+			}
+
+			if (marioLevel == MARIO_LEVEL_SMALL)
+			{
+				powerUp->SetIsSuperLeaf(false);
+			}
+			else
+			{
+				powerUp->SetIsSuperLeaf(true);
+			}
+
+			spawnedItem->SetPosition(x, y - BRICK_BBOX_HEIGHT / 1.5);
+			spawnedItem->SetState(POWERUPITEM_STATE_EMERGING);
 		}
 		else
 			spawnedItem = NULL;

@@ -25,7 +25,7 @@ class CBrick : public CGameObject {
 protected:
 	ULONGLONG bounce_start;
 	float y_start;
-	int itemType;	//0 = no item, 1 = ExtraLifeMushroom, 2 = PSwitch
+	int itemType;	//0 = no item, 1 = ExtraLifeMushroom, 2 = PSwitch, 3 = multi coin, 4 = super leaf
 	CGameObject* spawnedItem;
 	int itemCount = 0;
 
