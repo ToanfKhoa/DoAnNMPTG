@@ -53,6 +53,38 @@ void CSprite::Draw(float x, float y)
 	g->GetSpriteHandler()->DrawSpritesImmediate(&sprite, 1, 0, 0);
 }
 
+void CSprite::DrawWithParallax(float x, float y, int layer)
+{
+	// parallax effect use for background objects (layer <= -10)
+	if (layer > -10)
+	{
+		Draw(x,y);
+		return;
+	}
+	else
+	{
+		layer = -(layer + 9);	
+	}
+
+	CGame* g = CGame::GetInstance();
+	float cx, cy;
+	g->GetCamPos(cx, cy);
+
+	cx = (FLOAT) floor((cx)*PARALLAX_FACTOR/layer);
+	cy = (FLOAT) floor((cy)*PARALLAX_FACTOR/layer);
+
+	D3DXMATRIX matTranslation;
+
+	x = (FLOAT)floor(x);
+	y = (FLOAT)floor(y);
+
+	D3DXMatrixTranslation(&matTranslation, x - cx, g->GetBackBufferHeight() - y + cy, 0.1f);
+
+	this->sprite.matWorld = (this->matScaling * matTranslation);
+
+	g->GetSpriteHandler()->DrawSpritesImmediate(&sprite, 1, 0, 0);
+}
+
 void CSprite::DrawOnScreen(float x, float y)
 {
 	CGame* g = CGame::GetInstance();
