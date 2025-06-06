@@ -18,12 +18,11 @@ public:
 		this->spriteId = spriteId;
 		
 		if (spriteId == SPRITE_EYE_CLOUD_FULL || spriteId == SPRITE_EYE_CLOUD_MIDDLE || spriteId == SPRITE_EYE_CLOUD_RIGHTHALF)
-			SetLayer(-10);
+			this->layer = -10;
 		else if (spriteId == SPRITE_BLUR_EYE_CLOUD)
-			SetLayer(-11);
+			this->layer = -11;
 
 		CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
-		playScene->SortObjects();
 	}
 
 	void Render();
