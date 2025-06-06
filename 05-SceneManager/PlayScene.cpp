@@ -603,7 +603,6 @@ void CPlayScene::UpdateCameraPosition()
 	CMario* mario = dynamic_cast<CMario*>(player);
 	if (mario->IsFullRunPower() && cy < centerY - DEADZONE_Y && isUnderGround==false)
 	{
-		DebugOut(L"du dieu kien");
 		isCameraFollowingY = true;
 	};
 	if (isCameraFollowingY)	cy += DEADZONE_Y;

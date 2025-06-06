@@ -192,7 +192,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isTeleporting == true)
 	{
 		teleportTimer += dt;
+		DebugOut(L"timer += la %d \n", teleportTimer);
 		y += readyTeleport * MARIO_TELEPORT_SPEED * dt; //Move up or down
+		//DebugOut(L"mario teleport %d, %d\n", isTeleporting, readyTeleport);
 
 		if (teleportTimer >= MARIO_TELEPORT_TIME)
 		{
@@ -307,9 +309,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			float cx, cy;
 			CGame::GetInstance()->GetCamPos(cx, cy);
-			if (this->y < cy)
+			if (this->y < -188) //end of sky
 			{
-				this->y = cy;
+				this->y = -188;
 			}
 		}
 	}
@@ -599,14 +601,21 @@ void CMario::OnOverlapWithPipePortal(LPCOLLISIONEVENT e)
 	if ((readyTeleport == 1 && y < pipeY)
 		|| (readyTeleport == -1 && y > pipeY))
 	{
+		//Set x to the teleport position
+		if (x != pipePortal->GetX())
+			x = pipePortal->GetX();
+
 		SetState(MARIO_STATE_TELEPORT);
+
 		isTeleporting = true;
 		isSitting = false; //Avoid sitting while teleporting because they use same input key
 	}
 	if (teleportTimer >= MARIO_TELEPORT_TIME / 2 && x != pipePortal->GetDesX() && y != pipePortal->GetDesY())
 	{
+
 		this-> x = pipePortal->GetDesX();
 		this-> y = pipePortal->GetDesY();
+
 		if(pipePortal->getIsReversed() == 1)
 		{
 			readyTeleport *= -1;
@@ -1249,7 +1258,6 @@ void CMario::SetState(int state)
 		}
 		else if (level == MARIO_LEVEL_RACOON && ableToFly == true) //Wag tail to keep flying
 		{
-			DebugOut(L"wagging to fly \n");
 			isWagging = true;
 			isWaggingAnimation = true;
 			ay = 0;
