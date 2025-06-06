@@ -621,7 +621,7 @@ void CPlayScene::UpdateCameraPosition()
 	}
 	else
 	{
-		cy = 816;
+		cy = 832;
 	}
 	
 	//DebugOut(L"camera cy: %f\n", cy);
