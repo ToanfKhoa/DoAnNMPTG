@@ -166,7 +166,7 @@ effect.txt
 15	1728	178	3	16	0	102000
 
 #Decoration goal boundary
-15	2480	3	30	0	16	102001
+15	2480	-250	100	0	16	102001
 
 #Decoration card
 15	2695	100	1	0	0	102002

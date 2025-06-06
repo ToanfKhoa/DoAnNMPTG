@@ -12,6 +12,9 @@
 #define ID_SPRITE_ITEMRANDOM_FLOWER_WHITE 84103
 #define ID_SPRITE_ITEMRANDOM_STAR_WHITE	84105
 
+#define SPRITE_SPIRAL_CLOUD_SMALL 102012
+#define SPRITE_SPIRAL_CLOUD_BIG	102013
+
 class CDecoration : public CGameObject
 {
 protected:
@@ -21,7 +24,7 @@ public:
 	{
 		this->spriteId = spriteId;
 		
-		if (spriteId == SPRITE_EYE_CLOUD_FULL || spriteId == SPRITE_EYE_CLOUD_MIDDLE || spriteId == SPRITE_EYE_CLOUD_RIGHTHALF)
+		if (spriteId == SPRITE_EYE_CLOUD_FULL || spriteId == SPRITE_EYE_CLOUD_MIDDLE || spriteId == SPRITE_EYE_CLOUD_RIGHTHALF || spriteId == SPRITE_SPIRAL_CLOUD_BIG || spriteId == SPRITE_SPIRAL_CLOUD_SMALL)
 			this->layer = -10;
 		else if (spriteId == SPRITE_BLUR_EYE_CLOUD 
 			|| spriteId == ID_SPRITE_ITEMRANDOM_MUSHROOM_WHITE || spriteId == ID_SPRITE_ITEMRANDOM_FLOWER_WHITE || spriteId == ID_SPRITE_ITEMRANDOM_STAR_WHITE)
