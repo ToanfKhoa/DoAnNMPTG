@@ -483,6 +483,17 @@ void CPlayScene::Update(DWORD dt)
 		else return;
 	}
 
+	CMario* player = dynamic_cast<CMario*>(GetPlayer());
+	if (player != NULL)
+	{
+		if (player->GetIsRestarted())
+		{
+			CGame* game = CGame::GetInstance();
+			game->ReLoad(game->GetCurrentIndexScene());
+			return;
+		}
+	}
+
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 

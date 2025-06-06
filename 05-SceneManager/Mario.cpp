@@ -74,6 +74,10 @@ CMario::CMario(float x, float y) : CGameObject(x, y)
 		isCombo = false;
 		comboScore = 100;
 
+		gameOverTimer = 0;
+		isGameOver = false;
+		isRestarted = false;
+
 		runPower = 0;
 
 		isPushed = false;
@@ -298,6 +302,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (this->x > cx + backBufferWidth - 8) this->vx =  0;
 	}
 	
+	//Check if game over and restart
+	if (isGameOver)
+	{
+		gameOverTimer += dt;
+		if (gameOverTimer >= GAME_OVER_TIME)
+		{
+			isRestarted = true;
+		}
+	}
 }
 
 void CMario::OnNoCollision(DWORD dt)
@@ -1279,6 +1292,7 @@ void CMario::SetState(int state)
 		vx = 0;
 		ax = 0;
 		ay = MARIO_GRAVITY;
+		isGameOver = true;
 		break;
 	case MARIO_STATE_FINISH:
 		vx = 0;
@@ -1349,6 +1363,11 @@ void CMario::GetDamaged()
 		DebugOut(L"Mario damage in small\n");
 		DebugOut(L">>> Mario DIE >>> \n");
 		SetState(MARIO_STATE_DIE);
+
+		//time stop effect
+		CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (scene) scene->StartTimeStop();
+
 		return;
 	}
 	else if (level == MARIO_LEVEL_RACOON)

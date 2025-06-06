@@ -209,6 +209,7 @@
 #define MARIO_ATTACK_TIME 300
 #define MARIO_MAX_RUN_POWER 2000.0f //Max power = time to run
 #define MARIO_TELEPORT_TIME 4000
+#define GAME_OVER_TIME 2000 //Time to restart scene
 
 #define MARIO_MIN_COMBO_SCORE 100
 #define MARIO_MAX_COMBO_SCORE 8000
@@ -262,6 +263,10 @@ class CMario : public CGameObject
 	BOOLEAN isCombo;
 
 	BOOLEAN isPushed;
+
+	DWORD gameOverTimer;
+	BOOLEAN isGameOver;
+	BOOLEAN isRestarted;
 
 	int readyTeleport; //1 = mario will move down, -1 = mario will move up
 
@@ -356,4 +361,6 @@ public:
 		else
 			DebugOut(L"full card");
 	};
+
+	BOOLEAN GetIsRestarted() { return isRestarted; }
 };
