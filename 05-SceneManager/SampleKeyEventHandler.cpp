@@ -22,6 +22,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 
 	CGameObject* obj = NULL;
 
+	if (mario->GetState() == MARIO_STATE_TELEPORT) return;
+
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
@@ -126,13 +128,20 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (mario->GetState() == MARIO_STATE_TELEPORT)
+		return;
+
 	switch (KeyCode)
 	{
+	case DIK_UP:
+		mario->SetReadyTeleport(0);
+		break;
 	case DIK_S:
 		mario->SetState(MARIO_STATE_RELEASE_JUMP);
 		break;
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
+		mario->SetReadyTeleport(0);
 		break;
 	case DIK_A:
 		mario->Throw();
